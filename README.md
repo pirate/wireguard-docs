@@ -37,7 +37,74 @@ This is my attempt at writing the "Missing Wireguard Documentation" to make up f
 
 # Table of Contents
 
-See https://docs.sweeting.me/s/wireguard.
+See https://docs.sweeting.me/s/wireguard for a nicer interactive experience.
+
+<ul>
+<li><a href="#Table-of-Contents">Table of Contents</a></li>
+<li><a href="#Intro">Intro</a>
+<ul>
+<li><a href="#My-Requirements-for-a-VPN-Solution">My Requirements for a VPN Solution</a></li>
+<li><a href="#List-of-Possible-VPN-Solutions">List of Possible VPN Solutions</a></li>
+</ul>
+</li>
+<li><a href="#Wireguard-Documentation">Wireguard Documentation</a>
+<ul>
+<li><a href="#Glossary">Glossary</a>
+<ul>
+<li><a href="#PeerNodeDevice">Peer/Node/Device</a></li>
+<li><a href="#Bounce-Server">Bounce Server</a></li>
+<li><a href="#Subnet">Subnet</a></li>
+<li><a href="#CIDR-Notation">CIDR Notation</a></li>
+<li><a href="#NAT">NAT</a></li>
+<li><a href="#Public-Endpoint">Public Endpoint</a></li>
+<li><a href="#Private-key">Private key</a></li>
+<li><a href="#Public-key">Public key</a></li>
+<li><a href="#DNS">DNS</a></li>
+</ul>
+</li>
+<li><a href="#Usage">Usage</a>
+<ul>
+<li><a href="#Quickstart">Quickstart</a></li>
+<li><a href="#Setup">Setup</a></li>
+<li><a href="#Config-Creation">Config Creation</a></li>
+<li><a href="#Key-Generation">Key Generation</a></li>
+<li><a href="#Start--Stop">Start / Stop</a></li>
+<li><a href="#Inspect">Inspect</a></li>
+<li><a href="#Testing">Testing</a></li>
+</ul>
+</li>
+<li><a href="#Config-Reference">Config Reference</a>
+<ul>
+<li><a href="#Interface">[Interface]</a></li>
+<li><a href="#Peer">[Peer]</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#Example-Server-To-Server-Config-with-Roaming-Devices">Example Server-To-Server Config with Roaming Devices</a>
+<ul>
+<li><a href="#Overview">Overview</a>
+<ul>
+<li><a href="#Network-Topology">Network Topology</a></li>
+<li><a href="#Explanation">Explanation</a></li>
+<li><a href="#How-Public-Relays-Work">How Public Relays Work</a></li>
+<li><a href="#How-WireGuard-Routes-Packets">How WireGuard Routes Packets</a></li>
+</ul>
+</li>
+<li><a href="#Node-Config">Node Config</a>
+<ul>
+<li><a href="#public-server1example-vpntld">public-server1.example-vpn.tld</a></li>
+<li><a href="#public-server2example-vpndev">public-server2.example-vpn.dev</a></li>
+<li><a href="#home-serverexample-vpndev">home-server.example-vpn.dev</a></li>
+<li><a href="#laptopexample-vpndev">laptop.example-vpn.dev</a></li>
+<li><a href="#phoneexample-vpndev">phone.example-vpn.dev</a></li>
+</ul>
+</li>
+<li><a href="#Full-Example-Code">Full Example Code</a></li>
+</ul>
+</li>
+<li><a href="#Further-Reading">Further Reading</a></li>
+</ul>
 
 # Intro
 
