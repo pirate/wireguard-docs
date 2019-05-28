@@ -99,7 +99,7 @@ The publicly accessible address:port for a node, e.g. `123.124.125.126:1234` or 
 
 ### Private key
 A wireguard private key for a single node, generated with:
-`wg keygen > example.key`
+`wg genkey > example.key`
 (never leaves the node it's generated on)
   
 ### Public key
@@ -168,7 +168,7 @@ nano wg0.conf  # can be placed anywhere, must be referred to using absolute path
 
 ```bash
 # generate private key
-wg keygen > example.key
+wg genkey > example.key
 
 # generate public key
 wg pubkey < example.key > example.key.pub
@@ -356,7 +356,7 @@ When the node is acting as a public bounce server, it should hardcode a port to 
 This is the private key for the local node, never shared with other servers.
 All nodes must have a private key set, regardless of whether they are public bounce servers relaying traffic, or simple clients joining the VPN.
 
-This key can be generated with `wg keygen > example.key`
+This key can be generated with `wg genkey > example.key`
 
 **Examples**
 
@@ -581,7 +581,7 @@ AllowedIPs = 10.0.0.3/32
 
 [Peer]
 # Name = laptop.example-vpn.dev
-PublicKey = <private key for laptop.example-vpn.dev>
+PublicKey = <public key for laptop.example-vpn.dev>
 AllowedIPs = 10.0.0.4/32
 
 [Peer]
@@ -691,7 +691,7 @@ PersistentKeepalive = 25
  * own vpn ip address: `10.0.0.4`
  * can accept traffic for ips: `10.0.0.4/32`
  * priv key: `<private key for laptop.example-vpn.dev>`
- * pub key: `<private key for laptop.example-vpn.dev>`
+ * pub key: `<public key for laptop.example-vpn.dev>`
  * setup required:
  	1. install wireguard
  	2. generate public/private keypair
@@ -710,7 +710,7 @@ DNS = 1.1.1.1
 ```ini
 [Peer]
 # Name = laptop.example-vpn.dev
-PublicKey = <private key for laptop.example-vpn.dev>
+PublicKey = <public key for laptop.example-vpn.dev>
 AllowedIPs = 10.0.0.4/32
 ```
  * peers: public-server1
