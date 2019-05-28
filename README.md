@@ -1,3 +1,5 @@
+<p align="center">
+
 # The Missing Wireguard Documentation
 
 <img src="https://i.imgur.com/xePt3qp.png"><br/><br/>
@@ -6,6 +8,8 @@
 API reference guide for Wireguard including Setup, Configuration, and Usage, with full example.
 
 Also published on https://docs.sweeting.me/s/wireguard.
+
+</p>
 
 ---
 
