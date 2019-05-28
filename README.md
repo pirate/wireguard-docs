@@ -21,17 +21,18 @@ Nicer HTML page version: https://docs.sweeting.me/s/wireguard
 
 ---
 
-[WireGuard](https://www.wireguard.com/) is an open-source VPN solution written in C by [Jason Donenfeld](https://www.jasondonenfeld.com) and [others](https://github.com/WireGuard/WireGuard/graphs/contributors), aiming to fix many of the problems that have plagued other good server-to-server VPN offerings like IPSec/IKEv2 or OpenVPN. 
+[WireGuard](https://www.wireguard.com/) is a BETA/WIP open-source VPN solution written in C by [Jason Donenfeld](https://www.jasondonenfeld.com) and [others](https://github.com/WireGuard/WireGuard/graphs/contributors), aiming to fix many of the problems that have plagued other modern server-to-server VPN offerings like IPSec/IKEv2, OpenVPN, or L2TP. It shares some similarities with other modern VPN offerings like [Tinc](https://www.tinc-vpn.org/) and [MeshBird](https://github.com/meshbird/meshbird), namely good cipher suites and minimal config.
 
-This is my attempt at writing the "Missing Wireguard Documentation" to make up for the somewhat sparse offical docs on an otherwise great piece of software.
+This is my attempt at writing "The Missing Wireguard Documentation" to make up for the somewhat sparse offical docs on an otherwise great piece of software.
 
 **Official Links**
 
-- WireGuard Homepage: https://www.wireguard.com
-- WireGuard Install: https://www.wireguard.com/install/
-- WireGuard QuickStart: https://www.wireguard.com/quickstart/
-- The offical WireGuard Git repo: https://git.zx2c4.com/WireGuard/
-- WireGuard Github Mirror: https://github.com/WireGuard/WireGuard
+- Homepage: https://www.wireguard.com
+- Install: https://www.wireguard.com/install/
+- QuickStart: https://www.wireguard.com/quickstart/
+- Main Git repo: https://git.zx2c4.com/WireGuard/
+- Github Mirror: https://github.com/WireGuard/WireGuard
+- Mailing List: https://lists.zx2c4.com/mailman/listinfo/wireguard
 
 **WireGuard Goals**
 
@@ -143,6 +144,7 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
  - [TINC](https://www.tinc-vpn.org/): haven't tried it yet, but it doesn't work on iOS, worst case senario I could live with that if it's the only option
  - [OpenVPN](https://openvpn.net/vpn-server-resources/site-to-site-routing-explained-in-detail/): I don't like it from past experience but could be convinced if it's the only option
  - StealthVPN: haven't tried it
+ - [MeshBird](https://github.com/meshbird/meshbird): "Cloud native" VPN/networking layer
  - [Algo](https://github.com/trailofbits/algo): haven't tried it yet, should I?
  - [Striesand](https://github.com/StreisandEffect/streisand): haven't tried it yet, whats the best config to try?
  - [SoftEther](https://www.softether.org/): haven't tried it yet, should I?
@@ -171,7 +173,7 @@ A group of IPs separate from the public internet, e.g. 10.0.0.1-255 or 192.168.1
 
 ### CIDR Notation
 
-A way of defining the size of a subnet. Most common ones:
+A way of defining a subnet and its size with a "mask", a smaller mask = more  address bits usable by the subnet & more IPs in the range. Most common ones:
   + 10.0.0.1/32 (a single IP address, 10.0.0.1) netmask = 255.255.255.255
   + 10.0.0.1/24 (255 ips from 10.0.0.1-255) netmask =  255.255.255.0
   + 10.0.0.1/16 (65,536 ips from 10.0.0.0 - 10.0.255.255) netmask = 255.255.0.0
@@ -565,9 +567,9 @@ Defines the publicly accessible address for a remote peer.  This should be left 
 
 **Examples**
 
-**Endpoint is an IP address**
+ - Endpoint is an IP address
 `Endpoint = 123.124.125.126:51820`
-**Endpoint is a hostname/FQDN**
+ - Endpoint is a hostname/FQDN
 `Endpoint = public-server1.example-vpn.tld:51820`
 
 #### `AllowedIPs`
@@ -579,19 +581,19 @@ When deciding how to route a packet, the system chooses the most specific route 
 **Examples**
 
 
-**peer is a simple client that only accepts traffic to/from itself**
+ - peer is a simple client that only accepts traffic to/from itself
 `AllowedIPs = 10.0.0.3/32`
 
-**peer is a relay server that can bounce VPN traffic to all other peers**
+ - peer is a relay server that can bounce VPN traffic to all other peers
 `AllowedIPs = 10.0.0.1/24`
 
-**peer is a relay server that bounces all internet & VPN traffic (like a** proxy)
+ - peer is a relay server that bounces all internet & VPN traffic (like a proxy)
 `AllowedIPs = 0.0.0.0/0,::/0`
 
-**peer is a relay server that routes to itself and only one other peer**
+ - peer is a relay server that routes to itself and only one other peer
 `AllowedIPs = 10.0.0.3/32,10.0.0.4/32`
 
-**peer is a relay server that routes to itself and all nodes on its local LAN**
+ - peer is a relay server that routes to itself and all nodes on its local LAN
 `AllowedIPs = 10.0.0.3/32,192.168.1.1/24`
 
 #### `PublicKey`
@@ -612,13 +614,13 @@ If the connection is going from a NAT-ed peer to a public peer, the node behind 
 
 **Examples**
 
-**local public node to remote public node**
+ - local public node to remote public node
   This value should be left undefined as persistent pings are not needed.
   
-**local public node to remote NAT-ed node**
+ - local public node to remote NAT-ed node
   This value should be left undefined as it's the client's responsibility to keep the connection alive because the server cannot reopen a dead connection to the client if it times out.
   
-**local NAT-ed node to remote public node**
+ - local NAT-ed node to remote public node
 `PersistentKeepalive = 25` this will send a ping to every 25 seconds keeping the connection open in the local NAT router's connection table.
 
 ---
@@ -951,7 +953,7 @@ PersistentKeepalive = 25
 - https://angristan.xyz/how-to-setup-vpn-server-wireguard-nat-ipv6/
 - https://www.wireguard.com/netns/
 - https://restoreprivacy.com/wireguard/
-
+For more detailed instructions, see the [Quickstart](#Quickstart) guide and API reference above. You can also download the complete example setup here: https://github.com/pirate/wireguard-example.
 ---
 
 <center>
