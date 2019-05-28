@@ -5,9 +5,17 @@
 <img src="https://i.imgur.com/xePt3qp.png"><br/><br/>
 
 
-API reference guide for Wireguard including Setup, Configuration, and Usage, with full example.
+API reference guide for Wireguard including Setup, Configuration, and Usage, with examples.
 
-Also published on https://docs.sweeting.me/s/wireguard.
+
+<i>All credit goes to the WireGuard project, [zx2c4](https://www.zx2c4.com/), [Edge Security](https://www.edgesecurity.com/), and the [open source contributors](https://github.com/WireGuard/WireGuard/graphs/contributors) for the original software, this is my solo unofficial attempt at providing more comprehensive documentation, API references, and examples.</i>
+
+<small>
+    
+Source for these docs, example code, and issue tracker: https://github.com/pirate/wireguard-docs &nbsp; &nbsp; 
+Nicer HTML page version: https://docs.sweeting.me/s/wireguard
+
+</small>
 
 </div>
 
