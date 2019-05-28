@@ -42,7 +42,7 @@ This is my attempt at writing "The Missing Wireguard Documentation" to make up f
  - simple internals and small protocol surface area
  - simple CLI and seamless integration with system networking
  
- <img src="https://www.ckn.io/images/wireguard_comparisions.png" width="300px"/>
+ <a href="https://www.ckn.io/blog/2017/11/14/wireguard-vpn-typical-setup/"><img src="https://www.ckn.io/images/wireguard_comparisions.png" width="500px"/></a>
 
 ---
 
