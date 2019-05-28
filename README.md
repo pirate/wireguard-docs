@@ -5,6 +5,8 @@
 
 API reference guide for Wireguard including Setup, Configuration, and Usage, with full example.
 
+Also published on https://docs.sweeting.me/s/wireguard.
+
 ---
 
 
@@ -24,7 +26,7 @@ This is my attempt at writing the "Missing Wireguard Documentation" to make up f
 
 # Table of Contents
 
-[TOC]
+See https://docs.sweeting.me/s/wireguard.
 
 # Intro
 
