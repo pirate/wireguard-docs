@@ -1,4 +1,4 @@
-<p align="center">
+<div align="center">
 
 # The Missing Wireguard Documentation
 
@@ -9,7 +9,7 @@ API reference guide for Wireguard including Setup, Configuration, and Usage, wit
 
 Also published on https://docs.sweeting.me/s/wireguard.
 
-</p>
+</div>
 
 ---
 
