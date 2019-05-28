@@ -16,7 +16,14 @@ Also published on https://docs.sweeting.me/s/wireguard.
 
 This is my attempt at writing the "Missing Wireguard Documentation" to make up for the lacking offical docs for an otherwise great piece of software.
 
-[WireGuard](https://www.wireguard.com/) is an open-source VPN solution written in Go, aiming to fix many of the problems that have plagued other good server-to-server VPN offerings like IPSec/IKEv2 or OpenVPN.
+[WireGuard](https://www.wireguard.com/) is an open-source VPN solution written in Go by [Jason A. Donenfeld](https://www.jasondonenfeld.com) and others, aiming to fix many of the problems that have plagued other good server-to-server VPN offerings like IPSec/IKEv2 or OpenVPN. 
+
+**Official Links**
+
+- WireGuard Homepage: https://www.wireguard.com
+- WireGuard Install: https://www.wireguard.com/install/
+- WireGuard QuickStart: https://www.wireguard.com/quickstart/
+- The offical WireGuard Git repo: https://git.zx2c4.com/WireGuard/
 
 **WireGuard Goals**
 
@@ -491,6 +498,8 @@ If the connection is going from a NAT-ed peer to a public peer, the node behind 
 
 # Example Server-To-Server Config with Roaming Devices
 
+The complete example config for the setup below can be found here: https://github.com/pirate/wireguard-docs/tree/master/full-example (WARNING: do not use it on your devices without chaning the public/private keys!).
+
 ## Overview
 
 ### Network Topology
@@ -784,7 +793,7 @@ PersistentKeepalive = 25
 
 To run this full example, simply copy the `full wg0.conf config file for node` section from each node onto each server, enable IP forwarding on the public relay, and then start WireGuard on all the machines.
 
-For more detailed instructions, see the [Quickstart](#Quickstart) guide and API reference above. You can also download the complete example setup here: https://github.com/pirate/wireguard-example.
+For more detailed instructions, see the [Quickstart](#Quickstart) guide and API reference above. You can also download the complete example setup here: https://github.com/pirate/wireguard-docs/tree/master/full-example (WARNING: do not use it on your devices without chaning the public/private keys!).
 
 # Further Reading
 
