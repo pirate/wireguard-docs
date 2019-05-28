@@ -48,6 +48,7 @@ It's also the <i>fast as hell</i>. I get sub 0.5ms pings and 900mbps+ on good co
 (Image from https://www.ckn.io/blog/2017/11/14/wireguard-vpn-typical-setup/)
 </small>
 </center>
+
 ---
 
 # Table of Contents
