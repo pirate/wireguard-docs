@@ -44,8 +44,8 @@ This is my attempt at writing "The Missing Wireguard Documentation" to make up f
  
 <div align="center">
 <a href="https://www.ckn.io/blog/2017/11/14/wireguard-vpn-typical-setup/"><img src="https://www.ckn.io/images/wireguard_comparisions.png" width="600px"/></a><br/><small>
-It's also the <i>fast as hell</i>. I get sub 0.5ms pings and 900mbps+ on good connections.
-(Image from https://www.ckn.io/blog/2017/11/14/wireguard-vpn-typical-setup/)
+It's also the <i>fast as hell</i>. I get sub 0.5ms pings and 900mbps+ on good connections.<br/>
+(See https://www.ckn.io/blog/2017/11/14/wireguard-vpn-typical-setup/)
 </small>
 </center>
 
