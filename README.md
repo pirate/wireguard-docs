@@ -108,30 +108,33 @@ See https://docs.sweeting.me/s/wireguard for a nicer interactive experience.
 
 # Intro
 
-Over the last 8 years I've tried a wide range of VPN solutions.  From the original PPTP back in the early 2010's to break through the Great Firewall of China while I was living in Shanghai, to OpenVPN and IPSec/IKEv2 later on.  From the recommendation of a few people in the [RC](https://recurse.com) Zulip community, I decided to try WireGuard and was surprised to find it checked all the boxes.
+Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out of necessity, since the city I was living in was behind the Great Wall of China.  Everything from old-school PPTP to crazy round-robin GoAgent AppEngine proxy setups were common back in the early 2010's to break through the GFW, these days it's mostly OpenVPN, StealthVPN, IPSec/IKEv2 and others.  From the recommendation of a few people in the [RC](https://recurse.com) Zulip community, I decided to try WireGuard and was surprised to find it checked almost all the boxes.
 
-## My Requirements for a VPN Solution
+## My Personal Requirements for a VPN Solution
 
- - create a LAN like 10.0.0.0/24 between all my servers, every peer can connect to every peer
- - must be able to bust through middebox NATs/routers
- - requiring a central server for coordination/NAT busting is ok, but it shouldn't have to route all traffic through the central node if a direct connection is possible
- - wont be used for routing *all* traffic, only traffic to the VPN subnet (i.e. I'm not passing my web browsing through it, just server-to-server stuff like NFS/SSH/redis/etc)
- - robust automatic reconnects after reboots / network downtime
+ - minimal config, low config surface area and few exposed tunables
+ - minimal key management overhead, 1 or 2 preshared keys or certs is ok, but ideally not both
+ - ability to easily create a LAN like 10.0.0.0/24 between all my servers, every peer can connect to every peer, 
+ - ability to bust through NATs with a signalling server, routing nat-to-nat instead of through a relay (webrtc style)
+ - fallback to relay server when nat-to-nat busting is unavailable or unreliable
+ - ability to route to a fixed list of ips/hosts with 1 keypair per host (not needed, but nice to have: ability to route arbitrary local traffic or *all* internet traffic to a given host)
+ - robust automatic reconnects after reboots / network downtime / NAT connection table drops
  - fast (lowest possible latency and line-rate bandwidth)
- - encrypted, but doesn't have to be super secure (i.e. doesn't have to be state-level secure or undetectable)
- - minimal config and key management overhead, 1 or 2 preshared keys or certs is ok, but ideally not both
- - support for any type of Level 2 traffic, e.g. UDP/ARP/ICMP (or ideally raw ethernet frames), not just TCP/HTTP
- - ability to join the VPN from Ubuntu, FreeBSD, iOS, macOS (ideally without needing an app), Windows/Android not needed but would be nice
- - not a requirement, but ideally it would support running in docker with a single container, config file, and preshared key on each server, but with a full network interface exposed to the host system (maybe with tun/tap on the host passing traffic to the container, but ideally just a single container without outside dependencies)
+ - encrypted, and secure by default (not needed, nice to have: short copy-pastable key pairs)
+ - ideally support for any type of Level 2 and control traffic, e.g. ARP/DHCP/ICMP (or ideally raw ethernet frames), not just TCP/HTTP
+ - ability to join the VPN from Ubuntu, FreeBSD, iOS, macOS (Windows/Android not needed but would be nice
+ - not a requirement, but ideally it would support running in docker with a single container, config file, and preshared key on each server, but with a full network interface exposed to the host system (maybe with tun/tap on the host passing traffic to the container, but ideally just a single container + config file without outside dependencies)
 
 ## List of Possible VPN Solutions
 
 
-- PPTP: ancient, inflexible, insecure, doens't solve all the requirements
+ - PPTP: ancient, inflexible, insecure, doens't solve all the requirements
+ - L2TP: meh
  - SOCKS: proxy tunnel, not a VPN, not great for this use case
-- [IPSec (IKEv2)](https://github.com/jawj/IKEv2-setup)/strongSwan: lots of brittle config that's different for each OS, NAT busting setup is very manual and involves updating the central server and starting all the others in the correct order, not great at reconnecting after network downtime, had to be manually restarted often
-- [TINC](https://www.tinc-vpn.org/): haven't tried it yet, but it doesn't work on iOS, worst case senario I could live with that if it's the only option
+ - [IPSec (IKEv2)](https://github.com/jawj/IKEv2-setup)/strongSwan: lots of brittle config that's different for each OS, NAT busting setup is very manual and involves updating the central server and starting all the others in the correct order, not great at reconnecting after network downtime, had to be manually restarted often
+ - [TINC](https://www.tinc-vpn.org/): haven't tried it yet, but it doesn't work on iOS, worst case senario I could live with that if it's the only option
  - [OpenVPN](https://openvpn.net/vpn-server-resources/site-to-site-routing-explained-in-detail/): I don't like it from past experience but could be convinced if it's the only option
+ - StealthVPN: haven't tried it
  - [Algo](https://github.com/trailofbits/algo): haven't tried it yet, should I?
  - [Striesand](https://github.com/StreisandEffect/streisand): haven't tried it yet, whats the best config to try?
  - [SoftEther](https://www.softether.org/): haven't tried it yet, should I?
