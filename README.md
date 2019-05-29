@@ -243,7 +243,7 @@ wg show wg0
 
 WireGuard uses encrypted UDP packets for all traffic, it does not provice guarantees around packet delivery or ordering, as that is handled by TCP connections within the encrypted tunnel.
 
-<img src="https://github.com/Lekensteyn/wireguard-dissector/raw/master/wireshark-wg.png" width="400px"><br/>
+<img src="https://github.com/Lekensteyn/wireguard-dissector/raw/master/wireshark-wg.png" width="400px"/><br/>
 
 Further reading:
 
@@ -257,7 +257,7 @@ WireGuard claims faster performance than most other competing VPN solutions, tho
 
 WireGuard's performance gains are achieved by handling routing at the kernel level, and by using modern cipher suites running on all cores to encrypt traffic. WireGuard also gains a significant advantage by using UDP with no delivery/ordering guarantees (compared to VPNs that run over TCP or implement their own guaranteed delivery mechanisms).
 
-![](https://i.imgur.com/heEYg59.png)
+<img src="https://i.imgur.com/heEYg59.png" width="400px"/>
 
 
 Futher reading:
