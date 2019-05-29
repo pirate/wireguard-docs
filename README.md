@@ -947,6 +947,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://pypi.org/project/wireguard-p2p/
  - https://github.com/trailofbits/algo
  - https://github.com/StreisandEffect/streisand
+ - https://www.veeam.com/blog/veeam-pn-v2-wireguard.html
 
 
 ### Config Shortcuts
@@ -1343,6 +1344,7 @@ PersistentKeepalive = 25
 - https://github.com/WireGuard/wireguard-windows
 - https://github.com/WireGuard/wireguard-rs
 - https://github.com/WireGuard/wireguard-go
+- https://www.veeam.com/blog/veeam-pn-v2-wireguard.html
 
 ### Docker
 
