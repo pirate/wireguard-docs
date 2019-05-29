@@ -942,6 +942,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://github.com/corrad1nho/qomui
  - https://github.com/max-moser/network-manager-wireguard
  - https://github.com/its0x08/wg-install
+ - https://github.com/sowbug/mkwgconf
  - https://pypi.org/project/wireguard-p2p/
  - https://github.com/trailofbits/algo
  - https://github.com/StreisandEffect/streisand
@@ -1334,6 +1335,7 @@ PersistentKeepalive = 25
 - https://github.com/trailofbits/algo
 - https://github.com/StreisandEffect/streisand
 - https://github.com/its0x08/wg-install
+- https://github.com/sowbug/mkwgconf
 - https://pypi.org/project/wireguard-p2p/
 - https://github.com/cloudflare/boringtun
 - https://git.zx2c4.com/wireguard-go/about/
