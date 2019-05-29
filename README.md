@@ -580,14 +580,14 @@ Defines the VPN settings for the local node.
 
 **Examples**
 
-* Node is a client that only routes traffic for itself and only exposes one IP
+* Node is a client that only routes traffic for itself and only exposes one IP  
 ```ini
 [Interface]
 # Name = phone.example-vpn.dev
 Address = 10.0.0.5/32
 PrivateKey = <private key for phone.example-vpn.dev>
 ```
-* Node is a public bounce server that can relay traffic to other peers and exposes route for entire VPN subnet
+* Node is a public bounce server that can relay traffic to other peers and exposes route for entire VPN subnet  
 ```ini
 [Interface]
 # Name = public-server1.example-vpn.tld
@@ -607,18 +607,15 @@ Defines what address range the local node should route traffic for. Depending on
 
 **Examples**
 
-* Node is a client that only routes traffic for itself
-
+* Node is a client that only routes traffic for itself  
 `Address = 10.0.0.3/32`
 
-* Node is a public bounce server that can relay traffic to other peers
-
+* Node is a public bounce server that can relay traffic to other peers  
 When the node is acting as the public bounce server, it should set this to be the entire subnet that it can route traffic, not just a single IP for itself.
 
 `Address = 10.0.0.1/24`
 
-* You can also specify multiple subnets or IPv6 subnets like so:
-
+* You can also specify multiple subnets or IPv6 subnets like so:  
 `Address = 10.0.0.1/24,fd42:42:42::1/64`
 
 #### `ListenPort`
@@ -627,11 +624,10 @@ When the node is acting as a public bounce server, it should hardcode a port to 
 
 **Examples**
 
-* Using default WireGuard port
+* Using default WireGuard port  
 `ListenPort = 51820`
-* Using custom WireGuard port
+* Using custom WireGuard port  
 `ListenPort = 7000`
-
 
 #### `PrivateKey`
 
@@ -644,7 +640,6 @@ This key can be generated with `wg genkey > example.key`
 
 `PrivateKey = somePrivateKeyAbcdAbcdAbcdAbcd=`
 
-
 #### `DNS`
 
 The DNS server(s) to announce to VPN clients via DHCP, most clients will use this server for DNS requests over the VPN, but clients can also override this value locally on their nodes
@@ -652,11 +647,10 @@ The DNS server(s) to announce to VPN clients via DHCP, most clients will use thi
 **Examples**
 
 * The value can be left unconfigured to use system default DNS servers
-* A single DNS server can be provided
+* A single DNS server can be provided  
 `DNS = 1.1.1.1`
-* or multiple DNS servers can be provided
+* or multiple DNS servers can be provided  
 `DNS = 1.1.1.1,8.8.8.8`
-
 
 #### `Table`
 
@@ -671,7 +665,6 @@ https://git.zx2c4.com/WireGuard/about/src/tools/man/wg-quick.8
 ```ini
 Table = 1234
 ```
-
 
 #### `MTU`
 
@@ -705,20 +698,23 @@ Optionally run a command after the interface is brought up.
 
 **Examples**
 
-* Read in a config value from a file or some command's output
+* Read in a config value from a file or some command's output  
 `PostUp = wg set %i private-key /etc/wireguard/wg0.key <(some command here)`
 
-* Log a line to a file
+* Log a line to a file  
 `PostUp = echo "$(date +%s) WireGuard Started" >> /var/log/wireguard.log`
 
-* Hit a webhook on another server
+* Hit a webhook on another server  
 `PostUp = curl https://events.example.dev/wireguard/started/?key=abcdefg`
 
-* Add an route to the system routing table
+* Add an route to the system routing table  
 `PostUp = ip rule add ipproto tcp dport 22 table 1234`
 
-* Add an iptables rule to enable packet forwarding on the WireGuard interface
+* Add an iptables rule to enable packet forwarding on the WireGuard interface  
 `PostUp   = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE`
+
+* Force WireGuard to re-resolve IP address for peer domain  
+`PostUp = resolvectl domain %i "~."; resolvectl dns %i 10.0.0.1; resolvectl dnssec %i yes`
 
 #### `PreDown`
 
@@ -726,10 +722,10 @@ Optionally run a command before the interface is brought down.
 
 **Examples**
 
-* Log a line to a file
+* Log a line to a file  
 `PostDown = echo "$(date +%s) WireGuard Going Down" >> /var/log/wireguard.log`
 
-* Hit a webhook on another server
+* Hit a webhook on another server  
 `PostDown = curl https://events.example.dev/wireguard/stopping/?key=abcdefg`
 
 
@@ -739,13 +735,13 @@ Optionally run a command after the interface is brought down.
 
 **Examples**
 
-* Log a line to a file
+* Log a line to a file  
 `PostDown = echo "$(date +%s) WireGuard Stopped" >> /var/log/wireguard.log`
 
-* Hit a webhook on another server
+* Hit a webhook on another server  
 `PostDown = curl https://events.example.dev/wireguard/stopped/?key=abcdefg`
 
-* Remove the iptables rule that forwards packets on the WireGuard interface
+* Remove the iptables rule that forwards packets on the WireGuard interface  
 `PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE`
 
 
@@ -759,24 +755,24 @@ In summary, all nodes must be defined on the main bounce server.  On client serv
 
 In the configuration outlined in the docs below, a single server `public-server1` acts as the relay bounce server for a mix of publicly accessible and NAT-ed clients, and peers are configured on each node accordingly:
 
-- **in `public-server1` `wg0.conf` (bounce server)**
+- **in `public-server1` `wg0.conf` (bounce server)**  
   `[peer]` list: `public-server2`, `home-server`, `laptop`, `phone`
 
-- **in `public-server2` `wg0.conf` (simple public client)**
+- **in `public-server2` `wg0.conf` (simple public client)**  
   `[peer]` list: `public-server1`
 
-- **in `home-server` `wg0.conf` (simple client behind nat)**
+- **in `home-server` `wg0.conf` (simple client behind nat)**  
   `[peer]` list: `public-server1`, `public-server2`
 
-- **in `laptop` `wg0.conf` (simple client behind nat)**
+- **in `laptop` `wg0.conf` (simple client behind nat)**  
   `[peer]` list: `public-server1`, `public-server2`
 
-- **in `phone` `wg0.conf` (simple client behind nat)**
+- **in `phone` `wg0.conf` (simple client behind nat)**  
   `[peer]` list: `public-server1`, `public-server2`
 
 **Examples**
 
- - Peer is a simple public client that only routes traffic for itself
+ - Peer is a simple public client that only routes traffic for itself  
 ```ini
 [Peer]
 # Name = public-server2.example-vpn.dev
@@ -785,7 +781,7 @@ PublicKey = <public key for public-server2.example-vpn.dev>
 AllowedIPs = 10.0.0.2/32
 ```
 
- - Peer is a simple client behind a NAT that only routes traffic for itself
+ - Peer is a simple client behind a NAT that only routes traffic for itself  
 ```ini
 [Peer]
 # Name = home-server.example-vpn.dev
@@ -794,7 +790,7 @@ PublicKey = <public key for home-server.example-vpn.dev>
 AllowedIPs = 10.0.0.3/32
 ```
 
- - Peer is a public bounce server that can relay traffic to other peers
+ - Peer is a public bounce server that can relay traffic to other peers  
 ```ini
 [Peer]
 # Name = public-server1.example-vpn.tld
@@ -815,9 +811,9 @@ Defines the publicly accessible address for a remote peer.  This should be left 
 
 **Examples**
 
- - Endpoint is an IP address
+ - Endpoint is an IP address  
 `Endpoint = 123.124.125.126:51820`  (IPv6 is also supported)
- - Endpoint is a hostname/FQDN
+ - Endpoint is a hostname/FQDN  
 `Endpoint = public-server1.example-vpn.tld:51820`
 
 #### `AllowedIPs`
@@ -829,19 +825,19 @@ When deciding how to route a packet, the system chooses the most specific route 
 **Examples**
 
 
- - peer is a simple client that only accepts traffic to/from itself
+ - peer is a simple client that only accepts traffic to/from itself  
 `AllowedIPs = 10.0.0.3/32`
 
- - peer is a relay server that can bounce VPN traffic to all other peers
+ - peer is a relay server that can bounce VPN traffic to all other peers  
 `AllowedIPs = 10.0.0.1/24`
 
- - peer is a relay server that bounces all internet & VPN traffic (like a proxy), including IPv6
+ - peer is a relay server that bounces all internet & VPN traffic (like a proxy), including IPv6  
 `AllowedIPs = 0.0.0.0/0,::/0`
 
- - peer is a relay server that routes to itself and only one other peer
+ - peer is a relay server that routes to itself and only one other peer  
 `AllowedIPs = 10.0.0.3/32,10.0.0.4/32`
 
- - peer is a relay server that routes to itself and all nodes on its local LAN
+ - peer is a relay server that routes to itself and all nodes on its local LAN  
 `AllowedIPs = 10.0.0.3/32,192.168.1.1/24`
 
 #### `PublicKey`
@@ -862,13 +858,13 @@ If the connection is going from a NAT-ed peer to a public peer, the node behind 
 
 **Examples**
 
- - local public node to remote public node
+ - local public node to remote public node  
   This value should be left undefined as persistent pings are not needed.
   
- - local public node to remote NAT-ed node
+ - local public node to remote NAT-ed node  
   This value should be left undefined as it's the client's responsibility to keep the connection alive because the server cannot reopen a dead connection to the client if it times out.
   
- - local NAT-ed node to remote public node
+ - local NAT-ed node to remote public node  
 `PersistentKeepalive = 25` this will send a ping to every 25 seconds keeping the connection open in the local NAT router's connection table.
 
 ---
