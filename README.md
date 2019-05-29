@@ -511,20 +511,25 @@ dig example.com A
 
 
 **Jump to definition:**
-¶ <a href="#Interface">`[Inteface]`</a>
-¶ <a href="#-Name">`# Name = node1.example.tld`</a>
-¶ <a href="#Address">`Address = 10.0.0.3/32`</a>
-¶ <a href="#ListenPort">`ListenPort = 51820`</a>
-¶ <a href="#PrivateKey">`PrivateKey = localPrivateKeyAbcAbcAbc=`</a>
-¶ <a href="#DNS">`DNS = 1.1.1.1,8.8.8.8`</a>
+
+¶ <a href="#Interface">`[Inteface]`</a>  
+¶ <a href="#-Name">`# Name = node1.example.tld`</a>  
+¶ <a href="#Address">`Address = 10.0.0.3/32`</a>  
+¶ <a href="#ListenPort">`ListenPort = 51820`</a>  
+¶ <a href="#PrivateKey">`PrivateKey = localPrivateKeyAbcAbcAbc=`</a>  
+¶ <a href="#DNS">`DNS = 1.1.1.1,8.8.8.8`</a>  
+¶ <a href="#PreUp">`PreUp = /bin/example arg1 arg2 %i`</a>  
+¶ <a href="#PostUp">`PostUp = /bin/example arg1 arg2 %i`</a>  
+¶ <a href="#PreDown">`PreDown = /bin/example arg1 arg2 %i`</a>  
+¶ <a href="#PostDown">`PostDown = /bin/example arg1 arg2 %i`</a>  
 
 
-¶ <a href="#Peer-">`[Peer]`</a>
-¶ <a href="#-Name1">`# Name = node2-node.example.tld`</a>
-¶ <a href="#AllowedIPs">`AllowedIPs = 10.0.0.1/24`</a>
-¶ <a href="#ListenPort">`Endpoint = node1.example.tld:51820`</a>
-¶ <a href="#PublicKey">`PublicKey = remotePublicKeyAbcAbcAbc=`</a>
-¶ <a href="#PersistentKeepalive">`PersistentKeepalive = 25`</a>
+¶ <a href="#Peer-">`[Peer]`</a>  
+¶ <a href="#-Name1">`# Name = node2-node.example.tld`</a>  
+¶ <a href="#AllowedIPs">`AllowedIPs = 10.0.0.1/24`</a>  
+¶ <a href="#ListenPort">`Endpoint = node1.example.tld:51820`</a>  
+¶ <a href="#PublicKey">`PublicKey = remotePublicKeyAbcAbcAbc=`</a>  
+¶ <a href="#PersistentKeepalive">`PersistentKeepalive = 25`</a>  
 
 ### `[Interface]`
 
@@ -636,6 +641,18 @@ Optionally run a command after the interface is brought up.
 
 * Add an iptables rule to enable packet forwarding on the WireGuard interface
 `PostUp   = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE`
+
+#### `PreDown`
+
+Optionally run a command before the interface is brought down.
+
+**Examples**
+
+* Log a line to a file
+`PostDown = echo "$(date +%s) WireGuard Going Down" >> /var/log/wireguard.log`
+
+* Hit a webhook on another server
+`PostDown = curl https://events.example.dev/wireguard/stopping/?key=abcdefg`
 
 
 #### `PostDown`
