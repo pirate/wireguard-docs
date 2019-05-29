@@ -968,7 +968,7 @@ You can read in a file as the `PrivateKey` by doing something like:
 
 ### Containerization
 
-WireGuard can be run in Docker with varying degrees of easy. Int he simplest case, `--privileged` and `--cap-add=all` args can be added to the docker commands to enable the loading of the kernel module.
+WireGuard can be run in Docker with varying degrees of ease. In the simplest case, `--privileged` and `--cap-add=all` args can be added to the docker commands to enable the loading of the kernel module.
 
 Setups can get somewhat complex are are highly dependent on what you're trying to achieve. You can have WireGuard itself run in a container and expose a network interface to the host, or you can have WireGuard running on the host exposing an interface to specific containers.
 
