@@ -164,8 +164,7 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
 
 ## List of Possible VPN Solutions
 
-
- - PPTP: ancient, inflexible, insecure, doens't solve all the requirements
+ - PPTP: ancient, inflexible, insecure, doesn't solve all the requirements
  - L2TP: meh
  - SOCKS: proxy tunnel, not a VPN, not great for this use case
  - [IPSec (IKEv2)](https://github.com/jawj/IKEv2-setup)/strongSwan: lots of brittle config that's different for each OS, NAT busting setup is very manual and involves updating the central server and starting all the others in the correct order, not great at reconnecting after network downtime, had to be manually restarted often
