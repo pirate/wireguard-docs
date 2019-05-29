@@ -56,6 +56,13 @@ It's also the <i>fast as hell</i>. I get sub 0.5ms pings and 900mbps+ on good co
 See https://github.com/pirate/wireguard-docs for example code and documentation source.
 
 <ul>
+<li><a href="#Table-of-Contents">Table of Contents</a></li>
+<li><a href="#Intro">Intro</a><ul>
+<li><a href="#My-Personal-Requirements-for-a-VPN-Solution">My Personal Requirements for a VPN Solution</a></li>
+<li><a href="#List-of-Possible-VPN-Solutions">List of Possible VPN Solutions</a></li>
+</ul>
+</li>
+<li><a href="#Wireguard-Documentation">Wireguard Documentation</a><ul>
 <li><a href="#Glossary">Glossary</a><ul>
 <li><a href="#PeerNodeDevice">Peer/Node/Device</a></li>
 <li><a href="#Bounce-Server">Bounce Server</a></li>
@@ -99,9 +106,41 @@ See https://github.com/pirate/wireguard-docs for example code and documentation 
 <li><a href="#Dynamic-IP-Allocation">Dynamic IP Allocation</a></li>
 <li><a href="#Other-WireGuard-Implementations">Other WireGuard Implementations</a></li>
 <li><a href="#Config-Shortcuts">Config Shortcuts</a></li>
+<li><a href="#Containerization">Containerization</a></li>
 </ul>
 </li>
 </ul>
+</li>
+<li><a href="#Example-Server-To-Server-Config-with-Roaming-Devices">Example Server-To-Server Config with Roaming Devices</a><ul>
+<li><a href="#Overview">Overview</a><ul>
+<li><a href="#Network-Topology">Network Topology</a></li>
+<li><a href="#Explanation">Explanation</a></li>
+<li><a href="#The-Public-Relay">The Public Relay</a></li>
+</ul>
+</li>
+<li><a href="#Full-Example-Code">Full Example Code</a></li>
+<li><a href="#Node-Config">Node Config</a><ul>
+<li><a href="#public-server1example-vpntld">public-server1.example-vpn.tld</a></li>
+<li><a href="#public-server2example-vpndev">public-server2.example-vpn.dev</a></li>
+<li><a href="#home-serverexample-vpndev">home-server.example-vpn.dev</a></li>
+<li><a href="#laptopexample-vpndev">laptop.example-vpn.dev</a></li>
+<li><a href="#phoneexample-vpndev">phone.example-vpn.dev</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#Further-Reading">Further Reading</a><ul>
+<li><a href="#Reference-Docs">Reference Docs</a></li>
+<li><a href="#Tutorials">Tutorials</a></li>
+<li><a href="#Papers-Articles-and-Talks">Papers, Articles, and Talks</a></li>
+<li><a href="#Related-Projects">Related Projects</a></li>
+<li><a href="#Docker">Docker</a></li>
+<li><a href="#Other">Other</a></li>
+<li><a href="#Discussions">Discussions</a></li>
+</ul>
+</li>
+</ul>
+
 
 # Intro
 
@@ -926,6 +965,23 @@ You can read in a file as the `PrivateKey` by doing something like:
 
 `PostUp = wg set %i private-key /etc/wireguard/wg0.key <(some command)`
 
+
+### Containerization
+
+WireGuard can be run in Docker with varying degrees of easy. Int he simplest case, `--privileged` and `--cap-add=all` args can be added to the docker commands to enable the loading of the kernel module.
+
+Setups can get somewhat complex are are highly dependent on what you're trying to achieve. You can have WireGuard itself run in a container and expose a network interface to the host, or you can have WireGuard running on the host exposing an interface to specific containers.
+
+**Further Reading**
+
+- https://www.wireguard.com/#ready-for-containers
+- https://medium.com/@mdp/securing-docker-with-wireguard-82ad45004f4d
+- https://blog.jessfraz.com/post/installing-and-using-wireguard/
+- https://github.com/cmulk/wireguard-docker
+- https://github.com/activeeos/wireguard-docker
+- https://github.com/ironhalik/docker-wireguard
+- https://nbsoftsolutions.com/blog/routing-select-docker-containers-through-wireguard-vpn
+
 ---
 
 # Example Server-To-Server Config with Roaming Devices
@@ -1220,36 +1276,99 @@ PersistentKeepalive = 25
 
 # Further Reading
 
-- https://angristan.xyz/how-to-setup-vpn-server-wireguard-nat-ipv6/
-- https://arstechnica.com/gadgets/2018/08/wireguard-vpn-review-fast-connections-amaze-but-windows-support-needs-to-happen/
-- https://blog.cloudflare.com/boringtun-userspace-wireguard-rust/
-- https://courses.csail.mit.edu/6.857/2018/project/He-Xu-Xu-WireGuard.pdf
-- https://eprint.iacr.org/2018/080.pdf
-- https://github.com/StreisandEffect/streisand
-- https://github.com/trailofbits/algo
-- https://github.com/its0x08/wg-install
-- https://jrs-s.net/2018/08/05/routing-between-wg-interfaces-with-wireguard/
-- https://jrs-s.net/category/open-source/wireguard/
-- https://medium.com/@headquartershq/setting-up-wireguard-on-a-mac-8a121bfe9d86
-- https://pypi.org/project/wireguard-p2p/
-- https://restoreprivacy.com/openvpn-ipsec-wireguard-l2tp-ikev2-protocols/
-- https://restoreprivacy.com/wireguard/
-- https://try.popho.be/wg.html
-- https://vincent.bernat.ch/en/blog/2018-route-based-vpn-wireguard
+### Reference Docs
+
+- https://www.wireguard.com/install/#installation
+- https://git.zx2c4.com/WireGuard/about/src/tools/man/wg.8
+- https://git.zx2c4.com/WireGuard/about/src/tools/man/wg-quick.8
 - https://wiki.archlinux.org/index.php/WireGuard
 - https://wiki.debian.org/Wireguard#Configuration
+
+### Tutorials
+
+- https://www.wireguard.com/quickstart/
+- https://www.stavros.io/posts/how-to-configure-wireguard/
+- https://nbsoftsolutions.com/blog/wireguard-vpn-walkthrough
+- https://proprivacy.com/guides/wireguard-hands-on-guide
+- https://angristan.xyz/how-to-setup-vpn-server-wireguard-nat-ipv6/
+- https://medium.com/@headquartershq/setting-up-wireguard-on-a-mac-8a121bfe9d86
+- https://grh.am/2018/wireguard-setup-guide-for-ios/
+- https://techcrunch.com/2018/07/28/how-i-made-my-own-wireguard-vpn-server/
 - https://www.ckn.io/blog/2017/11/14/wireguard-vpn-typical-setup/
+- https://jrs-s.net/2018/08/05/routing-between-wg-interfaces-with-wireguard/
+- https://www.stavros.io/posts/how-to-configure-wireguard/
+- https://vincent.bernat.ch/en/blog/2018-route-based-vpn-wireguard
+- https://try.popho.be/wg.html
+- https://www.ericlight.com/wireguard-part-one-installation.html
+- https://www.ericlight.com/wireguard-part-two-vpn-routing.html
+- https://www.ericlight.com/wireguard-part-three-troubleshooting.html
+
+### Papers, Articles, and Talks
+
+- https://www.wireguard.com/papers/wireguard.pdf
+- https://www.wireguard.com/presentations/
+- https://eprint.iacr.org/2018/080.pdf
+- https://courses.csail.mit.edu/6.857/2018/project/He-Xu-Xu-WireGuard.pdf
+- https://arstechnica.com/gadgets/2018/08/wireguard-vpn-review-fast-connections-amaze-but-windows-support-needs-to-happen/
+- https://www.wireguard.com/talks/blackhat2018-slides.pdf
+
+### Related Projects
+
+- https://github.com/subspacecloud/subspace
+- https://github.com/trailofbits/algo
+- https://github.com/StreisandEffect/streisand
+- https://github.com/its0x08/wg-install
+- https://pypi.org/project/wireguard-p2p/
+- https://github.com/cloudflare/boringtun
+- https://git.zx2c4.com/wireguard-go/about/
+- https://github.com/WireGuard/wg-dynamic
+- https://github.com/WireGuard/wireguard-ios
+- https://github.com/WireGuard/wireguard-windows
+- https://github.com/WireGuard/wireguard-rs
+- https://github.com/WireGuard/wireguard-go
+
+### Docker
+
+- https://www.wireguard.com/#ready-for-containers
+- https://medium.com/@mdp/securing-docker-with-wireguard-82ad45004f4d
+- https://blog.jessfraz.com/post/installing-and-using-wireguard/
+- https://nbsoftsolutions.com/blog/leaning-on-algo-to-route-docker-traffic-through-wireguard
+- https://github.com/cmulk/wireguard-docker
+- https://github.com/activeeos/wireguard-docker
+- https://github.com/ironhalik/docker-wireguard
+- https://nbsoftsolutions.com/blog/routing-select-docker-containers-through-wireguard-vpn
+- https://www.net.in.tum.de/fileadmin/bibtex/publications/theses/2018-pudelko-vpn-performance.pdf
+
+
+### Other
+
+- https://blog.cloudflare.com/boringtun-userspace-wireguard-rust/
+- https://jrs-s.net/category/open-source/wireguard/
+- https://restoreprivacy.com/openvpn-ipsec-wireguard-l2tp-ikev2-protocols/
+- https://restoreprivacy.com/wireguard/
 - https://www.ericlight.com/new-things-i-didnt-know-about-wireguard.html
 - https://www.ericlight.com/tag/wireguard.html
 - https://www.linode.com/docs/networking/vpn/set-up-wireguard-vpn-on-ubuntu/
 - https://www.reddit.com/r/linux/comments/9bnowo/wireguard_benchmark_between_two_servers_with_10/
-- https://www.stavros.io/posts/how-to-configure-wireguard/
-- https://www.wireguard.com/install/#installation
 - https://www.wireguard.com/netns/
-- https://www.wireguard.com/papers/wireguard.pdf
 - https://www.wireguard.com/performance/
-- https://www.wireguard.com/quickstart/
-- https://www.wireguard.com/talks/blackhat2018-slides.pdf
+- https://blogs.gnome.org/thaller/2019/03/15/wireguard-in-networkmanager/
+- https://github.com/max-moser/network-manager-wireguard
+
+
+### Discussions
+
+- https://www.reddit.com/r/WireGuard
+- https://lists.zx2c4.com/mailman/listinfo/wireguard
+- https://www.reddit.com/r/VPN/comments/a914mr/can_you_explain_the_difference_between_openvpn/
+- https://www.reddit.com/r/WireGuard/comments/b0m5g2/ipv6_leaks_psa_for_anyone_here_using_wireguard_to/?utm_source=reddit&utm_medium=usertext&utm_name=WireGuard&utm_content=t1_ep8tv0o
+- https://www.reddit.com/r/VPN/comments/au4owb/how_secure_is_wireguard_vpn_protocol/
+- https://www.reddit.com/r/WireGuard/comments/ap33df/wireguard_what_is_so_special_about_it_and_why/
+- https://www.reddit.com/r/VPN/comments/9hgs2x/what_is_the_difference_between_wireguard_openvpn/
+- https://www.reddit.com/r/privacytoolsIO/comments/8l0vxt/what_do_you_think_guys_of_wireguard/
+- https://news.ycombinator.com/item?id=20036194
+- https://news.ycombinator.com/item?id=17659983
+- https://news.ycombinator.com/item?id=17846387
 
 For more detailed instructions, see the [Quickstart](#Quickstart) guide and API reference above. You can also download the complete example setup here: https://github.com/pirate/wireguard-example.
 
