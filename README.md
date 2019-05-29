@@ -518,6 +518,8 @@ dig example.com A
 ¶ <a href="#ListenPort">`ListenPort = 51820`</a>  
 ¶ <a href="#PrivateKey">`PrivateKey = localPrivateKeyAbcAbcAbc=`</a>  
 ¶ <a href="#DNS">`DNS = 1.1.1.1,8.8.8.8`</a>  
+¶ <a href="#Table">`Table = 12345`</a>  
+¶ <a href="#MTU">`MTU = 1500`</a>  
 ¶ <a href="#PreUp">`PreUp = /bin/example arg1 arg2 %i`</a>  
 ¶ <a href="#PostUp">`PostUp = /bin/example arg1 arg2 %i`</a>  
 ¶ <a href="#PreDown">`PreDown = /bin/example arg1 arg2 %i`</a>  
@@ -589,6 +591,7 @@ When the node is acting as a public bounce server, it should hardcode a port to 
 * Using custom WireGuard port
 `ListenPort = 7000`
 
+
 #### `PrivateKey`
 
 This is the private key for the local node, never shared with other servers.
@@ -599,6 +602,7 @@ This key can be generated with `wg genkey > example.key`
 **Examples**
 
 `PrivateKey = somePrivateKeyAbcdAbcdAbcdAbcd=`
+
 
 #### `DNS`
 
@@ -611,6 +615,39 @@ The DNS server(s) to announce to VPN clients via DHCP, most clients will use thi
 `DNS = 1.1.1.1`
 * or multiple DNS servers can be provided
 `DNS = 1.1.1.1,8.8.8.8`
+
+
+#### `Table`
+
+Optionally defines which routing table to use for the WireGuard routes, not necessary to configure for most setups.
+
+There are two special values: ‘off’ disables the creation of routes altogether, and ‘auto’ (the default) adds routes to the default table and enables special handling of default routes.
+
+https://git.zx2c4.com/WireGuard/about/src/tools/man/wg-quick.8
+
+**Examples**
+
+```ini
+Table = 1234
+```
+
+
+#### `MTU`
+
+Optionally defines the maximum transmission unit (MTU, aka packet/frame size) to use when connecting to the peer, not necessary to configure for most setups.
+
+The MTU is automatically determined from the endpoint addresses or the system default route, which is usually a sane choice.
+
+There are two special values: ‘off’ disables the creation of routes altogether, and ‘auto’ (the default) adds routes to the default table and enables special handling of default routes.
+
+https://git.zx2c4.com/WireGuard/about/src/tools/man/wg-quick.8
+
+**Examples**
+
+```ini
+MTU = 1500
+```
+
 
 #### `PreUp`
 
