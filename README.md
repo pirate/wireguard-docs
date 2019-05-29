@@ -305,6 +305,7 @@ Some services that help with key distribution and deployment:
 - https://pypi.org/project/wireguard-p2p/
 - https://github.com/trailofbits/algo
 - https://github.com/StreisandEffect/streisand
+- https://github.com/its0x08/wg-install
 
 You can also read in keys from a file or via command if you don't want to hardcode them in `wg0.conf`, this makes managing keys via 3rd party service much easier:
 
@@ -1226,6 +1227,7 @@ PersistentKeepalive = 25
 - https://eprint.iacr.org/2018/080.pdf
 - https://github.com/StreisandEffect/streisand
 - https://github.com/trailofbits/algo
+- https://github.com/its0x08/wg-install
 - https://jrs-s.net/2018/08/05/routing-between-wg-interfaces-with-wireguard/
 - https://jrs-s.net/category/open-source/wireguard/
 - https://medium.com/@headquartershq/setting-up-wireguard-on-a-mac-8a121bfe9d86
