@@ -105,6 +105,7 @@ See https://github.com/pirate/wireguard-docs for example code and documentation 
 <li><a href="#Forwarding-All-Traffic">Forwarding All Traffic</a></li>
 <li><a href="#Dynamic-IP-Allocation">Dynamic IP Allocation</a></li>
 <li><a href="#Other-WireGuard-Implementations">Other WireGuard Implementations</a></li>
+<li><a href="#WireGuard-Setup-tools">WireGuard Setup Tools</a></li>
 <li><a href="#Config-Shortcuts">Config Shortcuts</a></li>
 <li><a href="#Containerization">Containerization</a></li>
 </ul>
@@ -924,13 +925,29 @@ PostUp = PostUp = wg set %i allowed-ips /etc/wireguard/wg0.key <(some command)
 
 ### Other WireGuard Implementations
 
-- https://git.zx2c4.com/wireguard-go/about/
+
+- https://git.zx2c4.com/wireguard-go/about/  
 A compliant userland WireGuard implementation written in Go.
-- https://github.com/cloudflare/boringtun
+
+- https://github.com/cloudflare/boringtun  
 A compliant WireGuard implementation with the exact same API, written in Rust.
 See https://blog.cloudflare.com/boringtun-userspace-wireguard-rust/
 
+
 Both of these are slower than the native C version that runs in kernel land, but provide other benefits by running in userland (e.g. easier containerization).
+
+### WireGuard Setup Tools
+
+These are some GUI and CLI tools that wrap WireGuard to assist with config, deployment, key management, and connection.
+
+ - https://github.com/subspacecloud/subspace
+ - https://github.com/corrad1nho/qomui
+ - https://github.com/max-moser/network-manager-wireguard
+ - https://github.com/its0x08/wg-install
+ - https://pypi.org/project/wireguard-p2p/
+ - https://github.com/trailofbits/algo
+ - https://github.com/StreisandEffect/streisand
+
 
 ### Config Shortcuts
 
