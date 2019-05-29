@@ -59,7 +59,7 @@ See https://github.com/pirate/wireguard-docs for example code and documentation 
 <li><a href="#Table-of-Contents">Table of Contents</a></li>
 <li><a href="#Intro">Intro</a>
 <ul>
-<li><a href="#My-Requirements-for-a-VPN-Solution">My Requirements for a VPN Solution</a></li>
+<li><a href="#My-Personal-Requirements-for-a-VPN-Solution">My Personal Requirements for a VPN Solution</a></li>
 <li><a href="#List-of-Possible-VPN-Solutions">List of Possible VPN Solutions</a></li>
 </ul>
 </li>
