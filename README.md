@@ -889,6 +889,9 @@ AllowedIPs = 0.0.0.0/0, ::/0
 
 If you want to forward *all* internet traffic through the VPN, and not just use it as a server-to-server subnet, you can add `0.0.0.0/0, ::/0` to the `AllowedIPs` definition of the peer you want to pipe your traffic through.
 
+Make sure to also specify an IPv6 catchall even when only forwarding IPv4 traffic in order to avoid leaking IPv6 packets outside the VPN, see:  
+https://www.reddit.com/r/WireGuard/comments/b0m5g2/ipv6_leaks_psa_for_anyone_here_using_wireguard_to/
+
 **Example**
 
 ```ini
