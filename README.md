@@ -706,7 +706,7 @@ Optionally run a command after the interface is brought up.
 * Hit a webhook on another server  
 `PostUp = curl https://events.example.dev/wireguard/started/?key=abcdefg`
 
-* Add an route to the system routing table  
+* Add a route to the system routing table  
 `PostUp = ip rule add ipproto tcp dport 22 table 1234`
 
 * Add an iptables rule to enable packet forwarding on the WireGuard interface  
