@@ -411,21 +411,21 @@ dig example.com A
 ## Config Reference
 
 
-**Jump to definition:**
-¶ <a href="#Interface">`[Inteface]`</a>
-¶ <a href="#-Name">`# Name = node1.example.tld`</a>
-¶ <a href="#Address">`Address = 10.0.0.3/32`</a>
-¶ <a href="#ListenPort">`ListenPort = 51820`</a>
-¶ <a href="#PrivateKey">`PrivateKey = localPrivateKeyAbcAbcAbc=`</a>
-¶ <a href="#DNS">`DNS = 1.1.1.1,8.8.8.8`</a>
+**Jump to definition:**  
+¶ <a href="#Interface">`[Inteface]`</a>  
+¶ <a href="#-Name">`# Name = node1.example.tld`</a>  
+¶ <a href="#Address">`Address = 10.0.0.3/32`</a>  
+¶ <a href="#ListenPort">`ListenPort = 51820`</a>  
+¶ <a href="#PrivateKey">`PrivateKey = localPrivateKeyAbcAbcAbc=`</a>  
+¶ <a href="#DNS">`DNS = 1.1.1.1,8.8.8.8`</a>  
 
 
-¶ <a href="#Peer-">`[Peer]`</a>
-¶ <a href="#-Name1">`# Name = node2-node.example.tld`</a>
-¶ <a href="#AllowedIPs">`AllowedIPs = 10.0.0.1/24`</a>
-¶ <a href="#ListenPort">`Endpoint = node1.example.tld:51820`</a>
-¶ <a href="#PublicKey">`PublicKey = remotePublicKeyAbcAbcAbc=`</a>
-¶ <a href="#PersistentKeepalive">`PersistentKeepalive = 25`</a>
+¶ <a href="#Peer-">`[Peer]`</a>  
+¶ <a href="#-Name1">`# Name = node2-node.example.tld`</a>  
+¶ <a href="#AllowedIPs">`AllowedIPs = 10.0.0.1/24`</a>  
+¶ <a href="#ListenPort">`Endpoint = node1.example.tld:51820`</a>  
+¶ <a href="#PublicKey">`PublicKey = remotePublicKeyAbcAbcAbc=`</a>  
+¶ <a href="#PersistentKeepalive">`PersistentKeepalive = 25`</a>  
 
 ### `[Interface]`
 
