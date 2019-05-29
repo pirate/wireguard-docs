@@ -1165,26 +1165,35 @@ PersistentKeepalive = 25
 
 # Further Reading
 
-- https://www.wireguard.com/install/#installation
-- https://www.wireguard.com/quickstart/
-- https://www.wireguard.com/performance/
-- https://wiki.debian.org/Wireguard#Configuration
-- https://wiki.archlinux.org/index.php/WireGuard
-- https://www.ericlight.com/tag/wireguard.html
-- https://www.ericlight.com/new-things-i-didnt-know-about-wireguard.html
-- https://www.ckn.io/blog/2017/11/14/wireguard-vpn-typical-setup/
-- https://jrs-s.net/category/open-source/wireguard/
-- https://jrs-s.net/2018/08/05/routing-between-wg-interfaces-with-wireguard/
-- https://vincent.bernat.ch/en/blog/2018-route-based-vpn-wireguard
-- https://medium.com/@headquartershq/setting-up-wireguard-on-a-mac-8a121bfe9d86
-- https://www.linode.com/docs/networking/vpn/set-up-wireguard-vpn-on-ubuntu/
-- https://www.stavros.io/posts/how-to-configure-wireguard/
 - https://angristan.xyz/how-to-setup-vpn-server-wireguard-nat-ipv6/
-- https://www.wireguard.com/netns/
-- https://restoreprivacy.com/wireguard/
+- https://arstechnica.com/gadgets/2018/08/wireguard-vpn-review-fast-connections-amaze-but-windows-support-needs-to-happen/
 - https://blog.cloudflare.com/boringtun-userspace-wireguard-rust/
-- https://try.popho.be/wg.html
+- https://courses.csail.mit.edu/6.857/2018/project/He-Xu-Xu-WireGuard.pdf
+- https://eprint.iacr.org/2018/080.pdf
+- https://github.com/StreisandEffect/streisand
+- https://github.com/trailofbits/algo
+- https://jrs-s.net/2018/08/05/routing-between-wg-interfaces-with-wireguard/
+- https://jrs-s.net/category/open-source/wireguard/
+- https://medium.com/@headquartershq/setting-up-wireguard-on-a-mac-8a121bfe9d86
 - https://pypi.org/project/wireguard-p2p/
+- https://restoreprivacy.com/openvpn-ipsec-wireguard-l2tp-ikev2-protocols/
+- https://restoreprivacy.com/wireguard/
+- https://try.popho.be/wg.html
+- https://vincent.bernat.ch/en/blog/2018-route-based-vpn-wireguard
+- https://wiki.archlinux.org/index.php/WireGuard
+- https://wiki.debian.org/Wireguard#Configuration
+- https://www.ckn.io/blog/2017/11/14/wireguard-vpn-typical-setup/
+- https://www.ericlight.com/new-things-i-didnt-know-about-wireguard.html
+- https://www.ericlight.com/tag/wireguard.html
+- https://www.linode.com/docs/networking/vpn/set-up-wireguard-vpn-on-ubuntu/
+- https://www.reddit.com/r/linux/comments/9bnowo/wireguard_benchmark_between_two_servers_with_10/
+- https://www.stavros.io/posts/how-to-configure-wireguard/
+- https://www.wireguard.com/install/#installation
+- https://www.wireguard.com/netns/
+- https://www.wireguard.com/papers/wireguard.pdf
+- https://www.wireguard.com/performance/
+- https://www.wireguard.com/quickstart/
+- https://www.wireguard.com/talks/blackhat2018-slides.pdf
 
 For more detailed instructions, see the [Quickstart](#Quickstart) guide and API reference above. You can also download the complete example setup here: https://github.com/pirate/wireguard-example.
 
