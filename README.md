@@ -958,7 +958,7 @@ https://www.ericlight.com/new-things-i-didnt-know-about-wireguard.html
 
 WireGuard will ignore a peer whose public key matches the interface's private key. So you can distribute a single list of peers everywhere, and only define the `[Inteface]` separately on each server.
 
-See: https://lists.zx2c4.com/pipermail/wireguard/2018-December/003703.html:
+See: https://lists.zx2c4.com/pipermail/wireguard/2018-December/003703.html
 
 You can combine this with `wg addconf` like this:
 
