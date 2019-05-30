@@ -746,9 +746,9 @@ Optionally run a command after the interface is brought down.
 
 ### `[Peer]`
 
-Defines the VPN settings for a remote peer capable of routing traffic for one or more addresses (itself and/or other peers). Peers can be either a public bounce server that relays traffic to other peers, a directly accessible client via lan/internet that is not behind a NAT and only routes traffic for itself.
+Defines the VPN settings for a remote peer capable of routing traffic for one or more addresses (itself and/or other peers). Peers can be either a public bounce server that relays traffic to other peers, or a directly accessible client via lan/internet that is not behind a NAT and only routes traffic for itself.
 
-All clients must be defined as peers on the public bounce server, however on the simple clients that only route traffic for themselves, only the public relay and other directly accessible nodes need to be defined as peeers. Nodes that are behind separate NATs should not be defined as peers outside of the public server config, as no specific direct route is available between separate NATs. Instead, nodes behind NATs should only define the public relay servers and other public clients as their peers, and should specify `AllowedIPs = 10.0.0.1/24` on the public server that accept routes and bounce traffic to the remote NAT-ed peers.
+All clients must be defined as peers on the public bounce server. Simple clients that only route traffic for themselves, only need to define peers for the public relay, and any other nodes directly accessible through the VPN.  Nodes that are behind separate NATs should _not_ be defined as peers outside of the public server config, as no direct route is available between separate NATs. Instead, nodes behind NATs should only define the public relay servers and other public clients as their peers, and should specify `AllowedIPs = 10.0.0.1/24` on the public server that accept routes and bounce traffic for the VPN subnet to the remote NAT-ed peers.
 
 In summary, all nodes must be defined on the main bounce server.  On client servers, only peers that are directly accessible from a node should be defined as peers of that node, any peers that must be relayed by a bounce sherver should be left out and will be handled by the relay server's catchall route.
 
