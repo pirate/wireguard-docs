@@ -685,6 +685,7 @@ MTU = 1500
 #### `PreUp`
 
 Optionally run a command before the interface is brought up.
+This option can be specified multiple times, with commands executed in the order they appear in the file.
 
 **Examples**
 
@@ -694,6 +695,7 @@ Optionally run a command before the interface is brought up.
 #### `PostUp`
 
 Optionally run a command after the interface is brought up.
+This option can appear multiple times, as with <a href="#PreUp">PreUp</a>
 
 **Examples**
 
@@ -718,6 +720,7 @@ Optionally run a command after the interface is brought up.
 #### `PreDown`
 
 Optionally run a command before the interface is brought down.
+This option can appear multiple times, as with <a href="#PreUp">PreUp</a>
 
 **Examples**
 
@@ -731,6 +734,7 @@ Optionally run a command before the interface is brought down.
 #### `PostDown`
 
 Optionally run a command after the interface is brought down.
+This option can appear multiple times, as with <a href="#PreUp">PreUp</a>
 
 **Examples**
 
