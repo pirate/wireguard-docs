@@ -962,11 +962,11 @@ See: https://lists.zx2c4.com/pipermail/wireguard/2018-December/003703.html:
 
 You can combine this with `wg addconf` like this:
 
-Each peer has its own `/etc/wireguard/wg0.conf` file, which only contains it's `[Interface]` section.
+* Each peer has its own `/etc/wireguard/wg0.conf` file, which only contains it's `[Interface]` section.
 
-Each peer also has a shared `/etc/wireguard/peers.conf` file, which contains all the peers.
+* Each peer also has a shared `/etc/wireguard/peers.conf` file, which contains all the peers.
 
-The `wg0.conf` file also has a `PostUp` hook, calling `wg addconf /etc/wireguard/peers.conf`.
+* The `wg0.conf` file also has a `PostUp` hook: `PostUp = wg addconf /etc/wireguard/peers.conf`.
 
 It's up to you to decide how you want to share the `peers.conf`, be it via a proper orchestration platform, something much more pedestrian like Dropbox, or something kinda wild like Ceph. I dunno, but it's pretty great that you can just wildly fling a peer section around, without worrying whether it's the same as the interface.
 
