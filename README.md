@@ -817,7 +817,7 @@ Defines the publicly accessible address for a remote peer.  This should be left 
 
 #### `AllowedIPs`
 
-This defines the IP ranges that a peer will route traffic for. Usually this is a single address (the VPN address of the peer itself), but for bounce servers this will be a range of the IPs or subnets that the relay server is capable of routing traffic for.  Using comma-separated IPv4 or IPv6 CIDR notation, a single address can be defined as routable, or multiple ranges of IPs all the way up to `0.0.0.0/0` to route all internet and VPN traffic through that peer.
+This defines the IP ranges for which a peer will route traffic.  On simple clients, this is usually a single address (the VPN address of the simple client itself). For bounce servers this will be a range of the IPs or subnets that the relay server is capable of routing traffic for.  Multiple IPs and subnets may be specified using comma-separated IPv4 or IPv6 CIDR notation (from a single /32 or /128 address, all the way up to `0.0.0.0/0` and `::/0` to indicate a default route to send all internet and VPN traffic through that peer).  This option may be specified multiple times.
 
 When deciding how to route a packet, the system chooses the most specific route first, and falls back to broader routes. So for a packet destined to `10.0.0.3`, the system would first look for a peer advertising `10.0.0.3/32` specifically, and would fall back to a peer advertising `10.0.0.1/24` or a larger range like `0.0.0.0/0` as a last resort.
 
