@@ -552,7 +552,7 @@ dig example.com A
 
 **Jump to definition:**
 
-¶ <a href="#Interface">`[Inteface]`</a>  
+¶ <a href="#Interface">`[Interface]`</a>  
 ¶ <a href="#-Name">`# Name = node1.example.tld`</a>  
 ¶ <a href="#Address">`Address = 10.0.0.3/32`</a>  
 ¶ <a href="#ListenPort">`ListenPort = 51820`</a>  
@@ -960,7 +960,7 @@ https://www.ericlight.com/new-things-i-didnt-know-about-wireguard.html
 
 #### Sharing a single peers.conf file
 
-WireGuard will ignore a peer whose public key matches the interface's private key. So you can distribute a single list of peers everywhere, and only define the `[Inteface]` separately on each server.
+WireGuard will ignore a peer whose public key matches the interface's private key. So you can distribute a single list of peers everywhere, and only define the `[Interface]` separately on each server.
 
 See: https://lists.zx2c4.com/pipermail/wireguard/2018-December/003703.html
 
