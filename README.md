@@ -695,7 +695,7 @@ This option can be specified multiple times, with commands executed in the order
 #### `PostUp`
 
 Optionally run a command after the interface is brought up.
-This option can appear multiple times, as with <a href="#PreUp">PreUP</a>
+This option can appear multiple times, as with <a href="#PreUp">PreUp</a>
 
 **Examples**
 
@@ -720,7 +720,7 @@ This option can appear multiple times, as with <a href="#PreUp">PreUP</a>
 #### `PreDown`
 
 Optionally run a command before the interface is brought down.
-This option can appear multiple times, as with <a href="#PreUp">PreUP</a>
+This option can appear multiple times, as with <a href="#PreUp">PreUp</a>
 
 **Examples**
 
@@ -734,7 +734,7 @@ This option can appear multiple times, as with <a href="#PreUp">PreUP</a>
 #### `PostDown`
 
 Optionally run a command after the interface is brought down.
-This option can appear multiple times, as with <a href="#PreUp">PreUP</a>
+This option can appear multiple times, as with <a href="#PreUp">PreUp</a>
 
 **Examples**
 
