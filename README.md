@@ -366,7 +366,7 @@ Overview of the general process:
 3. Create a `wg0.conf` wireguard config file on the main relay server
     - `[Interface]` Make sure to specify a CIDR range for the entire VPN subnet when defining the address the server accepts routes for `Address = 10.0.0.1/24`
     - `[Peer]` Create a peer section for every client joining the VPN, using their corresponding remote public keys
-4. Crete a `wg0.conf` on each client node
+4. Create a `wg0.conf` on each client node
    - `[Interface]` Make sure to specify only a single IP for client peers that don't relay traffic `Address = 10.0.0.3/32`.
    - `[Peer]` Create a peer section for each public peer not behind a NAT, make sure to specify a CIDR range for the entire VPN subnet when defining the remote peer acting as the bounce server `AllowedIPs = 10.0.0.1/24`. Make sure to specify individual IPs for remote peers that don't relay traffic and only act as simple clients `AllowedIPs = 10.0.0.3/32`.
 5. Start wireguard on the main relay server with `wg-quick up /full/path/to/wg0.conf`
