@@ -280,7 +280,7 @@ wg show wg0
 
 ### What WireGuard Traffic Looks Like
 
-WireGuard uses encrypted UDP packets for all traffic, it does not provice guarantees around packet delivery or ordering, as that is handled by TCP connections within the encrypted tunnel.
+WireGuard uses encrypted UDP packets for all traffic, it does not provide guarantees around packet delivery or ordering, as that is handled by TCP connections within the encrypted tunnel.
 
 <img src="https://github.com/Lekensteyn/wireguard-dissector/raw/master/wireshark-wg.png" width="400px"/><br/>
 
@@ -337,7 +337,7 @@ Authentication in both directions is achieved with a simple public/private keypa
 
 No other certificates or preshared keys are needed beyond the public/private keys for each node.
 
-Key generation, distribution, and revokation can be handled in larger deployments using a separate service like Ansible or Kubernetes Secrets.
+Key generation, distribution, and revocation can be handled in larger deployments using a separate service like Ansible or Kubernetes Secrets.
 
 Some services that help with key distribution and deployment:
 
@@ -1025,7 +1025,7 @@ These 5 devices are used in our example setup to explain how WireGuard supports 
 
 This VPN config simulates setting up a small VPN subnet `10.0.0.1/24` shared by 5 nodes. Two of the nodes (public-server1 and public-server2) are VPS instances living in a cloud somewhere, with public IPs accessible to the internet.  home-server is a stationary node that lives behind a NAT with a dynamic IP, but it doesn't change frequently. Phone and laptop are both roaming nodes, that can either be at home in the same LAN as home-server, or out-and-about using public wifi or cell service to connect to the VPN.
 
-Whenever possible, nodes should connect directly to each other, depending on whether nodes are directly accessible or NATs are between them, traffic will route accordinly:
+Whenever possible, nodes should connect directly to each other, depending on whether nodes are directly accessible or NATs are between them, traffic will route accordingly:
 
 ### The Public Relay
 
