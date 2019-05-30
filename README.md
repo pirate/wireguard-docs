@@ -746,9 +746,9 @@ Optionally run a command after the interface is brought down.
 
 ### `[Peer]`
 
-Defines the VPN settings for a remote peer capable of routing traffic for one or more addresses (itself and/or other peers). Peers can be either a public bounce server that relays traffic to other peers, a directly accessible client via lan/internet that is not behind a NAT and only routes traffic for itself.
+Defines the VPN settings for a remote peer capable of routing traffic for one or more addresses (itself and/or other peers). Peers can be either a public bounce server that relays traffic to other peers, or a directly accessible client via lan/internet that is not behind a NAT and only routes traffic for itself.
 
-All clients must be defined as peers on the public bounce server, however on the simple clients that only route traffic for themselves, only the public relay and other directly accessible nodes need to be defined as peeers. Nodes that are behind separate NATs should not be defined as peers outside of the public server config, as no specific direct route is available between separate NATs. Instead, nodes behind NATs should only define the public relay servers and other public clients as their peers, and should specify `AllowedIPs = 10.0.0.1/24` on the public server that accept routes and bounce traffic to the remote NAT-ed peers.
+All clients must be defined as peers on the public bounce server. Simple clients that only route traffic for themselves, only need to define peers for the public relay, and any other nodes directly accessible.  Nodes that are behind separate NATs should _not_ be defined as peers outside of the public server config, as no direct route is available between separate NATs. Instead, nodes behind NATs should only define the public relay servers and other public clients as their peers, and should specify `AllowedIPs = 10.0.0.1/24` on the public server that accept routes and bounce traffic for the VPN subnet to the remote NAT-ed peers.
 
 In summary, all nodes must be defined on the main bounce server.  On client servers, only peers that are directly accessible from a node should be defined as peers of that node, any peers that must be relayed by a bounce sherver should be left out and will be handled by the relay server's catchall route.
 
@@ -817,7 +817,7 @@ Defines the publicly accessible address for a remote peer.  This should be left 
 
 #### `AllowedIPs`
 
-This defines the IP ranges that a peer will route traffic for. Usually this is a single address (the VPN address of the peer itself), but for bounce servers this will be a range of the IPs or subnets that the relay server is capable of routing traffic for.  Using comma-separated IPv4 or IPv6 CIDR notation, a single address can be defined as routable, or multiple ranges of IPs all the way up to `0.0.0.0/0` to route all internet and VPN traffic through that peer.
+This defines the IP ranges for which a peer will route traffic.  On simple clients, this is usually a single address (the VPN address of the simple client itself). For bounce servers this will be a range of the IPs or subnets that the relay server is capable of routing traffic for.  Multiple IPs and subnets may be specified using comma-separated IPv4 or IPv6 CIDR notation (from a single /32 or /128 address, all the way up to `0.0.0.0/0` and `::/0` to indicate a default route to send all internet and VPN traffic through that peer).  This option may be specified multiple times.
 
 When deciding how to route a packet, the system chooses the most specific route first, and falls back to broader routes. So for a packet destined to `10.0.0.3`, the system would first look for a peer advertising `10.0.0.3/32` specifically, and would fall back to a peer advertising `10.0.0.1/24` or a larger range like `0.0.0.0/0` as a last resort.
 
@@ -962,11 +962,11 @@ See: https://lists.zx2c4.com/pipermail/wireguard/2018-December/003703.html:
 
 You can combine this with `wg addconf` like this:
 
-Each peer has its own `/etc/wireguard/wg0.conf` file, which only contains it's `[Interface]` section.
+* Each peer has its own `/etc/wireguard/wg0.conf` file, which only contains it's `[Interface]` section.
 
-Each peer also has a shared `/etc/wireguard/peers.conf` file, which contains all the peers.
+* Each peer also has a shared `/etc/wireguard/peers.conf` file, which contains all the peers.
 
-The `wg0.conf` file also has a `PostUp` hook, calling `wg addconf /etc/wireguard/peers.conf`.
+* The `wg0.conf` file also has a `PostUp` hook: `PostUp = wg addconf /etc/wireguard/peers.conf`.
 
 It's up to you to decide how you want to share the `peers.conf`, be it via a proper orchestration platform, something much more pedestrian like Dropbox, or something kinda wild like Ceph. I dunno, but it's pretty great that you can just wildly fling a peer section around, without worrying whether it's the same as the interface.
 
