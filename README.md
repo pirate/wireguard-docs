@@ -23,7 +23,7 @@ Nicer HTML page version: https://docs.sweeting.me/s/wireguard
 
 [WireGuard](https://www.wireguard.com/) is a BETA/WIP open-source VPN solution written in C by [Jason Donenfeld](https://www.jasondonenfeld.com) and [others](https://github.com/WireGuard/WireGuard/graphs/contributors), aiming to fix many of the problems that have plagued other modern server-to-server VPN offerings like IPSec/IKEv2, OpenVPN, or L2TP. It shares some similarities with other modern VPN offerings like [Tinc](https://www.tinc-vpn.org/) and [MeshBird](https://github.com/meshbird/meshbird), namely good cipher suites and minimal config.
 
-This is my attempt at writing "The Missing Wireguard Documentation" to make up for the somewhat sparse offical docs on an otherwise great piece of software.
+This is my attempt at writing "The Missing Wireguard Documentation" to make up for the somewhat sparse official docs on an otherwise great piece of software.
 
 **Official Links**
 
@@ -152,14 +152,14 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
  - minimal config, low config surface area and few exposed tunables
  - minimal key management overhead, 1 or 2 preshared keys or certs is ok, but ideally not both
  - ability to easily create a LAN like 10.0.0.0/24 between all my servers, every peer can connect to every peer, 
- - ability to bust through NATs with a signalling server, routing nat-to-nat instead of through a relay (webrtc style)
+ - ability to bust through NATs with a signalling server, routing nat-to-nat instead of through a relay (WebRTC-style)
  - fallback to relay server when nat-to-nat busting is unavailable or unreliable
  - ability to route to a fixed list of ips/hosts with 1 keypair per host (not needed, but nice to have: ability to route arbitrary local traffic or *all* internet traffic to a given host)
  - robust automatic reconnects after reboots / network downtime / NAT connection table drops
  - fast (lowest possible latency and line-rate bandwidth)
  - encrypted, and secure by default (not needed, nice to have: short copy-pastable key pairs)
  - ideally support for any type of Level 2 and control traffic, e.g. ARP/DHCP/ICMP (or ideally raw ethernet frames), not just TCP/HTTP
- - ability to join the VPN from Ubuntu, FreeBSD, iOS, macOS (Windows/Android not needed but would be nice
+ - ability to join the VPN from Ubuntu, FreeBSD, iOS, macOS (Windows/Android not needed but would be nice)
  - not a requirement, but ideally it would support running in docker with a single container, config file, and preshared key on each server, but with a full network interface exposed to the host system (maybe with tun/tap on the host passing traffic to the container, but ideally just a single container + config file without outside dependencies)
 
 ## List of Possible VPN Solutions
@@ -168,15 +168,15 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
  - L2TP: meh
  - SOCKS: proxy tunnel, not a VPN, not great for this use case
  - [IPSec (IKEv2)](https://github.com/jawj/IKEv2-setup)/strongSwan: lots of brittle config that's different for each OS, NAT busting setup is very manual and involves updating the central server and starting all the others in the correct order, not great at reconnecting after network downtime, had to be manually restarted often
- - [TINC](https://www.tinc-vpn.org/): haven't tried it yet, but it doesn't work on iOS, worst case senario I could live with that if it's the only option
+ - [TINC](https://www.tinc-vpn.org/): haven't tried it yet, but it doesn't work on iOS, worst case scenario I could live with that if it's the only option
  - [OpenVPN](https://openvpn.net/vpn-server-resources/site-to-site-routing-explained-in-detail/): I don't like it from past experience but could be convinced if it's the only option
  - StealthVPN: haven't tried it
  - [MeshBird](https://github.com/meshbird/meshbird): "Cloud native" VPN/networking layer
  - [Algo](https://github.com/trailofbits/algo): haven't tried it yet, should I?
- - [Striesand](https://github.com/StreisandEffect/streisand): haven't tried it yet, whats the best config to try?
+ - [Striesand](https://github.com/StreisandEffect/streisand): haven't tried it yet, what's the best config to try?
  - [SoftEther](https://www.softether.org/): haven't tried it yet, should I?
  - [WireGuard](https://www.wireguard.com/): the subject of this post
- - [ZeroTier](https://www.zerotier.com): haven't tried it yet, sould I?
+ - [ZeroTier](https://www.zerotier.com): haven't tried it yet, should I?
 
 ---
 
@@ -188,7 +188,7 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
 
 ### Peer/Node/Device
 
-A host that connects to the VPN and has registers a VPN subnet address like 10.0.0.3 for itself. It can also optionally route traffic for more than its own address(es) by specifing subnet ranges in comma-separated CIDR notation.
+A host that connects to the VPN and has registers a VPN subnet address like 10.0.0.3 for itself. It can also optionally route traffic for more than its own address(es) by specifying subnet ranges in comma-separated CIDR notation.
 
 ### Bounce Server
 
@@ -269,9 +269,9 @@ More complex topologies are definitely achievable, but these are the basic routi
 I'm not sure if Wireguard supports this method yet, but it's definitely possible in theory, see: [WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API), [N2N](https://www.ntop.org/products/n2n/), [Pwnat](https://samy.pl/pwnat/). A readily available signaling server like`public-server1` should make connection establishment and handoff relatively easy, but ICMP packet trickery can also be used. Please let me know if WireGuard does this via [Github Issue](https://github.com/pirate/wireguard-docs/issues).
 
 
-Chosing the proper routing method is handled automatically by WireGuard as long as at least one server is acting as a public relay with `net.ipv4.ip_forward = 1` enabled, and clients have `AllowIPs = 10.0.0.1/24` set in the relay server `[peer]` (to take traffic for the whole subnet).
+Choosing the proper routing method is handled automatically by WireGuard as long as at least one server is acting as a public relay with `net.ipv4.ip_forward = 1` enabled, and clients have `AllowIPs = 10.0.0.1/24` set in the relay server `[peer]` (to take traffic for the whole subnet).
 
-More specific (also usually more direct) routes provided by other peers will take precedence when available, otherwise traffic will fall back to the least specific route and use the `10.0.0.1/24` catchall to forward traffic to the bounce server, where it will in turn be routed by the relay server's system routing table back down the VPN to the specific peer thats accepting routes for that traffic.
+More specific (also usually more direct) routes provided by other peers will take precedence when available, otherwise traffic will fall back to the least specific route and use the `10.0.0.1/24` catchall to forward traffic to the bounce server, where it will in turn be routed by the relay server's system routing table back down the VPN to the specific peer that's accepting routes for that traffic.
 
 You can figure out which routing method WireGuard is using for a given address by measuring the ping times to figure out the unique length of each hop, and by inspecting the output of:
 ```bash
@@ -299,7 +299,7 @@ WireGuard's performance gains are achieved by handling routing at the kernel lev
 <img src="https://i.imgur.com/heEYg59.png" width="400px"/>
 
 
-Futher reading:
+Further reading:
 
 - https://www.wireguard.com/performance/
 - https://www.reddit.com/r/linux/comments/9bnowo/wireguard_benchmark_between_two_servers_with_10/
@@ -423,7 +423,7 @@ wg pubkey < example.key > example.key.pub
 ```bash
 wg-quick up /full/path/to/wg0.conf
 wg-quick down /full/path/to/wg0.conf
-# Note: you must specify the absolute path to wg0.conf, relative paths wont work
+# Note: you must specify the absolute path to wg0.conf, relative paths won't work
 ```
 
 ```bash
@@ -494,7 +494,7 @@ ip route get 10.0.0.3
 
 #### Ping Speed
 ```bash
-# check that main relay server is accesible directly via public internet
+# check that main relay server is accessible directly via public internet
 ping public-server1.example-vpn.dev
 
 # check that the main relay server is available via VPN
@@ -602,7 +602,7 @@ This is just a standard comment in INI syntax used to help keep track of which c
 
 #### `Address`
 
-Defines what address range the local node should route traffic for. Depending on whether the node is a simple client joining the VPN subnet, or a bounce server that's relaying traffic between multiple clients, this can be set to a single IP of the node itself (specificed with CIDR notation), e.g. 10.0.0.3/32), or a range of IPv4/IPv6 subnets that the node can route traffic for.
+Defines what address range the local node should route traffic for. Depending on whether the node is a simple client joining the VPN subnet, or a bounce server that's relaying traffic between multiple clients, this can be set to a single IP of the node itself (specified with CIDR notation), e.g. 10.0.0.3/32), or a range of IPv4/IPv6 subnets that the node can route traffic for.
 
 **Examples**
 
@@ -845,7 +845,7 @@ When deciding how to route a packet, the system chooses the most specific route 
 
 #### `PublicKey`
 
-This is the public key for the remote node, sharable with all peers.
+This is the public key for the remote node, shareable with all peers.
 All nodes must have a public key set, regardless of whether they are public bounce servers relaying traffic, or simple clients joining the VPN.
 
 This key can be generated with `wg pubkey < example.key > example.key.pub`.
@@ -913,7 +913,7 @@ AllowedIPs = 0.0.0.0/0, ::/0
 
 ### Dynamic IP Allocation
 
-Dynamic allocation of IPs (instead of only having fixed peers) is being developed, the WIP implmentation is available here:
+Dynamic allocation of IPs (instead of only having fixed peers) is being developed, the WIP implementation is available here:
 https://github.com/WireGuard/wg-dynamic
 
 You can also build a dynamic allocation system yourself by reading in IP values from files at runtime by using `PostUp` (see below).
@@ -1007,7 +1007,7 @@ Setups can get somewhat complex are are highly dependent on what you're trying t
 
 # Example Server-To-Server Config with Roaming Devices
 
-The complete example config for the setup below can be found here: https://github.com/pirate/wireguard-docs/tree/master/full-example (WARNING: do not use it on your devices without chaning the public/private keys!).
+The complete example config for the setup below can be found here: https://github.com/pirate/wireguard-docs/tree/master/full-example (WARNING: do not use it on your devices without changing the public/private keys!).
 
 ## Overview
 
@@ -1025,7 +1025,7 @@ These 5 devices are used in our example setup to explain how WireGuard supports 
 
 This VPN config simulates setting up a small VPN subnet `10.0.0.1/24` shared by 5 nodes. Two of the nodes (public-server1 and public-server2) are VPS instances living in a cloud somewhere, with public IPs accessible to the internet.  home-server is a stationary node that lives behind a NAT with a dynamic IP, but it doesn't change frequently. Phone and laptop are both roaming nodes, that can either be at home in the same LAN as home-server, or out-and-about using public wifi or cell service to connect to the VPN.
 
-Whenever possible, nodes should connect directly to eachother, depending on whether nodes are directly accessible or NATs are between them, traffic will route accordinly:
+Whenever possible, nodes should connect directly to each other, depending on whether nodes are directly accessible or NATs are between them, traffic will route accordinly:
 
 ### The Public Relay
 
@@ -1039,7 +1039,7 @@ In summary: only direct connections between clients should be configured, any co
 
 To run this full example, simply copy the `full wg0.conf config file for node` section from each node onto each server, enable IP forwarding on the public relay, and then start WireGuard on all the machines.
 
-For more detailed instructions, see the [Quickstart](#Quickstart) guide and API reference above. You can also download the complete example setup here: https://github.com/pirate/wireguard-docs/tree/master/full-example (WARNING: do not use it on your devices without chaning the public/private keys!).
+For more detailed instructions, see the [Quickstart](#Quickstart) guide and API reference above. You can also download the complete example setup here: https://github.com/pirate/wireguard-docs/tree/master/full-example (WARNING: do not use it on your devices without changing the public/private keys!).
 
 ## Node Config
 
