@@ -259,16 +259,16 @@ In summary: only direct connections between clients should be configured, any co
 
 More complex topologies are definitely achievable, but these are the basic routing methods used in typical WireGuard setups:
 
-- **Direct node-to-node**
+- **Direct node-to-node**  
   In the best case, the nodes are on the same LAN or are both publicly accessible, and traffic will route over encrypted UDP packets sent directly between the nodes.
-- **Node behind local NAT to public node**
+- **Node behind local NAT to public node**  
   When 1 of the 2 parties is behind a remote NAT (e.g. when laptop behind a NAT connects to `public-server2`), the connection will be opened from NAT -> public client, then traffic will route directly between them in both directions as long as the connection is kept alive.
-- **Node behind local NAT to node behind remote NAT (via relay)**
-  In the worst case when both parties are behind remote NATs, both will open a connection to `public-server1`, and traffic will forward through the intermediary bounce server as long as the connections are kept alive.
-- **Node behind local NAT to node behind remote NAT (via NAT-hole-punching)**  
-  "Hole Punching" refers to triggering automatic NAT rules of a router in order to allow inbound traffic. When you send a UDP packet out, the router (usually) creates a temporary rule mapping your source address and port to the destination address and port, and vice versa. UDP packets returning from the destination address and port (and no other) are passed through to the original source address and port (and no other). This rule will timeout after some minutes of inactivity.  
+- **Node behind local NAT to node behind remote NAT (via UDP NAT hole-punching)**  
+  "Hole Punching" refers to triggering automatic NAT rules of a router in order to allow inbound traffic. When you send a UDP packet out, the router (usually) creates a temporary rule mapping your source address and port to the destination address and port, and vice versa. This is how most UDP applications function behind NATs (e.g. Bittorent, Skype, etc). UDP packets returning from the destination address and port (and no other) are passed through to the original source address and port (and no other). This rule will timeout after some minutes of inactivity, so the client behind the NAT must send regular outgoing packets to keep it open (see `PersistentKeepalive`).  
   Getting this to work when both end-points are behind NATs or firewalls would require that both end-points send packets to each-other at about the same time. This means that both sides need to know each-other's public IP addresses and port numbers and need to communicate this to each-other by some other means (in our case by defining them in `wg0.conf`).  
-  WireGuard punches holes through NATs natively, but only if a UDP `ListenPort` UDP is hardcoded for peers on both sides of the NAT.  It does not find a port automatically for hole-punching like WebRTC/N2N. as it has no concept of a signaling server, it only works with a hardcoded port and `PersistentKeepalive` set to some non-null value.
+  WireGuard punches holes through NATs natively as a side effect of it's UDP-based design, but it only works if a `ListenPort` is hardcoded for the peer behind the NAT.  It does not search for a hole-punching port dynamically like WebRTC/N2N as it has no concept of a signaling server to communicate the port to the other side, it only works with a hardcoded port and `PersistentKeepalive` set to some non-null value.  
+- **Node behind local NAT to node behind remote NAT (via relay)**  
+  In the worst case when both parties are behind remote NATs, both will open a connection to `public-server1`, and traffic will forward through the intermediary bounce server as long as the connections are kept alive.
 
 
 Choosing the proper routing method is handled automatically by WireGuard as long as at least one server is acting as a public relay with `net.ipv4.ip_forward = 1` enabled, and clients have `AllowIPs = 10.0.0.1/24` set in the relay server `[peer]` (to take traffic for the whole subnet).
