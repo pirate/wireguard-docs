@@ -920,17 +920,26 @@ WireGuard can natively make connections between two clients behind NATs, without
 
 The connection process looks like this:
 
- 1. Peer1 sends a UDP packet to Peer2, it's rejected Peer2's NAT router immediately, but that's ok, the only purpose was to get Peer1's NAT to start forwarding any expected UDP responses back to Peer1 behind NAT
+ 1. Peer1 sends a UDP packet to Peer2, it's rejected Peer2's NAT router immediately, but that's ok, the only purpose was to get Peer1's NAT to start forwarding any expected UDP responses back to Peer1 behind its NAT
  2. Peer2 sends a UDP packet to Peer1, it's accepted and fowarded to Peer1 as Peer1's NAT server is already expecting responses from Peer2 because of the initial outgoing packet
  3. Peer1 sends a UDP response to Peer2's packet, it's accepted and forwarded by Peer2's NAT server as it's also expecting responses because of the initial outgoing packet 
 
-This process of sending an itial packet that gets rejected, then using the fact that the router has now created a forwarding rule to accept responses is called "UDP hole-punching".
+This process of sending an initial packet that gets rejected, then using the fact that the router has now created a forwarding rule to accept responses is called "UDP hole-punching".
 
 When you send a UDP packet out, the router (usually) creates a temporary rule mapping your source address and port to the destination address and port, and vice versa. UDP packets returning from the destination address and port (and no other) are passed through to the original source address and port (and no other). This is how most UDP applications function behind NATs (e.g. Bittorent, Skype, etc). This rule will timeout after some minutes of inactivity, so the client behind the NAT must send regular outgoing packets to keep it open (see `PersistentKeepalive`).
 
-Getting this to work when both end-points are behind NATs or firewalls would require that both end-points send packets to each-other at about the same time. This means that both sides need to know each-other's public IP addresses and port numbers and need to communicate this to each-other by some other means (in our case by hard-coding them in `wg0.conf` in advance).
+Getting this to work when both end-points are behind NATs or firewalls would require that both end-points send packets to each-other at about the same time. This means that both sides need to know each-other's public IP addresses and port numbers and need to communicate this to each-other by some other means (in our case by hard-coding them in `wg0.conf` in advance).  WebRTC requires a STUN signaling server to communicate the hole-punching port because it would be impossible for browsers to hardcode listening ports for all possible connections in advance.
 
 WireGuard punches holes through NATs natively as a side effect of it's UDP-based design, but it only works if a `ListenPort` is hardcoded for the peer behind the NAT. It does not search for a hole-punching port dynamically like WebRTC/N2N as it has no concept of a signaling server to communicate the port to the other side, it only works with a hardcoded port and `PersistentKeepalive` set to some non-null value on both sides.
+
+This approach has some limitations, which is why having a fallback public relay server is still advised, see:
+
+ - https://en.wikipedia.org/wiki/UDP_hole_punching
+ - https://stackoverflow.com/questions/8892142/udp-hole-punching-algorithm
+ - https://stackoverflow.com/questions/12359502/udp-hole-punching-not-going-through-on-3g
+ - https://stackoverflow.com/questions/11819349/udp-hole-punching-not-possible-with-mobile-provider
+ - https://github.com/WireGuard/WireGuard/tree/master/contrib/examples/nat-hole-punching
+ - https://staaldraad.github.io/2017/04/17/nat-to-nat-with-wireguard/
 
 **Example**
 
@@ -938,11 +947,11 @@ WireGuard punches holes through NATs natively as a side effect of it's UDP-based
 ```ini
 [Interface]
 ...
-ListenPort 41891
+ListenPort 12000
 
 [Peer]
 ...
-Endpoint = peer2.example-vpn.dev:41892
+Endpoint = peer2.example-vpn.dev:12000
 PersistentKeepalive = 25
 ```
 
@@ -950,11 +959,11 @@ PersistentKeepalive = 25
 ```ini
 [Interface]
 ...
-ListenPort 41892
+ListenPort 12000
 
 [Peer]
 ...
-Endpoint = peer1.example-vpn.dev:41891
+Endpoint = peer1.example-vpn.dev:12000
 PersistentKeepalive = 25
 ```
 
