@@ -265,9 +265,9 @@ More complex topologies are definitely achievable, but these are the basic routi
   When 1 of the 2 parties is behind a remote NAT (e.g. when laptop behind a NAT connects to `public-server2`), the connection will be opened from NAT -> public client, then traffic will route directly between them in both directions as long as the connection is kept alive.
 - **Node behind local NAT to node behind remote NAT (via relay)**
   In the worst case when both parties are behind remote NATs, both will open a connection to `public-server1`, and traffic will forward through the intermediary bounce server as long as the connections are kept alive.
-- **Node behind local NAT to node behind remote NAT (via NAT-hole-punching)**
+- **Node behind local NAT to node behind remote NAT (via NAT-hole-punching)**  
   "Hole Punching" refers to triggering automatic NAT rules of a router in order to allow inbound traffic. When you send a UDP packet out, the router (usually) creates a temporary rule mapping your source address and port to the destination address and port, and vice versa. UDP packets returning from the destination address and port (and no other) are passed through to the original source address and port (and no other). This rule will timeout after some minutes of inactivity.  
-  Getting this to work when both end-points are behind NATs or firewalls would require that both end-points send packets to each-other at about the same time. This means that both sides need to know each-other's public IP addresses and port numbers and need to communicate this to each-other by some other means.  
+  Getting this to work when both end-points are behind NATs or firewalls would require that both end-points send packets to each-other at about the same time. This means that both sides need to know each-other's public IP addresses and port numbers and need to communicate this to each-other by some other means (in our case by defining them in `wg0.conf`).  
   WireGuard punches holes through NATs natively, but only if a UDP `ListenPort` UDP is hardcoded for peers on both sides of the NAT.  It does not find a port automatically for hole-punching like WebRTC/N2N. as it has no concept of a signaling server, it only works with a hardcoded port and `PersistentKeepalive` set to some non-null value.
 
 
