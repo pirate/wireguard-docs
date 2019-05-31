@@ -103,6 +103,7 @@ See https://github.com/pirate/wireguard-docs for example code and documentation 
 <li><a href="#Advanced-Topics">Advanced Topics</a><ul>
 <li><a href="#IPv6">IPv6</a></li>
 <li><a href="#Forwarding-All-Traffic">Forwarding All Traffic</a></li>
+<li><a href="#NAT-to-NAT-Connections">NAT-to-NAT Connections</a></li>
 <li><a href="#Dynamic-IP-Allocation">Dynamic IP Allocation</a></li>
 <li><a href="#Other-WireGuard-Implementations">Other WireGuard Implementations</a></li>
 <li><a href="#WireGuard-Setup-tools">WireGuard Setup Tools</a></li>
@@ -911,6 +912,50 @@ PrivateKey = <private key for phone.example-vpn.dev>
 PublicKey = <public key for public-server1.example-vpn.dev>
 Endpoint = public-server1.example-vpn.dev:51820
 AllowedIPs = 0.0.0.0/0, ::/0
+```
+
+### NAT To NAT Connections
+
+WireGuard can natively make connections between two clients behind NATs, without need of a public relay server.  This is achieved by hardcoding a `ListenPort` on both sides (and enabling `PersistentKeepalive`) so that both peers don't need a separate publicly-accesible signaling server to determine where to send the initial UDP packets.
+
+The connection process looks like this:
+
+ 1. Peer1 sends a UDP packet to Peer2, it's rejected Peer2's NAT router immediately, but that's ok, the only purpose was to get Peer1's NAT to start forwarding any expected UDP responses back to Peer1 behind NAT
+ 2. Peer2 sends a UDP packet to Peer1, it's accepted and fowarded to Peer1 as Peer1's NAT server is already expecting responses from Peer2 because of the initial outgoing packet
+ 3. Peer1 sends a UDP response to Peer2's packet, it's accepted and forwarded by Peer2's NAT server as it's also expecting responses because of the initial outgoing packet 
+
+This process of sending an itial packet that gets rejected, then using the fact that the router has now created a forwarding rule to accept responses is called "UDP hole-punching".
+
+When you send a UDP packet out, the router (usually) creates a temporary rule mapping your source address and port to the destination address and port, and vice versa. UDP packets returning from the destination address and port (and no other) are passed through to the original source address and port (and no other). This is how most UDP applications function behind NATs (e.g. Bittorent, Skype, etc). This rule will timeout after some minutes of inactivity, so the client behind the NAT must send regular outgoing packets to keep it open (see `PersistentKeepalive`).
+
+Getting this to work when both end-points are behind NATs or firewalls would require that both end-points send packets to each-other at about the same time. This means that both sides need to know each-other's public IP addresses and port numbers and need to communicate this to each-other by some other means (in our case by hard-coding them in `wg0.conf` in advance).
+
+WireGuard punches holes through NATs natively as a side effect of it's UDP-based design, but it only works if a `ListenPort` is hardcoded for the peer behind the NAT. It does not search for a hole-punching port dynamically like WebRTC/N2N as it has no concept of a signaling server to communicate the port to the other side, it only works with a hardcoded port and `PersistentKeepalive` set to some non-null value on both sides.
+
+**Example**
+
+*Peer1:*
+```ini
+[Interface]
+...
+ListenPort 41891
+
+[Peer]
+...
+Endpoint = peer2.example-vpn.dev:41892
+PersistentKeepalive = 25
+```
+
+*Peer2:*
+```ini
+[Interface]
+...
+ListenPort 41892
+
+[Peer]
+...
+Endpoint = peer1.example-vpn.dev:41891
+PersistentKeepalive = 25
 ```
 
 ### Dynamic IP Allocation
