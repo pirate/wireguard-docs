@@ -1375,6 +1375,7 @@ PersistentKeepalive = 25
 - https://jrs-s.net/2018/08/05/routing-between-wg-interfaces-with-wireguard/
 - https://www.stavros.io/posts/how-to-configure-wireguard/
 - https://vincent.bernat.ch/en/blog/2018-route-based-vpn-wireguard
+- https://staaldraad.github.io/2017/04/17/nat-to-nat-with-wireguard
 - https://try.popho.be/wg.html
 - https://github.com/adrianmihalko/raspberrypiwireguard
 - https://www.ericlight.com/wireguard-part-one-installation.html
