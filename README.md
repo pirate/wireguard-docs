@@ -674,8 +674,6 @@ Optionally defines the maximum transmission unit (MTU, aka packet/frame size) to
 
 The MTU is automatically determined from the endpoint addresses or the system default route, which is usually a sane choice.
 
-There are two special values: ‘off’ disables the creation of routes altogether, and ‘auto’ (the default) adds routes to the default table and enables special handling of default routes.
-
 https://git.zx2c4.com/WireGuard/about/src/tools/man/wg-quick.8
 
 **Examples**
