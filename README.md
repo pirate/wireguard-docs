@@ -187,6 +187,17 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
 
 ## Glossary
 
+### Example Strings
+
+These are demo hostnames, domain names, ip addresses, and ranges used in the documentation and example configs.
+
+- Example domain: `example-vpn.dev` can be replaced with any publicly accessible domain you control
+- Example hostnames: `public-server1`, `public-server2`, `home-server`, `laptop`, `phone` can be changed to your device hostnames
+- IP addresses & ranges: `10.0.0.1/24`, `10.0.0.3`, `10.0.0.3/32` can be replaced with your preferred subnets and addresses (e.g. `192.168.5.1/24`)
+
+Wherever you see these strings below, they're just being used as placeholder values to illustrate an example and have no special meaning.
+Replace them with your preferred values when doing your own setup.
+
 ### Peer/Node/Device
 
 A host that connects to the VPN and has registers a VPN subnet address like 10.0.0.3 for itself. It can also optionally route traffic for more than its own address(es) by specifying subnet ranges in comma-separated CIDR notation.
@@ -234,13 +245,6 @@ A wireguard public key for a single node, generated with:
 ### DNS
 
 Domain Name Server, used to resolve hostnames to IPs for VPN clients, instead of allowing DNS requests to leak outside the VPN and reveal traffic.  Leaks are testable with http://dnsleak.com.
-
-### Example Strings
-
-`example-vpn.dev`, `public-server1`, `public-server2`, `home-server`, `laptop`, `phone`
-
-These are demo host and domain names used in the example config.
-Replace them with your own names when doing your actual setup.
 
 ---
 
