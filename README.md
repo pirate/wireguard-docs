@@ -556,6 +556,14 @@ dig example.com A
 
 ## Config Reference
 
+### Overview
+
+WireGuard config is in INI syntax, defined in a file usually called `wg0.conf`.  It can be placed anywhere on the system, but is often placed in `/etc/wireguard/wg0.conf`.  
+
+The config path is specificed as an argument when running any `wg-quick` command, e.g:  
+`wg-quick up /etc/wireguard/wg0.conf` (always specify the full, absolute path)
+
+Config files can opt to use the limited set of `wg` config options, or the more extended `wg-quick` options, depending on what command is preferred to start WireGuard.  These docs recommend sticking to `wg-quick` as it provides a more powerful and user-friendly config experience.
 
 **Jump to definition:**
 
@@ -918,7 +926,19 @@ AllowedIPs = 0.0.0.0/0, ::/0
 
 ### NAT To NAT Connections
 
-WireGuard can natively make connections between two clients behind NATs, without need of a public relay server.  This is achieved by hardcoding a `ListenPort` on both sides (and enabling `PersistentKeepalive`) so that both peers don't need a separate publicly-accesible signaling server to determine where to send the initial UDP packets.
+WireGuard can natively make connections between two clients behind NATs, without need of a public relay server.  
+
+**Requirements**
+
+ - At least one peer has to have to have a hardcoded, directly-accessible `Endpoint` defined. If they're both behind NATs without stable IP addresses, then you'll need to use Dynammic DNS or another solution to have a stable, publicly accessibly domain/IP for at least one peer
+ - At least one peer has to have a hardcoded UDP `ListenPort` defined, and it's NAT router must not do UDP source port randomization, otherwise return packets will be sent to the hardocded `ListenPort` and dropped by the router, instead of using the random port assigned by the NAT on the outgoing packet
+ - All NAT'ed peers must have `PersistentKeepalive` enabled on all other peers, so that they continually send outgoing pings to keep connections persisted in their NAT's routing table
+ 
+NAT-to-NAT connections are not possible unless at least one host has a stable address, whether thats using a FQDN updated with dnymaic DNS, or a static public IP, anything works as long as all peers can communicate it beforehand.
+
+*Note:* Some users report having to restart WireGuard to force it to re-rolsve dynamic DNS hostnames for peer `Endpoint`s. You may want to use a `PostUp` hook to make this process easier.
+
+NAT-to-NAT connections are not possible if all endpoints are behind NAT's with strict UDP source port randomization (e.g. most cellular data networks).  Since neither side is able to hardcode a `ListenPort` and guarantee that their NAT will accept traffic on that port after the outgoing ping, you cannot coordinate a port for the initial hole-punch between peers and connections will fail.  For this reason, you generally cannot do phone-to-phone connections on LTE/3g networks, but you might be able to do phone-to-office or phone-to-home where the office or home has a stable public IP and doesn't do source port randomization.
 
 The connection process looks like this:
 
