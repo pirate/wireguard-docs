@@ -1000,7 +1000,7 @@ You can also build a dynamic allocation system yourself by reading in IP values 
 ```ini
 [Interface]
 ...
-PostUp = PostUp = wg set %i allowed-ips /etc/wireguard/wg0.key <(some command)
+PostUp = wg set %i allowed-ips /etc/wireguard/wg0.key <(some command)
 ```
 
 ### Other WireGuard Implementations
