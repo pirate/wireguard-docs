@@ -1011,7 +1011,7 @@ A compliant userland WireGuard implementation written in Go.
 - https://git.zx2c4.com/wireguard-rs/about/  
 An incomplete, insecure userspace implementation of Wireguard written in Rust (not ready for the public).
 
-- https://git.zx2c4.com/wireguard-hs/about/
+- https://git.zx2c4.com/wireguard-hs/about/  
 An incomplete, insecure userspace implementation of Wireguard written in Haskell (not ready for the public).
 
 - https://github.com/cloudflare/boringtun  
