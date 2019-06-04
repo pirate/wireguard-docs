@@ -1005,16 +1005,25 @@ PostUp = wg set %i allowed-ips /etc/wireguard/wg0.key <(some command)
 
 ### Other WireGuard Implementations
 
-
 - https://git.zx2c4.com/wireguard-go/about/  
 A compliant userland WireGuard implementation written in Go.
 
+- https://git.zx2c4.com/wireguard-rs/about/  
+An incomplete, insecure userspace implementation of Wireguard written in Rust (not ready for the public).
+
+- https://git.zx2c4.com/wireguard-hs/about/
+An incomplete, insecure userspace implementation of Wireguard written in Haskell (not ready for the public).
+
 - https://github.com/cloudflare/boringtun  
-A compliant WireGuard implementation with the exact same API, written in Rust.
+A compliant, working WireGuard implementation with the exact same API, written in Rust.
 See https://blog.cloudflare.com/boringtun-userspace-wireguard-rust/
 
+- Platform-specific WireGuard apps  
+https://git.zx2c4.com/wireguard-ios/about/  
+https://git.zx2c4.com/wireguard-android/about/  
+https://git.zx2c4.com/wireguard-windows/about/  
 
-Both of these are slower than the native C version that runs in kernel land, but provide other benefits by running in userland (e.g. easier containerization).
+All of the userspace implmentations are slower than the native C version that runs in kernel-land, but provide other benefits by running in userland (e.g. easier containerization, compatibility, etc.).
 
 ### WireGuard Setup Tools
 
