@@ -1025,6 +1025,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://github.com/max-moser/network-manager-wireguard
  - https://github.com/its0x08/wg-install
  - https://github.com/sowbug/mkwgconf
+ - https://github.com/SirToffski/WireGuard-Ligase/
  - https://pypi.org/project/wireguard-p2p/
  - https://github.com/trailofbits/algo
  - https://github.com/StreisandEffect/streisand
@@ -1399,6 +1400,7 @@ PersistentKeepalive = 25
 - https://vincent.bernat.ch/en/blog/2018-route-based-vpn-wireguard
 - https://staaldraad.github.io/2017/04/17/nat-to-nat-with-wireguard
 - https://try.popho.be/wg.html
+- https://docs.artemix.org/sysadmin/wireguard-management/
 - https://github.com/adrianmihalko/raspberrypiwireguard
 - https://www.ericlight.com/wireguard-part-one-installation.html
 - https://www.ericlight.com/wireguard-part-two-vpn-routing.html
@@ -1420,6 +1422,7 @@ PersistentKeepalive = 25
 - https://github.com/StreisandEffect/streisand
 - https://github.com/its0x08/wg-install
 - https://github.com/sowbug/mkwgconf
+- https://github.com/SirToffski/WireGuard-Ligase/
 - https://pypi.org/project/wireguard-p2p/
 - https://github.com/cloudflare/boringtun
 - https://git.zx2c4.com/wireguard-go/about/
