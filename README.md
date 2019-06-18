@@ -252,11 +252,11 @@ Domain Name Server, used to resolve hostnames to IPs for VPN clients, instead of
 
 ### How Public Relay Servers Work
 
-Public relays are just normal VPN peers that are able to act as an intermediate relay server between any VPN clients behind NATs, they can forward any VPN subnet traffic they receives to the correct peer at the system level (WireGuard doesn't care how this happens, it's handled by the kernel `net.ipv4.ip_forward = 1` and the iptables routing rules).
+Public relays are just normal VPN peers that are able to act as an intermediate relay server between any VPN clients behind NATs, they can forward any VPN subnet traffic they receive to the correct peer at the system level (WireGuard doesn't care how this happens, it's handled by the kernel `net.ipv4.ip_forward = 1` and the iptables routing rules).
 
 If all peers are publicly accessible, you don't have to worry about special treatment to make one of them a relay server, it's only needed if you have any peers connecting from behind a NAT.
 
-Each client only needs to define the publicly accessible servers/peers in it's config, any traffic bound to other peers behind NATs will go to the catchall VPN subnet (e.g. `10.0.0.1/24`) in the public relays `AllowedIPs` route and will be forwarded accordingly once it hits the relay server.
+Each client only needs to define the publicly accessible servers/peers in its config, any traffic bound to other peers behind NATs will go to the catchall VPN subnet (e.g. `10.0.0.1/24`) in the public relays `AllowedIPs` route and will be forwarded accordingly once it hits the relay server.
 
 In summary: only direct connections between clients should be configured, any connections that need to be bounced should not be defined as peers, as they should head to the bounce server first and be routed from there back down the vpn to the correct client.
 
@@ -394,7 +394,7 @@ brew install wireguard-tools
 # install on FreeBSD
 pkg install wireguard
 
-# install on iOS/Andoid using Apple App Store/Google Play Store
+# install on iOS/Android using Apple App Store/Google Play Store
 # install on other systems using https://www.wireguard.com/install/#installation
 ```
 
@@ -561,7 +561,7 @@ dig example.com A
 
 WireGuard config is in INI syntax, defined in a file usually called `wg0.conf`.  It can be placed anywhere on the system, but is often placed in `/etc/wireguard/wg0.conf`.  
 
-The config path is specificed as an argument when running any `wg-quick` command, e.g:  
+The config path is specified as an argument when running any `wg-quick` command, e.g:  
 `wg-quick up /etc/wireguard/wg0.conf` (always specify the full, absolute path)
 
 Config files can opt to use the limited set of `wg` config options, or the more extended `wg-quick` options, depending on what command is preferred to start WireGuard.  These docs recommend sticking to `wg-quick` as it provides a more powerful and user-friendly config experience.
@@ -927,24 +927,24 @@ AllowedIPs = 0.0.0.0/0, ::/0
 
 ### NAT To NAT Connections
 
-WireGuard can natively make connections between two clients behind NATs, without need of a public relay server.  
+WireGuard can natively make connections between two clients behind NATs, without the need for a public relay server.  
 
 **Requirements**
 
- - At least one peer has to have to have a hardcoded, directly-accessible `Endpoint` defined. If they're both behind NATs without stable IP addresses, then you'll need to use Dynammic DNS or another solution to have a stable, publicly accessibly domain/IP for at least one peer
- - At least one peer has to have a hardcoded UDP `ListenPort` defined, and it's NAT router must not do UDP source port randomization, otherwise return packets will be sent to the hardocded `ListenPort` and dropped by the router, instead of using the random port assigned by the NAT on the outgoing packet
+ - At least one peer has to have to have a hardcoded, directly-accessible `Endpoint` defined. If they're both behind NATs without stable IP addresses, then you'll need to use Dynamic DNS or another solution to have a stable, publicly accessibly domain/IP for at least one peer
+ - At least one peer has to have a hardcoded UDP `ListenPort` defined, and its NAT router must not do UDP source port randomization, otherwise return packets will be sent to the hardocded `ListenPort` and dropped by the router, instead of using the random port assigned by the NAT on the outgoing packet
  - All NAT'ed peers must have `PersistentKeepalive` enabled on all other peers, so that they continually send outgoing pings to keep connections persisted in their NAT's routing table
  
-NAT-to-NAT connections are not possible unless at least one host has a stable address, whether thats using a FQDN updated with dnymaic DNS, or a static public IP, anything works as long as all peers can communicate it beforehand.
+NAT-to-NAT connections are not possible unless at least one host has a stable address, whether thats using a FQDN updated with Dynamic DNS, or a static public IP, anything works as long as all peers can communicate it beforehand.
 
-*Note:* Some users report having to restart WireGuard to force it to re-rolsve dynamic DNS hostnames for peer `Endpoint`s. You may want to use a `PostUp` hook to make this process easier.
+*Note:* Some users report having to restart WireGuard to force it to re-resolve dynamic DNS hostnames for peer `Endpoint`s. You may want to use a `PostUp` hook to make this process easier.
 
 NAT-to-NAT connections are not possible if all endpoints are behind NAT's with strict UDP source port randomization (e.g. most cellular data networks).  Since neither side is able to hardcode a `ListenPort` and guarantee that their NAT will accept traffic on that port after the outgoing ping, you cannot coordinate a port for the initial hole-punch between peers and connections will fail.  For this reason, you generally cannot do phone-to-phone connections on LTE/3g networks, but you might be able to do phone-to-office or phone-to-home where the office or home has a stable public IP and doesn't do source port randomization.
 
 The connection process looks like this:
 
  1. Peer1 sends a UDP packet to Peer2, it's rejected Peer2's NAT router immediately, but that's ok, the only purpose was to get Peer1's NAT to start forwarding any expected UDP responses back to Peer1 behind its NAT
- 2. Peer2 sends a UDP packet to Peer1, it's accepted and fowarded to Peer1 as Peer1's NAT server is already expecting responses from Peer2 because of the initial outgoing packet
+ 2. Peer2 sends a UDP packet to Peer1, it's accepted and forwarded to Peer1 as Peer1's NAT server is already expecting responses from Peer2 because of the initial outgoing packet
  3. Peer1 sends a UDP response to Peer2's packet, it's accepted and forwarded by Peer2's NAT server as it's also expecting responses because of the initial outgoing packet 
 
 This process of sending an initial packet that gets rejected, then using the fact that the router has now created a forwarding rule to accept responses is called "UDP hole-punching".
@@ -953,7 +953,7 @@ When you send a UDP packet out, the router (usually) creates a temporary rule ma
 
 Getting this to work when both end-points are behind NATs or firewalls would require that both end-points send packets to each-other at about the same time. This means that both sides need to know each-other's public IP addresses and port numbers and need to communicate this to each-other by some other means (in our case by hard-coding them in `wg0.conf` in advance).  WebRTC requires a STUN signaling server to communicate the hole-punching port because it would be impossible for browsers to hardcode listening ports for all possible connections in advance.
 
-WireGuard punches holes through NATs natively as a side effect of it's UDP-based design, but it only works if a `ListenPort` is hardcoded for the peer behind the NAT. It does not search for a hole-punching port dynamically like WebRTC/N2N as it has no concept of a signaling server to communicate the port to the other side, it only works with a hardcoded port and `PersistentKeepalive` set to some non-null value on both sides.
+WireGuard punches holes through NATs natively as a side effect of its UDP-based design, but it only works if a `ListenPort` is hardcoded for the peer behind the NAT. It does not search for a hole-punching port dynamically like WebRTC/N2N as it has no concept of a signaling server to communicate the port to the other side, it only works with a hardcoded port and `PersistentKeepalive` set to some non-null value on both sides.
 
 This approach has some limitations, which is why having a fallback public relay server is still advised, see:
 
@@ -1024,7 +1024,7 @@ https://git.zx2c4.com/wireguard-ios/about/
 https://git.zx2c4.com/wireguard-android/about/  
 https://git.zx2c4.com/wireguard-windows/about/  
 
-All of the userspace implmentations are slower than the native C version that runs in kernel-land, but provide other benefits by running in userland (e.g. easier containerization, compatibility, etc.).
+All of the userspace implementations are slower than the native C version that runs in kernel-land, but provide other benefits by running in userland (e.g. easier containerization, compatibility, etc.).
 
 ### WireGuard Setup Tools
 
@@ -1056,7 +1056,7 @@ See: https://lists.zx2c4.com/pipermail/wireguard/2018-December/003703.html
 
 You can combine this with `wg addconf` like this:
 
-* Each peer has its own `/etc/wireguard/wg0.conf` file, which only contains it's `[Interface]` section.
+* Each peer has its own `/etc/wireguard/wg0.conf` file, which only contains its `[Interface]` section.
 
 * Each peer also has a shared `/etc/wireguard/peers.conf` file, which contains all the peers.
 
@@ -1081,7 +1081,7 @@ You can read in a file as the `PrivateKey` by doing something like:
 
 WireGuard can be run in Docker with varying degrees of ease. In the simplest case, `--privileged` and `--cap-add=all` args can be added to the docker commands to enable the loading of the kernel module.
 
-Setups can get somewhat complex are are highly dependent on what you're trying to achieve. You can have WireGuard itself run in a container and expose a network interface to the host, or you can have WireGuard running on the host exposing an interface to specific containers.
+Setups can get somewhat complex and are highly dependent on what you're trying to achieve. You can have WireGuard itself run in a container and expose a network interface to the host, or you can have WireGuard running on the host exposing an interface to specific containers.
 
 **Further Reading**
 
@@ -1121,7 +1121,7 @@ Whenever possible, nodes should connect directly to each other, depending on whe
 
 `public-server1` acts as an intermediate relay server between any VPN clients behind NATs, it will forward any 10.0.0.1/24 traffic it receives to the correct peer at the system level (WireGuard doesn't care how this happens, it's handled by the kernel `net.ipv4.ip_forward = 1` and the iptables routing rules).
 
-Each client only needs to define the publicly accessible servers/peers in it's config, any traffic bound to other peers behind NATs will go to the catchall `10.0.0.1/24` for the server and will be forwarded accordingly once it hits the main server.
+Each client only needs to define the publicly accessible servers/peers in its config, any traffic bound to other peers behind NATs will go to the catchall `10.0.0.1/24` for the server and will be forwarded accordingly once it hits the main server.
 
 In summary: only direct connections between clients should be configured, any connections that need to be bounced should not be defined as peers, as they should head to the bounce server first and be routed from there back down the vpn to the correct client.
 
