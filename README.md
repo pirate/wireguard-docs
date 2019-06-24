@@ -152,7 +152,7 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
 
  - minimal config, low config surface area and few exposed tunables
  - minimal key management overhead, 1 or 2 preshared keys or certs is ok, but ideally not both
- - ability to easily create a LAN like 10.0.0.0/24 between all my servers, every peer can connect to every peer, 
+ - ability to easily create a LAN like 192.0.2.0/24 between all my servers, every peer can connect to every peer, 
  - ability to bust through NATs with a signalling server, routing nat-to-nat instead of through a relay (WebRTC-style)
  - fallback to relay server when nat-to-nat busting is unavailable or unreliable
  - ability to route to a fixed list of ips/hosts with 1 keypair per host (not needed, but nice to have: ability to route arbitrary local traffic or *all* internet traffic to a given host)
@@ -190,17 +190,26 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
 ### Example Strings
 
 These are demo hostnames, domain names, ip addresses, and ranges used in the documentation and example configs.
+Replace them with your preferred values when doing your own setup.
 
 - Example domain: `example-vpn.dev` can be replaced with any publicly accessible domain you control
 - Example hostnames: `public-server1`, `public-server2`, `home-server`, `laptop`, `phone` can be changed to your device hostnames
-- IP addresses & ranges: `10.0.0.1/24`, `10.0.0.3`, `10.0.0.3/32`, `2001:DB8::/64` can be replaced with your preferred subnets and addresses (e.g. `192.168.5.1/24`)
+- IP addresses & ranges: `192.0.2.1/24`, `192.0.2.3`, `192.0.2.3/32`, `2001:DB8::/64` can be replaced with your preferred subnets and addresses (e.g. `192.168.5.1/24`)
 
 Wherever you see these strings below, they're just being used as placeholder values to illustrate an example and have no special meaning.
-Replace them with your preferred values when doing your own setup.
+
+**Make sure to change the IP addresses in your configs!** The blocks used in these docs
+are reserved for example purposes by the IETF and should never be used in real network setups.
+
+ - **`192.0.2.0/24`** (TEST-NET-1) IPv4 example range [RFC5737](https://tools.ietf.org/html/rfc5737)
+ - **`2001:DB8::/32`** IPv6 example range [RFC3849](https://tools.ietf.org/html/rfc3849)
+
+You can use any private range you want for your own setups, e.g. `10.0.44.0/24`, just make sure
+they don't conflict with any of the LAN subnet ranges your peers are on.
 
 ### Peer/Node/Device
 
-A host that connects to the VPN and has registers a VPN subnet address like 10.0.0.3 for itself. It can also optionally route traffic for more than its own address(es) by specifying subnet ranges in comma-separated CIDR notation.
+A host that connects to the VPN and has registers a VPN subnet address like 192.0.2.3 for itself. It can also optionally route traffic for more than its own address(es) by specifying subnet ranges in comma-separated CIDR notation.
 
 ### Bounce Server
 
@@ -208,28 +217,28 @@ A publicly reachable peer/node that serves as a fallback to relay traffic for ot
 
 ### Subnet
 
-A group of IPs separate from the public internet, e.g. 10.0.0.1-255 or 192.168.1.1/24. Generally behind a NAT provided by a router, e.g. in office internet LAN or a home WiFi network.
+A group of IPs separate from the public internet, e.g. 192.0.2.1-255 or 192.168.1.1/24. Generally behind a NAT provided by a router, e.g. in office internet LAN or a home WiFi network.
 
 ### CIDR Notation
 
 A way of defining a subnet and its size with a "mask", a smaller mask = more  address bits usable by the subnet & more IPs in the range. Most common ones:
-  + `10.0.0.1/32` (a single ip address, `10.0.0.1`) netmask = `255.255.255.255`
-  + `10.0.0.1/24` (255 ips from `10.0.0.1`-`255`) netmask = ` 255.255.255.0`
-  + `10.0.0.1/16` (65,536 ips from `10.0.0.0` - `10.0.255.255`) netmask = `255.255.0.0`
-  + `10.0.0.1/8` (16,777,216 ips from `10.0.0.0` - `10.255.255.255`) netmask = `255.0.0.0`
+  + `192.0.2.1/32` (a single ip address, `192.0.2.1`) netmask = `255.255.255.255`
+  + `192.0.2.1/24` (255 ips from `192.0.2.1`-`255`) netmask = ` 255.255.255.0`
+  + `192.0.2.1/16` (65,536 ips from `192.0.2.0` - `192.0.255.255`) netmask = `255.255.0.0`
+  + `192.0.2.1/8` (16,777,216 ips from `192.0.2.0` - `192.255.255.255`) netmask = `255.0.0.0`
   + `0.0.0.1/0` (4,294,967,296 ips from `0.0.0.0` - `255.255.255.255`) netmask = `0.0.0.0`
   + IPv6 CIDR notation is also supported e.g. `2001:DB8::/64`
  
 https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing
 
-To people just getting started `10.0.0.1/32` may seem like a weird and confusing way to refer to a single IP.  This design is nice though because it allows peers to expose multiple IPs if needed without needing multiple notations.  Just know that anywhere you see something like `10.0.0.3/32`, it really just means `10.0.0.3`.
+To people just getting started `192.0.2.1/32` may seem like a weird and confusing way to refer to a single IP.  This design is nice though because it allows peers to expose multiple IPs if needed without needing multiple notations.  Just know that anywhere you see something like `192.0.2.3/32`, it really just means `192.0.2.3`.
 
 ### NAT
 A subnet with private IPs provided by a router standing in front of them doing Network Address Translation, individual nodes are not publicly accessible from the internet, instead the router keeps track of outgoing connections and forwards responses to the correct internal ip (e.g. standard office networks, home wifi networks, free public wifi networks, etc)
 
 ### Public Endpoint
 
-The publicly accessible address:port for a node, e.g. `123.124.125.126:1234` or `some.domain.tld:1234` (must be accessible via the public internet, generally can't be a private ip like `10.0.0.1` or `192.168.1.1` unless it's directly accessible using that address by other peers on the same subnet).
+The publicly accessible address:port for a node, e.g. `123.124.125.126:1234` or `some.domain.tld:1234` (must be accessible via the public internet, generally can't be a private ip like `192.0.2.1` or `192.168.1.1` unless it's directly accessible using that address by other peers on the same subnet).
 
 
 ### Private key
@@ -256,7 +265,7 @@ Public relays are just normal VPN peers that are able to act as an intermediate 
 
 If all peers are publicly accessible, you don't have to worry about special treatment to make one of them a relay server, it's only needed if you have any peers connecting from behind a NAT.
 
-Each client only needs to define the publicly accessible servers/peers in its config, any traffic bound to other peers behind NATs will go to the catchall VPN subnet (e.g. `10.0.0.1/24`) in the public relays `AllowedIPs` route and will be forwarded accordingly once it hits the relay server.
+Each client only needs to define the publicly accessible servers/peers in its config, any traffic bound to other peers behind NATs will go to the catchall VPN subnet (e.g. `192.0.2.1/24`) in the public relays `AllowedIPs` route and will be forwarded accordingly once it hits the relay server.
 
 In summary: only direct connections between clients should be configured, any connections that need to be bounced should not be defined as peers, as they should head to the bounce server first and be routed from there back down the vpn to the correct client.
 
@@ -271,7 +280,7 @@ More complex topologies are definitely achievable, but these are the basic routi
 - **Node behind local NAT to node behind remote NAT (via UDP NAT hole-punching)**  
  While sometimes possible, it's generally infeasible to do direct NAT-to-NAT connections on modern networks, because most NAT routers are quite strict about randomizing the srcport, making it impossible to coordinate an open port for both sides ahead of time.  Instead, a signaling server (STUN) must be used that stands in the middle and communicates which random srcports are assigned to the other side. Both clients make an initial connection to the public signaling server, then it records the random srcports and sends them back so the clients, this is how WebRTC works in modern P2P web apps.  Even with a signalling server and known srcports for both ends, sometimes direct connections are not possible because the NAT routers are strict about only accepting traffic from the original destination address (the signalling server), and will require a new random srcport to be opened to accept traffic from other IPs (e.g. the other client attempting to use the originally communicated srcport). This is espcially true for "carrier-grade NATs" like cellular networks and some enterprise networks, which are designed specifically to prevent this sort of hole-punching connection. See the full section below on [**NAT to NAT Connections**](#NAT-to-NAT-Connections) for more information.
 
-More specific (also usually more direct) routes provided by other peers will take precedence when available, otherwise traffic will fall back to the least specific route and use the `10.0.0.1/24` catchall to forward traffic to the bounce server, where it will in turn be routed by the relay server's system routing table (`net.ipv4.ip_forward = 1`) back down the VPN to the specific peer that's accepting routes for that traffic.  Wireguard does not automatically find the fastest route or attempt to form direct connections between peers if not already defined, it just goes from the most specific route in `[Peers]` to least specific.
+More specific (also usually more direct) routes provided by other peers will take precedence when available, otherwise traffic will fall back to the least specific route and use the `192.0.2.1/24` catchall to forward traffic to the bounce server, where it will in turn be routed by the relay server's system routing table (`net.ipv4.ip_forward = 1`) back down the VPN to the specific peer that's accepting routes for that traffic.  Wireguard does not automatically find the fastest route or attempt to form direct connections between peers if not already defined, it just goes from the most specific route in `[Peers]` to least specific.
 
 You can figure out which routing method WireGuard is using for a given address by measuring the ping times to figure out the unique length of each hop, and by inspecting the output of:
 ```bash
@@ -365,14 +374,14 @@ Overview of the general process:
 1. Install `apt install wireguard` or `pkg/brew install wireguard-tools` on each node
 2. Generate public and private keys locally on each node `wg genkey`+`wg pubkey`
 3. Create a `wg0.conf` wireguard config file on the main relay server
-    - `[Interface]` Make sure to specify a CIDR range for the entire VPN subnet when defining the address the server accepts routes for `Address = 10.0.0.1/24`
+    - `[Interface]` Make sure to specify a CIDR range for the entire VPN subnet when defining the address the server accepts routes for `Address = 192.0.2.1/24`
     - `[Peer]` Create a peer section for every client joining the VPN, using their corresponding remote public keys
 4. Create a `wg0.conf` on each client node
-   - `[Interface]` Make sure to specify only a single IP for client peers that don't relay traffic `Address = 10.0.0.3/32`.
-   - `[Peer]` Create a peer section for each public peer not behind a NAT, make sure to specify a CIDR range for the entire VPN subnet when defining the remote peer acting as the bounce server `AllowedIPs = 10.0.0.1/24`. Make sure to specify individual IPs for remote peers that don't relay traffic and only act as simple clients `AllowedIPs = 10.0.0.3/32`.
+   - `[Interface]` Make sure to specify only a single IP for client peers that don't relay traffic `Address = 192.0.2.3/32`.
+   - `[Peer]` Create a peer section for each public peer not behind a NAT, make sure to specify a CIDR range for the entire VPN subnet when defining the remote peer acting as the bounce server `AllowedIPs = 192.0.2.1/24`. Make sure to specify individual IPs for remote peers that don't relay traffic and only act as simple clients `AllowedIPs = 192.0.2.3/32`.
 5. Start wireguard on the main relay server with `wg-quick up /full/path/to/wg0.conf`
 6. Start wireguard on all the client peers with `wg-quick up /full/path/to/wg0.conf`
-7. Traffic is routed from peer to peer using most specific route first over the WireGuard interface, e.g. `ping 10.0.0.3` checks for a direct route to a peer with `AllowedIPs = 10.0.0.3/32` first, then falls back to a relay server that's accepting ips in the whole subnet
+7. Traffic is routed from peer to peer using most specific route first over the WireGuard interface, e.g. `ping 192.0.2.3` checks for a direct route to a peer with `AllowedIPs = 192.0.2.3/32` first, then falls back to a relay server that's accepting ips in the whole subnet
 
 ### Setup
 
@@ -401,7 +410,7 @@ sudo sysctl -p /etc/sysctl.conf
 iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 iptables -A FORWARD -i wg0 -o wg0 -m conntrack --ctstate NEW -j ACCEPT
-iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 192.0.2.0/24 -o eth0 -j MASQUERADE
 ```
 
 ### Config Creation
@@ -437,12 +446,12 @@ ip link add dev wg0 type wireguard
 ip link delete dev wg0
 
 # register/unregister local VPN address
-ip address add dev wg0 10.0.0.3/32
-ip address delete dev wg0 10.0.0.3/32
+ip address add dev wg0 192.0.2.3/32
+ip address delete dev wg0 192.0.2.3/32
 
 # register/unregister VPN route
-ip route add 10.0.0.3/32 dev wg0
-ip route delete 10.0.0.3/32 dev wg0
+ip route add 192.0.2.3/32 dev wg0
+ip route delete 192.0.2.3/32 dev wg0
 ```
 
 
@@ -488,7 +497,7 @@ ip route show table main
 ip route show table local
 
 # show system route to specific address
-ip route get 10.0.0.3
+ip route get 192.0.2.3
 ```
 
 ### Testing
@@ -499,16 +508,16 @@ ip route get 10.0.0.3
 ping public-server1.example-vpn.dev
 
 # check that the main relay server is available via VPN
-ping 10.0.0.1
+ping 192.0.2.1
 
 # check that public peers are available via VPN
-ping 10.0.0.2
+ping 192.0.2.2
 
 # check that remote NAT-ed peers are available via VPN
-ping 10.0.0.3
+ping 192.0.2.3
 
 # check that NAT-ed peers in your local lan are available via VPN
-ping 10.0.0.4
+ping 192.0.2.4
 ```
 
 #### Bandwidth
@@ -524,19 +533,19 @@ iperf -c public-server1.example-vpn.dev # on local client
 
 # check bandwidth over VPN to relay server
 iperf -s # on public relay server
-iperf -c 10.0.0.1 # on local client
+iperf -c 192.0.2.1 # on local client
 
 # check bandwidth over VPN to remote public peer
 iperf -s # on remote public peer
-iperf -c 10.0.0.2 # on local client
+iperf -c 192.0.2.2 # on local client
 
 # check bandwidth over VPN to remote NAT-ed peer
 iperf -s # on remote NAT-ed peer
-iperf -c 10.0.0.3 # on local client
+iperf -c 192.0.2.3 # on local client
 
 # check bandwidth over VPN to local NAT-ed peer (on same LAN)
 iperf -s # on local NAT-ed peer
-iperf -c 10.0.0.4 # on local client
+iperf -c 192.0.2.4 # on local client
 ```
 
 #### DNS
@@ -563,7 +572,7 @@ Config files can opt to use the limited set of `wg` config options, or the more 
 
 ¶ <a href="#Interface">`[Interface]`</a>  
 ¶ <a href="#-Name">`# Name = node1.example.tld`</a>  
-¶ <a href="#Address">`Address = 10.0.0.3/32`</a>  
+¶ <a href="#Address">`Address = 192.0.2.3/32`</a>  
 ¶ <a href="#ListenPort">`ListenPort = 51820`</a>  
 ¶ <a href="#PrivateKey">`PrivateKey = localPrivateKeyAbcAbcAbc=`</a>  
 ¶ <a href="#DNS">`DNS = 1.1.1.1,8.8.8.8`</a>  
@@ -577,7 +586,7 @@ Config files can opt to use the limited set of `wg` config options, or the more 
 
 ¶ <a href="#Peer-">`[Peer]`</a>  
 ¶ <a href="#-Name1">`# Name = node2-node.example.tld`</a>  
-¶ <a href="#AllowedIPs">`AllowedIPs = 10.0.0.1/24`</a>  
+¶ <a href="#AllowedIPs">`AllowedIPs = 192.0.2.1/24`</a>  
 ¶ <a href="#ListenPort">`Endpoint = node1.example.tld:51820`</a>  
 ¶ <a href="#PublicKey">`PublicKey = remotePublicKeyAbcAbcAbc=`</a>  
 ¶ <a href="#PersistentKeepalive">`PersistentKeepalive = 25`</a>  
@@ -592,14 +601,14 @@ Defines the VPN settings for the local node.
 ```ini
 [Interface]
 # Name = phone.example-vpn.dev
-Address = 10.0.0.5/32
+Address = 192.0.2.5/32
 PrivateKey = <private key for phone.example-vpn.dev>
 ```
 * Node is a public bounce server that can relay traffic to other peers and exposes route for entire VPN subnet  
 ```ini
 [Interface]
 # Name = public-server1.example-vpn.tld
-Address = 10.0.0.1/24
+Address = 192.0.2.1/24
 ListenPort = 51820
 PrivateKey = <private key for public-server1.example-vpn.tld>
 DNS = 1.1.1.1
@@ -611,20 +620,20 @@ This is just a standard comment in INI syntax used to help keep track of which c
 
 #### `Address`
 
-Defines what address range the local node should route traffic for. Depending on whether the node is a simple client joining the VPN subnet, or a bounce server that's relaying traffic between multiple clients, this can be set to a single IP of the node itself (specified with CIDR notation), e.g. 10.0.0.3/32), or a range of IPv4/IPv6 subnets that the node can route traffic for.
+Defines what address range the local node should route traffic for. Depending on whether the node is a simple client joining the VPN subnet, or a bounce server that's relaying traffic between multiple clients, this can be set to a single IP of the node itself (specified with CIDR notation), e.g. 192.0.2.3/32), or a range of IPv4/IPv6 subnets that the node can route traffic for.
 
 **Examples**
 
 * Node is a client that only routes traffic for itself  
-`Address = 10.0.0.3/32`
+`Address = 192.0.2.3/32`
 
 * Node is a public bounce server that can relay traffic to other peers  
 When the node is acting as the public bounce server, it should set this to be the entire subnet that it can route traffic, not just a single IP for itself.
 
-`Address = 10.0.0.1/24`
+`Address = 192.0.2.1/24`
 
 * You can also specify multiple subnets or IPv6 subnets like so:  
-`Address = 10.0.0.1/24,2001:DB8::/64`
+`Address = 192.0.2.1/24,2001:DB8::/64`
 
 #### `ListenPort`
 
@@ -722,7 +731,7 @@ This option can appear multiple times, as with <a href="#PreUp">PreUp</a>
 `PostUp   = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE`
 
 * Force WireGuard to re-resolve IP address for peer domain  
-`PostUp = resolvectl domain %i "~."; resolvectl dns %i 10.0.0.1; resolvectl dnssec %i yes`
+`PostUp = resolvectl domain %i "~."; resolvectl dns %i 192.0.2.1; resolvectl dnssec %i yes`
 
 #### `PreDown`
 
@@ -759,7 +768,7 @@ This option can appear multiple times, as with <a href="#PreUp">PreUp</a>
 
 Defines the VPN settings for a remote peer capable of routing traffic for one or more addresses (itself and/or other peers). Peers can be either a public bounce server that relays traffic to other peers, or a directly accessible client via lan/internet that is not behind a NAT and only routes traffic for itself.
 
-All clients must be defined as peers on the public bounce server. Simple clients that only route traffic for themselves, only need to define peers for the public relay, and any other nodes directly accessible.  Nodes that are behind separate NATs should _not_ be defined as peers outside of the public server config, as no direct route is available between separate NATs. Instead, nodes behind NATs should only define the public relay servers and other public clients as their peers, and should specify `AllowedIPs = 10.0.0.1/24` on the public server that accept routes and bounce traffic for the VPN subnet to the remote NAT-ed peers.
+All clients must be defined as peers on the public bounce server. Simple clients that only route traffic for themselves, only need to define peers for the public relay, and any other nodes directly accessible.  Nodes that are behind separate NATs should _not_ be defined as peers outside of the public server config, as no direct route is available between separate NATs. Instead, nodes behind NATs should only define the public relay servers and other public clients as their peers, and should specify `AllowedIPs = 192.0.2.1/24` on the public server that accept routes and bounce traffic for the VPN subnet to the remote NAT-ed peers.
 
 In summary, all nodes must be defined on the main bounce server.  On client servers, only peers that are directly accessible from a node should be defined as peers of that node, any peers that must be relayed by a bounce sherver should be left out and will be handled by the relay server's catchall route.
 
@@ -788,7 +797,7 @@ In the configuration outlined in the docs below, a single server `public-server1
 # Name = public-server2.example-vpn.dev
 Endpoint = public-server2.example-vpn.dev:51820
 PublicKey = <public key for public-server2.example-vpn.dev>
-AllowedIPs = 10.0.0.2/32
+AllowedIPs = 192.0.2.2/32
 ```
 
  - Peer is a simple client behind a NAT that only routes traffic for itself  
@@ -797,7 +806,7 @@ AllowedIPs = 10.0.0.2/32
 # Name = home-server.example-vpn.dev
 Endpoint = home-server.example-vpn.dev:51820
 PublicKey = <public key for home-server.example-vpn.dev>
-AllowedIPs = 10.0.0.3/32
+AllowedIPs = 192.0.2.3/32
 ```
 
  - Peer is a public bounce server that can relay traffic to other peers  
@@ -807,7 +816,7 @@ AllowedIPs = 10.0.0.3/32
 Endpoint = public-server1.example-vpn.tld:51820
 PublicKey = <public key for public-server1.example-vpn.tld>
 # routes traffic to itself and entire subnet of peers as bounce server
-AllowedIPs = 10.0.0.1/24
+AllowedIPs = 192.0.2.1/24
 PersistentKeepalive = 25
 ```
 
@@ -830,25 +839,25 @@ Defines the publicly accessible address for a remote peer.  This should be left 
 
 This defines the IP ranges for which a peer will route traffic.  On simple clients, this is usually a single address (the VPN address of the simple client itself). For bounce servers this will be a range of the IPs or subnets that the relay server is capable of routing traffic for.  Multiple IPs and subnets may be specified using comma-separated IPv4 or IPv6 CIDR notation (from a single /32 or /128 address, all the way up to `0.0.0.0/0` and `::/0` to indicate a default route to send all internet and VPN traffic through that peer).  This option may be specified multiple times.
 
-When deciding how to route a packet, the system chooses the most specific route first, and falls back to broader routes. So for a packet destined to `10.0.0.3`, the system would first look for a peer advertising `10.0.0.3/32` specifically, and would fall back to a peer advertising `10.0.0.1/24` or a larger range like `0.0.0.0/0` as a last resort.
+When deciding how to route a packet, the system chooses the most specific route first, and falls back to broader routes. So for a packet destined to `192.0.2.3`, the system would first look for a peer advertising `192.0.2.3/32` specifically, and would fall back to a peer advertising `192.0.2.1/24` or a larger range like `0.0.0.0/0` as a last resort.
 
 **Examples**
 
 
  - peer is a simple client that only accepts traffic to/from itself  
-`AllowedIPs = 10.0.0.3/32`
+`AllowedIPs = 192.0.2.3/32`
 
  - peer is a relay server that can bounce VPN traffic to all other peers  
-`AllowedIPs = 10.0.0.1/24`
+`AllowedIPs = 192.0.2.1/24`
 
  - peer is a relay server that bounces all internet & VPN traffic (like a proxy), including IPv6  
 `AllowedIPs = 0.0.0.0/0,::/0`
 
  - peer is a relay server that routes to itself and only one other peer  
-`AllowedIPs = 10.0.0.3/32,10.0.0.4/32`
+`AllowedIPs = 192.0.2.3/32,192.0.2.4/32`
 
  - peer is a relay server that routes to itself and all nodes on its local LAN  
-`AllowedIPs = 10.0.0.3/32,192.168.1.1/24`
+`AllowedIPs = 192.0.2.3/32,192.168.1.1/24`
 
 #### `PublicKey`
 
@@ -889,7 +898,7 @@ The examples in these docs primarily use IPv4, but Wireguard natively supports I
 
 ```ini
 [Interface]
-AllowedIps = 10.0.0.3/24, 2001:DB8::/64
+AllowedIps = 192.0.2.3/24, 2001:DB8::/64
 
 [Peer]
 ...
@@ -908,7 +917,7 @@ https://www.reddit.com/r/WireGuard/comments/b0m5g2/ipv6_leaks_psa_for_anyone_her
 ```ini
 [Interface]
 # Name = phone.example-vpn.dev
-Address = 10.0.0.3/32
+Address = 192.0.2.3/32
 PrivateKey = <private key for phone.example-vpn.dev>
 
 [Peer]
@@ -1105,6 +1114,15 @@ Setups can get somewhat complex and are highly dependent on what you're trying t
 
 # Example Server-To-Server Config with Roaming Devices
 
+WARNING: **Make sure to change the IP addresses and ranges in your configs before running!**
+The blocks used in these examples are reserved for documentation purposes by the IETF and should never be used in real network setups.
+
+ - **`192.0.2.0/24`** (TEST-NET-1) IPv4 example range [RFC5737](https://tools.ietf.org/html/rfc5737)
+ - **`2001:DB8::/32`** IPv6 example range [RFC3849](https://tools.ietf.org/html/rfc3849)
+
+You can use any private range you want instead, e.g. `10.0.44.0/24`, just make sure
+it doesn't conflict with any of the LAN subnet ranges your peers are on.
+
 The complete example config for the setup below can be found here: https://github.com/pirate/wireguard-docs/tree/master/full-example (WARNING: do not use it on your devices without changing the public/private keys!).
 
 ## Overview
@@ -1121,15 +1139,15 @@ These 5 devices are used in our example setup to explain how WireGuard supports 
 
 ### Explanation
 
-This VPN config simulates setting up a small VPN subnet `10.0.0.1/24` shared by 5 nodes. Two of the nodes (public-server1 and public-server2) are VPS instances living in a cloud somewhere, with public IPs accessible to the internet.  home-server is a stationary node that lives behind a NAT with a dynamic IP, but it doesn't change frequently. Phone and laptop are both roaming nodes, that can either be at home in the same LAN as home-server, or out-and-about using public wifi or cell service to connect to the VPN.
+This VPN config simulates setting up a small VPN subnet `192.0.2.1/24` shared by 5 nodes. Two of the nodes (public-server1 and public-server2) are VPS instances living in a cloud somewhere, with public IPs accessible to the internet.  home-server is a stationary node that lives behind a NAT with a dynamic IP, but it doesn't change frequently. Phone and laptop are both roaming nodes, that can either be at home in the same LAN as home-server, or out-and-about using public wifi or cell service to connect to the VPN.
 
 Whenever possible, nodes should connect directly to each other, depending on whether nodes are directly accessible or NATs are between them, traffic will route accordingly:
 
 ### The Public Relay
 
-`public-server1` acts as an intermediate relay server between any VPN clients behind NATs, it will forward any 10.0.0.1/24 traffic it receives to the correct peer at the system level (WireGuard doesn't care how this happens, it's handled by the kernel `net.ipv4.ip_forward = 1` and the iptables routing rules).
+`public-server1` acts as an intermediate relay server between any VPN clients behind NATs, it will forward any 192.0.2.1/24 traffic it receives to the correct peer at the system level (WireGuard doesn't care how this happens, it's handled by the kernel `net.ipv4.ip_forward = 1` and the iptables routing rules).
 
-Each client only needs to define the publicly accessible servers/peers in its config, any traffic bound to other peers behind NATs will go to the catchall `10.0.0.1/24` for the server and will be forwarded accordingly once it hits the main server.
+Each client only needs to define the publicly accessible servers/peers in its config, any traffic bound to other peers behind NATs will go to the catchall `192.0.2.1/24` for the server and will be forwarded accordingly once it hits the main server.
 
 In summary: only direct connections between clients should be configured, any connections that need to be bounced should not be defined as peers, as they should head to the bounce server first and be routed from there back down the vpn to the correct client.
 
@@ -1143,8 +1161,8 @@ For more detailed instructions, see the [Quickstart](#Quickstart) guide and API 
 
 ### public-server1.example-vpn.tld
  * public endpoint: `public-server1.example-vpn.tld:51820` 
- * own vpn ip address: `10.0.0.1`
- * can accept traffic for ips: `10.0.0.1/24`
+ * own vpn ip address: `192.0.2.1`
+ * can accept traffic for ips: `192.0.2.1/24`
  * priv key: `<private key for public-server1.example-vpn.tld>`
  * pub key: `<public key for public-server1.example-vpn.tld>`
  * setup required:
@@ -1160,14 +1178,14 @@ For more detailed instructions, see the [Quickstart](#Quickstart) guide and API 
 Endpoint = public-server1.example-vpn.tld:51820
 PublicKey = <public key for public-server1.example-vpn.tld>
 # routes traffic to itself and entire subnet of peers as bounce server
-AllowedIPs = 10.0.0.1/24
+AllowedIPs = 192.0.2.1/24
 PersistentKeepalive = 25
 ```
  * config as local interface:
 ```ini
 [Interface]
 # Name = public-server1.example-vpn.tld
-Address = 10.0.0.1/24
+Address = 192.0.2.1/24
 ListenPort = 51820
 PrivateKey = <private key for public-server1.example-vpn.tld>
 DNS = 1.1.1.1
@@ -1177,7 +1195,7 @@ DNS = 1.1.1.1
 ```ini
 [Interface]
 # Name = public-server1.example-vpn.tld
-Address = 10.0.0.1/24
+Address = 192.0.2.1/24
 ListenPort = 51820
 PrivateKey = <private key for public-server1.example-vpn.tld>
 DNS = 1.1.1.1
@@ -1186,29 +1204,29 @@ DNS = 1.1.1.1
 # Name = public-server2.example-vpn.dev
 Endpoint = public-server2.example-vpn.dev:51820
 PublicKey = <public key for public-server2.example-vpn.dev>
-AllowedIPs = 10.0.0.2/32
+AllowedIPs = 192.0.2.2/32
 
 [Peer]
 # Name = home-server.example-vpn.dev
 Endpoint = home-server.example-vpn.dev:51820
 PublicKey = <public key for home-server.example-vpn.dev>
-AllowedIPs = 10.0.0.3/32
+AllowedIPs = 192.0.2.3/32
 
 [Peer]
 # Name = laptop.example-vpn.dev
 PublicKey = <public key for laptop.example-vpn.dev>
-AllowedIPs = 10.0.0.4/32
+AllowedIPs = 192.0.2.4/32
 
 [Peer]
 # phone.example-vpn.dev
 PublicKey = <public key for phone.example-vpn.dev>
-AllowedIPs = 10.0.0.5/32
+AllowedIPs = 192.0.2.5/32
 ```
 
 ### public-server2.example-vpn.dev
  * public endpoint: `public-server2.example-vpn.dev:51820` 
- * own vpn ip address: `10.0.0.2`
- * can accept traffic for ips: `10.0.0.2/32`
+ * own vpn ip address: `192.0.2.2`
+ * can accept traffic for ips: `192.0.2.2/32`
  * priv key: `<private key for public-server2.example-vpn.dev>`
  * pub key: `<public key for public-server2.example-vpn.dev>`
  * setup required:
@@ -1221,7 +1239,7 @@ AllowedIPs = 10.0.0.5/32
 ```ini
 [Interface]
 # Name = public-server2.example-vpn.dev
-Address = 10.0.0.2/32
+Address = 192.0.2.2/32
 ListenPort = 51820
 PrivateKey = <private key for public-server2.example-vpn.dev>
 DNS = 1.1.1.1
@@ -1232,14 +1250,14 @@ DNS = 1.1.1.1
 # Name = public-server2.example-vpn.dev
 Endpoint = public-server2.example-vpn.dev:51820
 PublicKey = <public key for public-server2.example-vpn.dev>
-AllowedIPs = 10.0.0.2/32
+AllowedIPs = 192.0.2.2/32
 ```
  * peers: public-server1
  * full `wg0.conf` config file for node:
 ```ini
 [Interface]
 # Name = public-server2.example-vpn.dev
-Address = 10.0.0.2/32
+Address = 192.0.2.2/32
 ListenPort = 51820
 PrivateKey = <private key for public-server2.example-vpn.dev>
 DNS = 1.1.1.1
@@ -1249,14 +1267,14 @@ DNS = 1.1.1.1
 Endpoint = public-server1.example-vpn.tld:51820
 PublicKey = <public key for public-server1.example-vpn.tld>
 # routes traffic to itself and entire subnet of peers as bounce server
-AllowedIPs = 10.0.0.1/24
+AllowedIPs = 192.0.2.1/24
 PersistentKeepalive = 25
 ```
 
 ### home-server.example-vpn.dev
  * public endpoint: (none, behind NAT)
- * own vpn ip address: `10.0.0.3`
- * can accept traffic for ips: `10.0.0.3/32`
+ * own vpn ip address: `192.0.2.3`
+ * can accept traffic for ips: `192.0.2.3/32`
  * priv key: `<private key for home-server.example-vpn.dev>`
  * pub key: `<public key for home-server.example-vpn.dev>`
  * setup required:
@@ -1269,7 +1287,7 @@ PersistentKeepalive = 25
 ```ini
 [Interface]
 # Name = home-server.example-vpn.dev
-Address = 10.0.0.3/32
+Address = 192.0.2.3/32
 ListenPort = 51820
 PrivateKey = <private key for home-server.example-vpn.dev>
 DNS = 1.1.1.1
@@ -1280,14 +1298,14 @@ DNS = 1.1.1.1
 # Name = home-server.example-vpn.dev
 Endpoint = home-server.example-vpn.dev:51820
 PublicKey = <public key for home-server.example-vpn.dev>
-AllowedIPs = 10.0.0.3/32
+AllowedIPs = 192.0.2.3/32
 ```
  * peers: public-server1
  * full `wg0.conf` config file for node:
 ```ini
 [Interface]
 # Name = home-server.example-vpn.dev
-Address = 10.0.0.3/32
+Address = 192.0.2.3/32
 ListenPort = 51820
 PrivateKey = <private key for home-server.example-vpn.dev>
 DNS = 1.1.1.1
@@ -1297,14 +1315,14 @@ DNS = 1.1.1.1
 Endpoint = public-server1.example-vpn.tld:51820
 PublicKey = <public key for public-server1.example-vpn.tld>
 # routes traffic to itself and entire subnet of peers as bounce server
-AllowedIPs = 10.0.0.1/24
+AllowedIPs = 192.0.2.1/24
 PersistentKeepalive = 25
 ```
 
 ### laptop.example-vpn.dev
  * public endpoint: (none, behind NAT)
- * own vpn ip address: `10.0.0.4`
- * can accept traffic for ips: `10.0.0.4/32`
+ * own vpn ip address: `192.0.2.4`
+ * can accept traffic for ips: `192.0.2.4/32`
  * priv key: `<private key for laptop.example-vpn.dev>`
  * pub key: `<public key for laptop.example-vpn.dev>`
  * setup required:
@@ -1317,7 +1335,7 @@ PersistentKeepalive = 25
 ```ini
 [Interface]
 # Name = laptop.example-vpn.dev
-Address = 10.0.0.4/32
+Address = 192.0.2.4/32
 PrivateKey = <private key for laptop.example-vpn.dev>
 DNS = 1.1.1.1
 ```
@@ -1326,14 +1344,14 @@ DNS = 1.1.1.1
 [Peer]
 # Name = laptop.example-vpn.dev
 PublicKey = <public key for laptop.example-vpn.dev>
-AllowedIPs = 10.0.0.4/32
+AllowedIPs = 192.0.2.4/32
 ```
  * peers: public-server1
  * full `wg0.conf` config file for node:
 ```ini
 [Interface]
 # Name = laptop.example-vpn.dev
-Address = 10.0.0.4/32
+Address = 192.0.2.4/32
 PrivateKey = <private key for laptop.example-vpn.dev>
 DNS = 1.1.1.1
 
@@ -1342,14 +1360,14 @@ DNS = 1.1.1.1
 Endpoint = public-server1.example-vpn.tld:51820
 PublicKey = <public key for public-server1.example-vpn.tld>
 # routes traffic to itself and entire subnet of peers as bounce server
-AllowedIPs = 10.0.0.1/24
+AllowedIPs = 192.0.2.1/24
 PersistentKeepalive = 25
 ```
 
 ### phone.example-vpn.dev
  * public endpoint: (none, behind NAT)
- * own vpn ip address: `10.0.0.5`
- * can accept traffic for ips: `10.0.0.5/32`
+ * own vpn ip address: `192.0.2.5`
+ * can accept traffic for ips: `192.0.2.5/32`
  * priv key: `<private key for phone.example-vpn.dev>`
  * pub key: `<public key for phone.example-vpn.dev>`
  * setup required:
@@ -1362,7 +1380,7 @@ PersistentKeepalive = 25
 ```ini
 [Interface]
 # Name = phone.example-vpn.dev
-Address = 10.0.0.5/32
+Address = 192.0.2.5/32
 PrivateKey = <private key for phone.example-vpn.dev>
 DNS = 1.1.1.1
 ```
@@ -1371,14 +1389,14 @@ DNS = 1.1.1.1
 [Peer]
 # phone.example-vpn.dev
 PublicKey = <public key for phone.example-vpn.dev>
-AllowedIPs = 10.0.0.5/32
+AllowedIPs = 192.0.2.5/32
 ```
  * peers: public-server1
  * full `wg0.conf` config file for node:
 ```ini
 [Interface]
 # Name = phone.example-vpn.dev
-Address = 10.0.0.5/32
+Address = 192.0.2.5/32
 PrivateKey = <private key for phone.example-vpn.dev>
 DNS = 1.1.1.1
 
@@ -1387,7 +1405,7 @@ DNS = 1.1.1.1
 Endpoint = public-server1.example-vpn.tld:51820
 PublicKey = <public key for public-server1.example-vpn.tld>
 # routes traffic to itself and entire subnet of peers as bounce server
-AllowedIPs = 10.0.0.1/24
+AllowedIPs = 192.0.2.1/24
 PersistentKeepalive = 25
 ```
 
