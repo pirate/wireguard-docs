@@ -1424,6 +1424,7 @@ PersistentKeepalive = 25
 - https://www.ericlight.com/wireguard-part-one-installation.html
 - https://www.ericlight.com/wireguard-part-two-vpn-routing.html
 - https://www.ericlight.com/wireguard-part-three-troubleshooting.html
+- https://wiki.dd-wrt.com/wiki/index.php/The_Easiest_Tunnel_Ever
 
 ### Papers, Articles, and Talks
 
