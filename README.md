@@ -193,7 +193,7 @@ These are demo hostnames, domain names, ip addresses, and ranges used in the doc
 
 - Example domain: `example-vpn.dev` can be replaced with any publicly accessible domain you control
 - Example hostnames: `public-server1`, `public-server2`, `home-server`, `laptop`, `phone` can be changed to your device hostnames
-- IP addresses & ranges: `10.0.0.1/24`, `10.0.0.3`, `10.0.0.3/32` can be replaced with your preferred subnets and addresses (e.g. `192.168.5.1/24`)
+- IP addresses & ranges: `10.0.0.1/24`, `10.0.0.3`, `10.0.0.3/32`, `2001:DB8::/64` can be replaced with your preferred subnets and addresses (e.g. `192.168.5.1/24`)
 
 Wherever you see these strings below, they're just being used as placeholder values to illustrate an example and have no special meaning.
 Replace them with your preferred values when doing your own setup.
@@ -218,7 +218,7 @@ A way of defining a subnet and its size with a "mask", a smaller mask = more  ad
   + `10.0.0.1/16` (65,536 ips from `10.0.0.0` - `10.0.255.255`) netmask = `255.255.0.0`
   + `10.0.0.1/8` (16,777,216 ips from `10.0.0.0` - `10.255.255.255`) netmask = `255.0.0.0`
   + `0.0.0.1/0` (4,294,967,296 ips from `0.0.0.0` - `255.255.255.255`) netmask = `0.0.0.0`
-  + IPv6 CIDR notation is also supported e.g. `fd42:42:42::1/64`
+  + IPv6 CIDR notation is also supported e.g. `2001:DB8::/64`
  
 https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing
 
@@ -624,7 +624,7 @@ When the node is acting as the public bounce server, it should set this to be th
 `Address = 10.0.0.1/24`
 
 * You can also specify multiple subnets or IPv6 subnets like so:  
-`Address = 10.0.0.1/24,fd42:42:42::1/64`
+`Address = 10.0.0.1/24,2001:DB8::/64`
 
 #### `ListenPort`
 
@@ -889,7 +889,7 @@ The examples in these docs primarily use IPv4, but Wireguard natively supports I
 
 ```ini
 [Interface]
-AllowedIps = 10.0.0.3/24, fd42:42:42::1/64
+AllowedIps = 10.0.0.3/24, 2001:DB8::/64
 
 [Peer]
 ...
