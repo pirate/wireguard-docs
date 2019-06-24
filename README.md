@@ -1064,7 +1064,7 @@ See: https://lists.zx2c4.com/pipermail/wireguard/2018-December/003703.html
 
 You can combine this with `wg addconf` like this:
 
-* Each peer has its own `/etc/wireguard/wg0.conf` file, which only contains it's `[Interface]` section.
+* Each peer has its own `/etc/wireguard/wg0.conf` file, which only contains its `[Interface]` section.
 
 * Each peer also has a shared `/etc/wireguard/peers.conf` file, which contains all the peers.
 
@@ -1129,7 +1129,7 @@ Whenever possible, nodes should connect directly to each other, depending on whe
 
 `public-server1` acts as an intermediate relay server between any VPN clients behind NATs, it will forward any 10.0.0.1/24 traffic it receives to the correct peer at the system level (WireGuard doesn't care how this happens, it's handled by the kernel `net.ipv4.ip_forward = 1` and the iptables routing rules).
 
-Each client only needs to define the publicly accessible servers/peers in it's config, any traffic bound to other peers behind NATs will go to the catchall `10.0.0.1/24` for the server and will be forwarded accordingly once it hits the main server.
+Each client only needs to define the publicly accessible servers/peers in its config, any traffic bound to other peers behind NATs will go to the catchall `10.0.0.1/24` for the server and will be forwarded accordingly once it hits the main server.
 
 In summary: only direct connections between clients should be configured, any connections that need to be bounced should not be defined as peers, as they should head to the bounce server first and be routed from there back down the vpn to the correct client.
 
