@@ -1,6 +1,6 @@
 <div align="center">
 
-# The Missing Wireguard Documentation
+# The Unofficial Wireguard Documentation
 
 <img src="https://i.imgur.com/xePt3qp.png"><br/><br/>
 
@@ -23,7 +23,9 @@ Nicer HTML page version: https://docs.sweeting.me/s/wireguard
 
 [WireGuard](https://www.wireguard.com/) is a BETA/WIP open-source VPN solution written in C by [Jason Donenfeld](https://www.jasondonenfeld.com) and [others](https://github.com/WireGuard/WireGuard/graphs/contributors), aiming to fix many of the problems that have plagued other modern server-to-server VPN offerings like IPSec/IKEv2, OpenVPN, or L2TP. It shares some similarities with other modern VPN offerings like [Tinc](https://www.tinc-vpn.org/) and [MeshBird](https://github.com/meshbird/meshbird), namely good cipher suites and minimal config.
 
-This is my attempt at writing "The Missing Wireguard Documentation" to make up for the somewhat sparse official docs on an otherwise great piece of software.
+This is my attempt at writing "The Unofficial Wireguard Documentation" to make up for the somewhat sparse official docs on an otherwise great piece of software.  
+  
+<small>(This repo used to be called "The Missing Wireguard Documentation" but I felt bad about implying that Wireguard has no docs, they do have docs, they're just hidden away in the manpages and mailing lists.)</small>
 
 **Official Links**
 
