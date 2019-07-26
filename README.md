@@ -1138,6 +1138,7 @@ Setups can get somewhat complex and are highly dependent on what you're trying t
 - https://www.ericlight.com/wireguard-part-two-vpn-routing.html
 - https://www.ericlight.com/wireguard-part-three-troubleshooting.html
 - https://wiki.dd-wrt.com/wiki/index.php/The_Easiest_Tunnel_Ever
+- https://www.reddit.com/r/pihole/comments/bnihyz/guide_how_to_install_wireguard_on_a_raspberry_pi/
 
 ### Papers, Articles, and Talks
 
