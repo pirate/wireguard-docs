@@ -1052,6 +1052,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://github.com/trailofbits/algo
  - https://github.com/StreisandEffect/streisand
  - https://www.veeam.com/blog/veeam-pn-v2-wireguard.html
+ - https://github.com/wg-dashboard/wg-dashboard
 
 
 ### Config Shortcuts
@@ -1167,6 +1168,7 @@ Setups can get somewhat complex and are highly dependent on what you're trying t
 - https://github.com/WireGuard/wireguard-rs
 - https://github.com/WireGuard/wireguard-go
 - https://www.veeam.com/blog/veeam-pn-v2-wireguard.html
+- https://github.com/wg-dashboard/wg-dashboard
 
 ### Docker
 
