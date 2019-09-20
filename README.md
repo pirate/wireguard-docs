@@ -363,6 +363,12 @@ PostUp = wg set %i private-key /etc/wireguard/wg0.key <(cat /some/path/%i/privke
 
 ### Quickstart
 
+Automated Script To Install WireGuard
+
+```
+https://github.com/complexorganizations/wireguard-install
+```
+
 Overview of the general process:
 
 1. Install `apt install wireguard` or `pkg/brew install wireguard-tools` on each node
@@ -1152,6 +1158,7 @@ Setups can get somewhat complex and are highly dependent on what you're trying t
 
 ### Related Projects
 
+- https://github.com/complexorganizations/wireguard-install
 - https://github.com/subspacecloud/subspace
 - https://github.com/trailofbits/algo
 - https://github.com/StreisandEffect/streisand
