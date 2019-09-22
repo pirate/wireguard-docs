@@ -1152,6 +1152,7 @@ Setups can get somewhat complex and are highly dependent on what you're trying t
 
 ### Related Projects
 
+- https://github.com/complexorganizations/wireguard-install
 - https://github.com/subspacecloud/subspace
 - https://github.com/trailofbits/algo
 - https://github.com/StreisandEffect/streisand
