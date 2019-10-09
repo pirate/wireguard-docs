@@ -161,7 +161,7 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
  - L2TP: meh
  - SOCKS: proxy tunnel, not a VPN, not great for this use case
  - [IPSec (IKEv2)](https://github.com/jawj/IKEv2-setup)/strongSwan: lots of brittle config that's different for each OS, NAT busting setup is very manual and involves updating the central server and starting all the others in the correct order, not great at reconnecting after network downtime, had to be manually restarted often
- - [TINC](https://www.tinc-vpn.org/): haven't tried it yet, but it doesn't work on iOS, worst case scenario I could live with that if it's the only option
+ with that if it's the only option
  - [OpenVPN](https://openvpn.net/vpn-server-resources/site-to-site-routing-explained-in-detail/): I don't like it from past experience but could be convinced if it's the only option
  - StealthVPN: haven't tried it
  - [MeshBird](https://github.com/meshbird/meshbird): "Cloud native" VPN/networking layer
@@ -169,6 +169,10 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
  - [Striesand](https://github.com/StreisandEffect/streisand): haven't tried it yet, what's the best config to try?
  - [SoftEther](https://www.softether.org/): haven't tried it yet, should I?
  - [WireGuard](https://www.wireguard.com/): the subject of this post
+ 
+### Mesh VPN Solutions
+ - [TINC](https://www.tinc-vpn.org/): haven't tried it yet, but it doesn't work on iOS, worst case scenario I could live 
+ - [cjdns](https://github.com/cjdelisle/cjdns): haven't tried it yet, should I?
  - [ZeroTier](https://www.zerotier.com): haven't tried it yet, should I?
 
 ---
