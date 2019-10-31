@@ -25,7 +25,7 @@ Nicer HTML page version: https://docs.sweeting.me/s/wireguard
 
 This is my attempt at writing "The Unofficial Wireguard Documentation" to make up for the somewhat sparse official docs on an otherwise great piece of software.  
   
-<small>(This repo used to be called "The Missing Wireguard Documentation" but I felt bad about implying that Wireguard has no docs, they do have docs, they're just hidden away in the manpages and mailing lists.)</small>
+<small>(This repo used to be called "The Missing Wireguard Documentation" but I felt bad about implying that Wireguard has no docs (they do have docs, they're just hidden away in the manpages). I figred I could combine it with some example setup configs, and some of the secret tips and tricks shared only on mailing lists and make a documentation resource.)</small>
 
 **Official Links**
 
