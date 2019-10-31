@@ -1,6 +1,6 @@
 <div align="center">
 
-# The Unofficial Wireguard Documentation
+# Some Unofficial Wireguard Documentation
 
 <img src="https://i.imgur.com/xePt3qp.png"><br/><br/>
 
