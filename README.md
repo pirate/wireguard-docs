@@ -1,6 +1,6 @@
 <div align="center">
 
-# The Unofficial WireGuard Documentation
+# Some Unofficial WireGuard Documentation
 
 <img src="https://i.imgur.com/xePt3qp.png"><br/><br/>
 
@@ -25,7 +25,7 @@ Nicer HTML page version: https://docs.sweeting.me/s/wireguard
 
 This is my attempt at writing "The Unofficial WireGuard Documentation" to make up for the somewhat sparse official docs on an otherwise great piece of software.  
   
-<small>(This repo used to be called "The Missing WireGuard Documentation" but I felt bad about implying that WireGuard has no docs, they do have docs, they're just hidden away in the manpages and mailing lists.)</small>
+<small>(This repo used to be called "The Missing WireGuard Documentation" but I felt bad about implying that WireGuard has no docs (they do have docs, they're just hidden away in the manpages). I figred I could combine it with some example setup configs, and some of the secret tips and tricks shared only on mailing lists and make a documentation resource.)</small>
 
 **Official Links**
 
@@ -923,9 +923,15 @@ AllowedIPs = 0.0.0.0/0, ::/0
 
 ### NAT To NAT Connections
 
-WireGuard can sometimes natively make connections between two clients behind NATs without the need for a public relay server, but in most cases this is not possible. NAT-to-NAT connections are not possible unless at least one host has a stable, publicly-accessible IP address:port pair that can be hardcoded ahead of time, whether that's using a FQDN updated with Dynamic DNS, or a static public IP with a non-randomized NAT port opened by outgoing packets, anything works as long as all peers can communicate it beforehand and it doesn't change once the connection is initiated.
+WireGuard can sometimes natively make connections between two clients behind NATs without the need for a public relay server, but in most cases this is not possible. NAT-to-NAT connections are only possible if at least one host has a stable, publicly-accessible IP address:port pair that can be hardcoded ahead of time, whether thats using a FQDN updated with Dynamic DNS, or a static public IP with a non-randomized NAT port opened by outgoing packets, anything works as long as all peers can communicate it beforehand and it doesn't change once the connection is initiated.
 
-WireGuard does not search for a hole-punching port dynamically like WebRTC/N2N as it has no concept of a signaling server to communicate the port to the other side, it only works with a hardcoded `Endpoint` address and `ListenPort`, and `PersistentKeepalive` set to some non-null value on both sides.
+A known port and address need to be configured ahead of time because Wireguard doesn't have a signalling layer or public STUN servers that can be used to search for other hosts dynamically.  WebRTC is an example of a protocol that can dynamically configure a connection between two NATs, but it does this by using an out-of-band signaling server to detect the ip:port combo of each host. WireGuard doesn't have this, so it only works with a hardcoded `Endpoint` + `ListenPort` (and `PersistentKeepalive` so it doesn't drop after inactivity).
+
+#### Requirements for NAT-to-NAT setups
+
+ - At least one peer has to have to have a hardcoded, directly-accessible `Endpoint` defined. If they're both behind NATs without stable IP addresses, then you'll need to use Dynamic DNS or another solution to have a stable, publicly accessibly domain/IP for at least one peer
+ - At least one peer has to have a hardcoded UDP `ListenPort` defined, and it's NAT router must not do UDP source port randomization, otherwise return packets will be sent to the hardocded `ListenPort` and dropped by the router, instead of using the random port assigned by the NAT on the outgoing packet
+ - All NAT'ed peers must have `PersistentKeepalive` enabled on all other peers, so that they continually send outgoing pings to keep connections persisted in their NAT's routing table
 
 #### The hole-punching connection process
 
@@ -937,17 +943,11 @@ This process of sending an initial packet that gets rejected, then using the fac
 
 When you send a UDP packet out, the router (usually) creates a temporary rule mapping your source address and port to the destination address and port, and vice versa. UDP packets returning from the destination address and port (and no other) are passed through to the original source address and port (and no other). This is how most UDP applications function behind NATs (e.g. Bittorent, Skype, etc). This rule will timeout after some minutes of inactivity, so the client behind the NAT must send regular outgoing packets to keep it open (see `PersistentKeepalive`).
 
-Getting this to work when both end-points are behind NATs or firewalls would require that both end-points send packets to each-other at about the same time. This means that both sides need to know each-other's public IP addresses and port numbers and need to communicate this to each-other by some other means (in our case by hard-coding them in `wg0.conf` in advance).  WebRTC requires a STUN signaling server to communicate the hole-punching port because it would be impossible for browsers to hardcode listening ports for all possible connections in advance.
+Getting this to work when both end-points are behind NATs or firewalls requires that both end-points send packets to each-other at about the same time. This means that both sides need to know each-other's public IP addresses and port numbers ahead of time, in WireGuard's case this is achieved by hard-coding pre-defined ports for both sides in `wg0.conf`.
 
-#### Requirements for NAT-to-NAT setups
-
- - At least one peer has to have to have a hardcoded, directly-accessible `Endpoint` defined. If they're both behind NATs without stable IP addresses, then you'll need to use Dynamic DNS or another solution to have a stable, publicly accessibly domain/IP for at least one peer
- - At least one peer has to have a hardcoded UDP `ListenPort` defined, and it's NAT router must not do UDP source port randomization, otherwise return packets will be sent to the hardocded `ListenPort` and dropped by the router, instead of using the random port assigned by the NAT on the outgoing packet
- - All NAT'ed peers must have `PersistentKeepalive` enabled on all other peers, so that they continually send outgoing pings to keep connections persisted in their NAT's routing table
- 
 #### Drawbacks and limitations
 
-As of 2019, many of the old hole-punching methods used that used to work are no longer effective.  One example was a novel method pioneered by [pwnat]](https://github.com/samyk/pwnat) that faked an ICMP Time Exceeded response from outside the NAT to get a packet back through to a NAT'ed peer, thereby leaking its own srcport.
+As of 2019, many of the old hole-punching methods used that used to work are no longer effective.  One example was a novel method pioneered by [pwnat](https://github.com/samyk/pwnat) that faked an ICMP Time Exceeded response from outside the NAT to get a packet back through to a NAT'ed peer, thereby leaking its own srcport. Hardcoding UDP ports and public IPs for both sides of a NAT-to-NAT connection (as described above) still works on a small percentage of networks. Generally the more "enterprisey" a network is, the less likely you'll be able to hole puch public UDP ports (commercial public wifi and cell data NATs often don't work for example). 
 
 ##### Source port randomization
 
