@@ -1,11 +1,11 @@
 <div align="center">
 
-# Some Unofficial Wireguard Documentation
+# Some Unofficial WireGuard Documentation
 
 <img src="https://i.imgur.com/xePt3qp.png"><br/><br/>
 
 
-API reference guide for Wireguard including Setup, Configuration, and Usage, with examples.
+API reference guide for WireGuard including Setup, Configuration, and Usage, with examples.
 
 
 <i>All credit goes to the WireGuard project, [zx2c4](https://www.zx2c4.com/), [Edge Security](https://www.edgesecurity.com/), and the [open source contributors](https://github.com/WireGuard/WireGuard/graphs/contributors) for the original software,<br/> this is my solo unofficial attempt at providing more comprehensive documentation, API references, and examples.</i>
@@ -23,9 +23,9 @@ Nicer HTML page version: https://docs.sweeting.me/s/wireguard
 
 [WireGuard](https://www.wireguard.com/) is a BETA/WIP open-source VPN solution written in C by [Jason Donenfeld](https://www.jasondonenfeld.com) and [others](https://github.com/WireGuard/WireGuard/graphs/contributors), aiming to fix many of the problems that have plagued other modern server-to-server VPN offerings like IPSec/IKEv2, OpenVPN, or L2TP. It shares some similarities with other modern VPN offerings like [Tinc](https://www.tinc-vpn.org/) and [MeshBird](https://github.com/meshbird/meshbird), namely good cipher suites and minimal config.
 
-This is my attempt at writing "The Unofficial Wireguard Documentation" to make up for the somewhat sparse official docs on an otherwise great piece of software.  
+This is my attempt at writing "The Unofficial WireGuard Documentation" to make up for the somewhat sparse official docs on an otherwise great piece of software.  
   
-<small>(This repo used to be called "The Missing Wireguard Documentation" but I felt bad about implying that Wireguard has no docs (they do have docs, they're just hidden away in the manpages). I figred I could combine it with some example setup configs, and some of the secret tips and tricks shared only on mailing lists and make a documentation resource.)</small>
+<small>(This repo used to be called "The Missing WireGuard Documentation" but I felt bad about implying that WireGuard has no docs (they do have docs, they're just hidden away in the manpages). I figred I could combine it with some example setup configs, and some of the secret tips and tricks shared only on mailing lists and make a documentation resource.)</small>
 
 **Official Links**
 
@@ -65,7 +65,7 @@ See https://github.com/pirate/wireguard-docs for example code and documentation 
 <li><a href="#List-of-Possible-VPN-Solutions">List of Possible VPN Solutions</a></li>
 </ul>
 </li>
-<li><a href="#Wireguard-Documentation">Wireguard Documentation</a>
+<li><a href="#WireGuard-Documentation">WireGuard Documentation</a>
 <ul>
 <li><a href="#Glossary">Glossary</a>
 <ul>
@@ -173,7 +173,7 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
 
 ---
 
-# Wireguard Documentation
+# WireGuard Documentation
 
 ---
 
@@ -234,12 +234,12 @@ The publicly accessible address:port for a node, e.g. `123.124.125.126:1234` or 
 
 
 ### Private key
-A wireguard private key for a single node, generated with:
+A WireGuard private key for a single node, generated with:
 `wg genkey > example.key`
 (never leaves the node it's generated on)
   
 ### Public key
-A wireguard public key for a single node, generated with:
+A WireGuard public key for a single node, generated with:
 `wg pubkey < example.key > example.key.pub `
 (shared with other peers)
 
@@ -274,7 +274,7 @@ More complex topologies are definitely achievable, but these are the basic routi
 - **Node behind local NAT to node behind remote NAT (via UDP NAT hole-punching)**  
   While sometimes possible, it's generally infeasible to do direct NAT-to-NAT connections on modern networks, because most NAT routers are quite strict about randomizing the srcport, making it impossible to coordinate an open port for both sides ahead of time.  Instead, a signaling server (STUN) must be used that stands in the middle and communicates which random srcports are assigned to the other side. Both clients make an initial connection to the public signaling server, then it records the random srcports and sends them back to the clients. This is how WebRTC works in modern P2P web apps.  Even with a signalling server and known srcports for both ends, sometimes direct connections are not possible because the NAT routers are strict about only accepting traffic from the original destination address (the signalling server), and will require a new random srcport to be opened to accept traffic from other IPs (e.g. the other client attempting to use the originally communicated srcport). This is especially true for "carrier-grade NATs" like cellular networks and some enterprise networks, which are designed specifically to prevent this sort of hole-punching connection. See the full section below on [**NAT to NAT Connections**](#NAT-to-NAT-Connections) for more information.
 
-More specific (also usually more direct) routes provided by other peers will take precedence when available, otherwise traffic will fall back to the least specific route and use the `192.0.2.1/24` catchall to forward traffic to the bounce server, where it will in turn be routed by the relay server's system routing table (`net.ipv4.ip_forward = 1`) back down the VPN to the specific peer that's accepting routes for that traffic.  Wireguard does not automatically find the fastest route or attempt to form direct connections between peers if not already defined, it just goes from the most specific route in `[Peers]` to least specific.
+More specific (also usually more direct) routes provided by other peers will take precedence when available, otherwise traffic will fall back to the least specific route and use the `192.0.2.1/24` catchall to forward traffic to the bounce server, where it will in turn be routed by the relay server's system routing table (`net.ipv4.ip_forward = 1`) back down the VPN to the specific peer that's accepting routes for that traffic.  WireGuard does not automatically find the fastest route or attempt to form direct connections between peers if not already defined, it just goes from the most specific route in `[Peers]` to least specific.
 
 You can figure out which routing method WireGuard is using for a given address by measuring the ping times to figure out the unique length of each hop, and by inspecting the output of:
 ```bash
@@ -367,14 +367,14 @@ Overview of the general process:
 
 1. Install `apt install wireguard` or `pkg/brew install wireguard-tools` on each node
 2. Generate public and private keys locally on each node `wg genkey`+`wg pubkey`
-3. Create a `wg0.conf` wireguard config file on the main relay server
+3. Create a `wg0.conf` WireGuard config file on the main relay server
     - `[Interface]` Make sure to specify a CIDR range for the entire VPN subnet when defining the address the server accepts routes for `Address = 192.0.2.1/24`
     - `[Peer]` Create a peer section for every client joining the VPN, using their corresponding remote public keys
 4. Create a `wg0.conf` on each client node
    - `[Interface]` Make sure to specify only a single IP for client peers that don't relay traffic `Address = 192.0.2.3/32`.
    - `[Peer]` Create a peer section for each public peer not behind a NAT, make sure to specify a CIDR range for the entire VPN subnet when defining the remote peer acting as the bounce server `AllowedIPs = 192.0.2.1/24`. Make sure to specify individual IPs for remote peers that don't relay traffic and only act as simple clients `AllowedIPs = 192.0.2.3/32`.
-5. Start wireguard on the main relay server with `wg-quick up /full/path/to/wg0.conf`
-6. Start wireguard on all the client peers with `wg-quick up /full/path/to/wg0.conf`
+5. Start WireGuard on the main relay server with `wg-quick up /full/path/to/wg0.conf`
+6. Start WireGuard on all the client peers with `wg-quick up /full/path/to/wg0.conf`
 7. Traffic is routed from peer to peer using most specific route first over the WireGuard interface, e.g. `ping 192.0.2.3` checks for a direct route to a peer with `AllowedIPs = 192.0.2.3/32` first, then falls back to a relay server that's accepting ips in the whole subnet
 
 ### Setup
@@ -462,7 +462,7 @@ ip address show
 ifconfig wg0
 ip link show wg0
 
-# show wireguard VPN interfaces
+# show WireGuard VPN interfaces
 wg show all
 wg show wg0
 ```
@@ -482,7 +482,7 @@ ip address show wg0
 #### Routes
 
 ```bash
-# show wireguard routing table and peer connections
+# show WireGuard routing table and peer connections
 wg show
 wg show wg0 allowed-ips
 
@@ -886,7 +886,7 @@ If the connection is going from a NAT-ed peer to a public peer, the node behind 
 
 ### IPv6
 
-The examples in these docs primarily use IPv4, but Wireguard natively supports IPv6 CIDR notation and addresses everywhere that it supports IPv4, simply add them as you would any other subnet range or address.
+The examples in these docs primarily use IPv4, but WireGuard natively supports IPv6 CIDR notation and addresses everywhere that it supports IPv4, simply add them as you would any other subnet range or address.
 
 **Example**
 
@@ -925,7 +925,7 @@ AllowedIPs = 0.0.0.0/0, ::/0
 
 WireGuard can sometimes natively make connections between two clients behind NATs without the need for a public relay server, but in most cases this is not possible. NAT-to-NAT connections are only possible if at least one host has a stable, publicly-accessible IP address:port pair that can be hardcoded ahead of time, whether thats using a FQDN updated with Dynamic DNS, or a static public IP with a non-randomized NAT port opened by outgoing packets, anything works as long as all peers can communicate it beforehand and it doesn't change once the connection is initiated.
 
-A known port and address need to be configured ahead of time because Wireguard doesn't have a signalling layer or public STUN servers that can be used to search for other hosts dynamically.  WebRTC is an example of a protocol that can dynamically configure a connection between two NATs, but it does this by using an out-of-band signaling server to detect the ip:port combo of each host. Wireguard doesn't have this, so it only works with a hardcoded `Endpoint` + `ListenPort` (and `PersistentKeepalive` so it doesn't drop after inactivity).
+A known port and address need to be configured ahead of time because Wireguard doesn't have a signalling layer or public STUN servers that can be used to search for other hosts dynamically.  WebRTC is an example of a protocol that can dynamically configure a connection between two NATs, but it does this by using an out-of-band signaling server to detect the ip:port combo of each host. WireGuard doesn't have this, so it only works with a hardcoded `Endpoint` + `ListenPort` (and `PersistentKeepalive` so it doesn't drop after inactivity).
 
 #### Requirements for NAT-to-NAT setups
 
@@ -947,14 +947,14 @@ Getting this to work when both end-points are behind NATs or firewalls requires 
 
 #### Drawbacks and limitations
 
-As of 2019, many of the old hole-punching methods used that used to work are no longer effective.  One example was a novel method pioneered by [pwnat]](https://github.com/samyk/pwnat) that faked an ICMP Time Exceeded response from outside the NAT to get a packet back through to a NAT'ed peer, thereby leaking its own srcport. Hardcoding UDP ports and public IPs for both sides of a NAT-to-NAT connection (as described above) still works on a small percentage of networks. Generally the more "enterprisey" a network is, the less likely you'll be able to hole puch public UDP ports (commercial public wifi and cell data NATs often don't work for example). 
+As of 2019, many of the old hole-punching methods used that used to work are no longer effective.  One example was a novel method pioneered by [pwnat](https://github.com/samyk/pwnat) that faked an ICMP Time Exceeded response from outside the NAT to get a packet back through to a NAT'ed peer, thereby leaking its own srcport. Hardcoding UDP ports and public IPs for both sides of a NAT-to-NAT connection (as described above) still works on a small percentage of networks. Generally the more "enterprisey" a network is, the less likely you'll be able to hole puch public UDP ports (commercial public wifi and cell data NATs often don't work for example). 
 
 ##### Source port randomization
 
 NAT-to-NAT connections are not possible if all endpoints are behind NAT's with strict UDP source port randomization (e.g. most cellular data networks).  Since neither side is able to hardcode a `ListenPort` and guarantee that their NAT will accept traffic on that port after the outgoing ping, you cannot coordinate a port for the initial hole-punch between peers and connections will fail.  For this reason, you generally cannot do phone-to-phone connections on LTE/3g networks, but you might be able to do phone-to-office or phone-to-home where the office or home has a stable public IP and doesn't do source port randomization.
 
 ##### Dynamic IP addresses
-Many users report having to restart WireGuard whenever a dynamic IP changes, as it only resolves hostnames on startup. To force WireGuard to re-resolve dynamic DNS `Endpoint` hostnames more often, you may want to use a `PostUp` hook to restart Wireguard every few minutes or hours.
+Many users report having to restart WireGuard whenever a dynamic IP changes, as it only resolves hostnames on startup. To force WireGuard to re-resolve dynamic DNS `Endpoint` hostnames more often, you may want to use a `PostUp` hook to restart WireGuard every few minutes or hours.
 
 
 #### Testing it out
@@ -1021,10 +1021,10 @@ PostUp = wg set %i allowed-ips /etc/wireguard/wg0.key <(some command)
 A compliant userland WireGuard implementation written in Go.
 
 - https://git.zx2c4.com/wireguard-rs/about/  
-An incomplete, insecure userspace implementation of Wireguard written in Rust (not ready for the public).
+An incomplete, insecure userspace implementation of WireGuard written in Rust (not ready for the public).
 
 - https://git.zx2c4.com/wireguard-hs/about/  
-An incomplete, insecure userspace implementation of Wireguard written in Haskell (not ready for the public).
+An incomplete, insecure userspace implementation of WireGuard written in Haskell (not ready for the public).
 
 - https://github.com/cloudflare/boringtun  
 A compliant, working WireGuard implementation with the exact same API, written in Rust.
