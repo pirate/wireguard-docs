@@ -157,23 +157,29 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
 
 ## List of Possible VPN Solutions
 
- - PPTP: ancient, inflexible, insecure, doesn't solve all the requirements
- - L2TP: meh
- - SOCKS: proxy tunnel, not a VPN, not great for this use case
+ - [WireGuard](https://www.wireguard.com/): the subject of this post
  - [IPSec (IKEv2)](https://github.com/jawj/IKEv2-setup)/strongSwan: lots of brittle config that's different for each OS, NAT busting setup is very manual and involves updating the central server and starting all the others in the correct order, not great at reconnecting after network downtime, had to be manually restarted often
  with that if it's the only option
  - [OpenVPN](https://openvpn.net/vpn-server-resources/site-to-site-routing-explained-in-detail/): I don't like it from past experience but could be convinced if it's the only option
  - StealthVPN: haven't tried it
- - [MeshBird](https://github.com/meshbird/meshbird): "Cloud native" VPN/networking layer
- - [Algo](https://github.com/trailofbits/algo): haven't tried it yet, should I?
- - [Striesand](https://github.com/StreisandEffect/streisand): haven't tried it yet, what's the best config to try?
- - [SoftEther](https://www.softether.org/): haven't tried it yet, should I?
- - [WireGuard](https://www.wireguard.com/): the subject of this post
+ - [DsVPN](https://github.com/jedisct1/dsvpn): does TCP-over-TCP which usually doesn't end well...
+ - [SoftEther](https://www.softether.org/) ([SSTP](https://en.wikipedia.org/wiki/Secure_Socket_Tunneling_Protocol)): haven't tried it yet, should I? (also does TCP-over-TCP)
+ - PPTP: ancient, inflexible, insecure, doesn't solve all the requirements
+ - L2TP: meh
+ - SOCKS: proxy tunnel, not a VPN, not great for this use case
  
 ### Mesh VPN Solutions
+
  - [TINC](https://www.tinc-vpn.org/): haven't tried it yet, but it doesn't work on iOS, worst case scenario I could live 
  - [cjdns](https://github.com/cjdelisle/cjdns): haven't tried it yet, should I?
- - [ZeroTier](https://www.zerotier.com): haven't tried it yet, should I?
+ - [ZeroTier](https://www.zerotier.com): haven't tried it yet, should I
+ - [MeshBird](https://github.com/meshbird/meshbird): "Cloud native" VPN/networking layer
+
+### Setup Tools
+
+ - [Algo](https://github.com/trailofbits/algo) WireGuard setup tool
+ - [Striesand](https://github.com/StreisandEffect/streisand) Multi-protocol setup tool
+ - [IKEv2-setup](https://github.com/jawj/IKEv2-setup) IKEv2 server setup script
 
 ---
 
