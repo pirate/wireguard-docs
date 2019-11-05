@@ -170,7 +170,8 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
  
 ### Mesh VPN Solutions
 
- - [TINC](https://www.tinc-vpn.org/): haven't tried it yet, but it doesn't work on iOS, worst case scenario I could live 
+ - [TINC](https://www.tinc-vpn.org/): haven't tried it yet, but it doesn't work on iOS, worst case scenario I could live
+ - [VPNCloud](https://github.com/dswd/vpncloud): similar properties to WireGuard, with more auto-mesh features
  - [cjdns](https://github.com/cjdelisle/cjdns): haven't tried it yet, should I?
  - [ZeroTier](https://www.zerotier.com): haven't tried it yet, should I
  - [MeshBird](https://github.com/meshbird/meshbird): "Cloud native" VPN/networking layer
