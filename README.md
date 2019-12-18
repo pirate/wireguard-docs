@@ -21,11 +21,7 @@ Nicer HTML page version: https://docs.sweeting.me/s/wireguard
 
 ---
 
-[WireGuard](https://www.wireguard.com/) is a BETA/WIP open-source VPN solution written in C by [Jason Donenfeld](https://www.jasondonenfeld.com) and [others](https://github.com/WireGuard/WireGuard/graphs/contributors), aiming to fix many of the problems that have plagued other modern server-to-server VPN offerings like IPSec/IKEv2, OpenVPN, or L2TP. It shares some similarities with other modern VPN offerings like [Tinc](https://www.tinc-vpn.org/) and [MeshBird](https://github.com/meshbird/meshbird), namely good cipher suites and minimal config.
-
-This is my attempt at writing "The Unofficial WireGuard Documentation" to make up for the somewhat sparse official docs on an otherwise great piece of software.  
-  
-<small>(This repo used to be called "The Missing WireGuard Documentation" but I felt bad about implying that WireGuard has no docs (they do have docs, they're just hidden away in the manpages). I figred I could combine it with some example setup configs, and some of the secret tips and tricks shared only on mailing lists and make a documentation resource.)</small>
+[WireGuard](https://www.wireguard.com/) is an open-source VPN solution written in C by [Jason Donenfeld](https://www.jasondonenfeld.com) and [others](https://github.com/WireGuard/WireGuard/graphs/contributors), aiming to fix many of the problems that have plagued other modern server-to-server VPN offerings like IPSec/IKEv2, OpenVPN, or L2TP. It shares some similarities with other modern VPN offerings like [Tinc](https://www.tinc-vpn.org/) and [MeshBird](https://github.com/meshbird/meshbird), namely good cipher suites and minimal config.
 
 **Official Links**
 
@@ -138,35 +134,43 @@ See https://github.com/pirate/wireguard-docs for example code and documentation 
 
 # Intro
 
-Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out of necessity, since the city I was living in was behind the Great Wall of China.  Everything from old-school PPTP to crazy round-robin GoAgent AppEngine proxy setups were common back in the early 2010's to break through the GFW, these days it's mostly OpenVPN, StealthVPN, IPSec/IKEv2 and others.  From the recommendation of a few people in the [RC](https://recurse.com) Zulip community, I decided to try WireGuard and was surprised to find it checked almost all the boxes.
+Whether living behind the Great Wall of China or just trying to form a network between your servers, Wireguard is a great option and serves as a "lego block" for building networks (much in the same way that ZFS is a lego block for building filesystems).
 
-## My Personal Requirements for a VPN Solution
+## Wireguard Overview
 
- - minimal config, low config surface area and few exposed tunables
- - minimal key management overhead, 1 or 2 preshared keys or certs is ok, but ideally not both
- - ability to easily create a LAN like 192.0.2.0/24 between all my servers, every peer can connect to every peer, 
- - ability to bust through NATs with a signalling server, routing nat-to-nat instead of through a relay (WebRTC-style)
- - fallback to relay server when nat-to-nat busting is unavailable or unreliable
- - ability to route to a fixed list of ips/hosts with 1 keypair per host (not needed, but nice to have: ability to route arbitrary local traffic or *all* internet traffic to a given host)
+ - minimal config, low tunable surface area and sane defaults
+ - minimal key management work needed, just 1 public & 1 private key per host
+ - behaves like a normal ethernet interface, behaves well with standard kernel packet routing rules
+ - ability to easily create a LAN like 192.0.2.0/24 between all servers, or more complex networks using custom routes
+ - ability to some traffic or all traffic to/through arbitrary hosts on the VPN LAN
  - robust automatic reconnects after reboots / network downtime / NAT connection table drops
- - fast (lowest possible latency and line-rate bandwidth)
- - encrypted, and secure by default (not needed, nice to have: short copy-pastable key pairs)
+ - fast (low latency and line-rate bandwidth)
+ - modern encryption, secure by default with forward secrecy & resilience to downgrade atttacks
  - ideally support for any type of Level 2 and control traffic, e.g. ARP/DHCP/ICMP (or ideally raw ethernet frames), not just TCP/HTTP
- - ability to join the VPN from Ubuntu, FreeBSD, iOS, macOS (Windows/Android not needed but would be nice)
- - not a requirement, but ideally it would support running in docker with a single container, config file, and preshared key on each server, but with a full network interface exposed to the host system (maybe with tun/tap on the host passing traffic to the container, but ideally just a single container + config file without outside dependencies)
+ - ability to join the VPN from Ubuntu, FreeBSD, iOS, macOS, Windows, Android (via open-source apps or natively)
+ - supports both running on the host routing traffic for docker or running in a docker container routing for the host
 
-## List of Possible VPN Solutions
+**Things wireguard does not do:**
 
- - [WireGuard](https://www.wireguard.com/): the subject of this post
+- form a self-healing mesh network where nodes automatically gossip with neighbors
+- break through double NATs with a signalling server (WebRTC-style)
+- handle automatically distributing & revoking keys through a cetral authority
+- allow sending raw layer-2 ethernet frames (it's at the IP layer)
+
+But you can write your own solutions for these problems using WireGuard under the hood (like [AltheaNet](https://althea.net/)).
+
+## List of Other VPN Solutions
+
+ - [WireGuard](https://www.wireguard.com/)
  - [IPSec (IKEv2)](https://github.com/jawj/IKEv2-setup)/strongSwan: lots of brittle config that's different for each OS, NAT busting setup is very manual and involves updating the central server and starting all the others in the correct order, not great at reconnecting after network downtime, had to be manually restarted often
  with that if it's the only option
- - [OpenVPN](https://openvpn.net/vpn-server-resources/site-to-site-routing-explained-in-detail/): I don't like it from past experience but could be convinced if it's the only option
+ - [OpenVPN](https://openvpn.net/vpn-server-resources/site-to-site-routing-explained-in-detail/): stealthy because it looks like HTTPS traffic, but it does TCP-over-TCP (👎)
  - StealthVPN: haven't tried it
  - [DsVPN](https://github.com/jedisct1/dsvpn): does TCP-over-TCP which usually doesn't end well...
  - [SoftEther](https://www.softether.org/) ([SSTP](https://en.wikipedia.org/wiki/Secure_Socket_Tunneling_Protocol)): haven't tried it yet, should I? (also does TCP-over-TCP)
+ - L2TP: somewhat outdated
  - PPTP: ancient, inflexible, insecure, doesn't solve all the requirements
- - L2TP: meh
- - SOCKS: proxy tunnel, not a VPN, not great for this use case
+ - SOCKS/SSH: good for proxying single-port traffic, not a full networking tunnel or VPN
  
 ### Mesh VPN Solutions
 
@@ -176,7 +180,7 @@ Over the last 8+ years I've tried a wide range of VPN solutions.  Somewhat out o
  - [ZeroTier](https://www.zerotier.com): haven't tried it yet, should I
  - [MeshBird](https://github.com/meshbird/meshbird): "Cloud native" VPN/networking layer
 
-### Setup Tools
+### VPN Setup Tools
 
  - [Algo](https://github.com/trailofbits/algo) WireGuard setup tool
  - [Striesand](https://github.com/StreisandEffect/streisand) Multi-protocol setup tool
