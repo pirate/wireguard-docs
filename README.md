@@ -162,12 +162,11 @@ But you can write your own solutions for these problems using WireGuard under th
 ## List of Other VPN Solutions
 
  - [WireGuard](https://www.wireguard.com/)
- - [IPSec (IKEv2)](https://github.com/jawj/IKEv2-setup)/strongSwan: lots of brittle config that's different for each OS, NAT busting setup is very manual and involves updating the central server and starting all the others in the correct order, not great at reconnecting after network downtime, had to be manually restarted often
- with that if it's the only option
- - [OpenVPN](https://openvpn.net/vpn-server-resources/site-to-site-routing-explained-in-detail/): stealthy because it looks like HTTPS traffic, but it does TCP-over-TCP (👎)
- - StealthVPN: haven't tried it
- - [DsVPN](https://github.com/jedisct1/dsvpn): does TCP-over-TCP which usually doesn't end well...
- - [SoftEther](https://www.softether.org/) ([SSTP](https://en.wikipedia.org/wiki/Secure_Socket_Tunneling_Protocol)): haven't tried it yet, should I? (also does TCP-over-TCP)
+ - [IPSec (IKEv2)](https://github.com/jawj/IKEv2-setup)/strongSwan: in my exprience, there was lots of brittle config that was different for each OS, the NAT busting setup is very manual and involves updating the central server and starting all the others in the correct order, it wasn't great at becoming stable again after network downtime, had to be manually restarted often. your mileage may vary.
+ - [OpenVPN](https://openvpn.net/vpn-server-resources/site-to-site-routing-explained-in-detail/): can work over UDP or be disguised as HTTPS traffic over TCP
+ - StealthVPN: haven't tried it, should I?
+ - [DsVPN](https://github.com/jedisct1/dsvpn): I think it does TCP-over-TCP which usually doesn't end well...
+ - [SoftEther](https://www.softether.org/) ([SSTP](https://en.wikipedia.org/wiki/Secure_Socket_Tunneling_Protocol)): haven't tried it yet, should I? (also does TCP-over-TCP?)
  - L2TP: somewhat outdated
  - PPTP: ancient, inflexible, insecure, doesn't solve all the requirements
  - SOCKS/SSH: good for proxying single-port traffic, not a full networking tunnel or VPN
