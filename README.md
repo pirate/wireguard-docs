@@ -423,7 +423,7 @@ iptables -t nat -A POSTROUTING -s 192.0.2.0/24 -o eth0 -j MASQUERADE
 
 ### Config Creation
 ```bash
-nano wg0.conf  # can be placed anywhere, must be referred to using absolute path
+nano wg0.conf  # can be placed anywhere, must be referred to using absolute path (usually placed in /etc/wireguard/wg0.conf on most Linux systems)
 ```
 
 ### Key Generation
