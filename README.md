@@ -21,7 +21,7 @@ Nicer HTML page version: https://docs.sweeting.me/s/wireguard
 
 ---
 
-[WireGuard](https://www.wireguard.com/) is an open-source VPN solution written in C by [Jason Donenfeld](https://www.jasondonenfeld.com) and [others](https://github.com/WireGuard/WireGuard/graphs/contributors), aiming to fix many of the problems that have plagued other modern server-to-server VPN offerings like IPSec/IKEv2, OpenVPN, or L2TP. It shares some similarities with other modern VPN offerings like [Tinc](https://www.tinc-vpn.org/) and [MeshBird](https://github.com/meshbird/meshbird), namely good cipher suites and minimal config.
+[WireGuard](https://www.wireguard.com/) is an open-source VPN solution written in C by [Jason Donenfeld](https://www.jasondonenfeld.com) and [others](https://github.com/WireGuard/WireGuard/graphs/contributors), aiming to fix many of the problems that have plagued other modern server-to-server VPN offerings like IPSec/IKEv2, OpenVPN, or L2TP. It shares some similarities with other modern VPN offerings like [Tinc](https://www.tinc-vpn.org/) and [MeshBird](https://github.com/meshbird/meshbird), namely good cipher suites and minimal config. As of 2020-01 [it's been merged into the 5.6 version of the Linux kernel](https://arstechnica.com/gadgets/2020/01/linus-torvalds-pulled-wireguard-vpn-into-the-5-6-kernel-source-tree/), meaning it will ship with most Linux systems out-of-the-box.
 
 **Official Links**
 
@@ -423,7 +423,7 @@ iptables -t nat -A POSTROUTING -s 192.0.2.0/24 -o eth0 -j MASQUERADE
 
 ### Config Creation
 ```bash
-nano /etc/wireguard/wg0.conf
+nano wg0.conf  # can be placed anywhere, must be referred to using absolute path (usually placed in /etc/wireguard/wg0.conf on most Linux systems)
 ```
 
 ### Key Generation
