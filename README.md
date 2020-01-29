@@ -387,8 +387,8 @@ Overview of the general process:
 4. Create a `/etc/wireguard/wg0.conf` WireGuard config file on each client node
    - `[Interface]` Make sure to specify only a single IP for client peers that don't relay traffic `Address = 192.0.2.3/32`.
    - `[Peer]` Create a peer section for each public peer not behind a NAT, make sure to specify a CIDR range for the entire VPN subnet when defining the remote peer acting as the bounce server `AllowedIPs = 192.0.2.1/24`. Make sure to specify individual IPs for remote peers that don't relay traffic and only act as simple clients `AllowedIPs = 192.0.2.3/32`.
-5. Start WireGuard on the main relay server with `wg-quick up wg0`
-6. Start WireGuard on all the client peers with `wg-quick up wg0`
+5. Start WireGuard on the main relay server with `wg-quick up /etc/wireguard/wg0.conf`
+6. Start WireGuard on all the client peers with `wg-quick up /etc/wireguard/wg0.conf`
 7. Traffic is routed from peer to peer using most specific route first over the WireGuard interface, e.g. `ping 192.0.2.3` checks for a direct route to a peer with `AllowedIPs = 192.0.2.3/32` first, then falls back to a relay server that's accepting ips in the whole subnet
 
 ### Setup
@@ -440,8 +440,9 @@ wg pubkey < example.key > example.key.pub
 
 ```bash
 # first, create a configuration file at /etc/wireguard/wg0.conf
-wg-quick up wg0
-wg-quick down wg0
+wg-quick up /etc/wireguard/wg0.conf
+wg-quick down /etc/wireguard/wg0.conf
+# Note: you must specify the absolute path to wg0.conf, relative paths won't work
 ```
 
 ```bash
@@ -572,11 +573,8 @@ dig example.com A
 WireGuard config files are in INI syntax. The configuration is specified as an argument when running any `wg-quick` command, e.g.:
 
 ```bash
-# if the configuration file is at /etc/wireguard/wg0.conf
-wg-quick up wg0
-
-# if the configuration file is stored anywhere else, you must use an absolute path; relative paths won't work
-wq-quick up /tmp/wgtest.conf
+# you must use an absolute path; relative paths won't work
+wq-quick up /etc/wireguard/wg0.conf
 ```
 
 The file name must be in the format `${name of the new wireguard interface}.conf`. `wg-quick` looks for config files in `/etc/wireguard` by default, so it usually makes sense to place them there. Wireguard interface names are typically prefixed with `wg` and numbered starting at `0`, but you can use any name that matches the regex `^[a-zA-Z0-9_=+.-]{1,15}$`. A configuration file for the interface `wg0` would typically be found at `/etc/wireguard/wg0.conf`.
