@@ -574,6 +574,8 @@ WireGuard config is in INI syntax, defined in a file usually called `wg0.conf`. 
 The config path is specified as an argument when running any `wg-quick` command, e.g:  
 `wg-quick up /etc/wireguard/wg0.conf` (always specify the full, absolute path)
 
+The config file name must be in the format `${name of the new wireguard interface}.conf`. WireGuard interface names are typically prefixed with `wg` and numbered starting at `0`, but you can use any name that matches the regex `^[a-zA-Z0-9_=+.-]{1,15}$`.
+
 Config files can opt to use the limited set of `wg` config options, or the more extended `wg-quick` options, depending on what command is preferred to start WireGuard.  These docs recommend sticking to `wg-quick` as it provides a more powerful and user-friendly config experience.
 
 **Jump to definition:**
