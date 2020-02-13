@@ -1138,6 +1138,7 @@ Setups can get somewhat complex and are highly dependent on what you're trying t
 - https://www.wireguard.com/quickstart/
 - https://www.stavros.io/posts/how-to-configure-wireguard/
 - https://nbsoftsolutions.com/blog/wireguard-vpn-walkthrough
+- https://networkhobo.com/building-a-wireguard-router/
 - https://proprivacy.com/guides/wireguard-hands-on-guide
 - https://angristan.xyz/how-to-setup-vpn-server-wireguard-nat-ipv6/
 - https://medium.com/@headquartershq/setting-up-wireguard-on-a-mac-8a121bfe9d86
@@ -1227,6 +1228,7 @@ Setups can get somewhat complex and are highly dependent on what you're trying t
 - https://www.reddit.com/r/WireGuard/comments/ap33df/wireguard_what_is_so_special_about_it_and_why/
 - https://www.reddit.com/r/VPN/comments/9hgs2x/what_is_the_difference_between_wireguard_openvpn/
 - https://www.reddit.com/r/privacytoolsIO/comments/8l0vxt/what_do_you_think_guys_of_wireguard/
+- https://community.ui.com/questions/Edgerouter-with-remote-Wireguard-access-issue/03e4f2e2-3871-437f-8632-3c5c7fb1c7a4
 - https://news.ycombinator.com/item?id=20036194
 - https://news.ycombinator.com/item?id=17659983
 - https://news.ycombinator.com/item?id=17846387
