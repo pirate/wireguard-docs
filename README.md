@@ -2,7 +2,7 @@
 
 # Some Unofficial WireGuard Documentation
 
-<img src="https://i.imgur.com/xePt3qp.png"><br/><br/>
+<img src="https://i.imgur.com/dQ3PDQQ.png"><br/><br/>
 
 
 API reference guide for WireGuard including Setup, Configuration, and Usage, with examples.
