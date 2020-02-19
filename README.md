@@ -1044,7 +1044,7 @@ An incomplete, insecure userspace implementation of WireGuard written in Rust (n
 An incomplete, insecure userspace implementation of WireGuard written in Haskell (not ready for the public).
 
 - https://github.com/cloudflare/boringtun  
-A compliant, working WireGuard implementation with the exact same API, written in Rust.
+A non-compliant, independent WireGuard implementation written in Rust (a separate fork written by CloudFlare).
 See https://blog.cloudflare.com/boringtun-userspace-wireguard-rust/
 
 - Platform-specific WireGuard apps  
