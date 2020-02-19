@@ -28,6 +28,7 @@ Nicer HTML page version: https://docs.sweeting.me/s/wireguard
 - Homepage: https://www.wireguard.com
 - Install: https://www.wireguard.com/install/
 - QuickStart: https://www.wireguard.com/quickstart/
+- Manpages: [`wg`](https://manpages.debian.org/testing/wireguard-tools/wg.8.en.html), [`wg-quick`](https://manpages.debian.org/unstable/wireguard-tools/wg-quick.8.en.html)
 - Main Git repo: https://git.zx2c4.com/WireGuard/
 - Github Mirror: https://github.com/WireGuard/WireGuard
 - Mailing List: https://lists.zx2c4.com/mailman/listinfo/wireguard
