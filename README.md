@@ -570,7 +570,7 @@ dig example.com A
 
 ### Overview
 
-WireGuard config is in INI syntax, defined in a file usually called `wg0.conf`.  It can be placed anywhere on the system, but is often placed in `/etc/wireguard/wg0.conf`.  
+WireGuard config is in [INI syntax](https://en.wikipedia.org/wiki/INI_file), defined in a file usually called `wg0.conf`.  It can be placed anywhere on the system, but is often placed in `/etc/wireguard/wg0.conf`.  
 
 The config path is specified as an argument when running any `wg-quick` command, e.g:  
 `wg-quick up /etc/wireguard/wg0.conf` (always specify the full, absolute path)
