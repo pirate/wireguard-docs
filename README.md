@@ -970,6 +970,13 @@ As of 2019, many of the old hole-punching methods used that used to work are no 
 
 NAT-to-NAT connections are not possible if all endpoints are behind NAT's with strict UDP source port randomization (e.g. most cellular data networks).  Since neither side is able to hardcode a `ListenPort` and guarantee that their NAT will accept traffic on that port after the outgoing ping, you cannot coordinate a port for the initial hole-punch between peers and connections will fail.  For this reason, you generally cannot do phone-to-phone connections on LTE/3g networks, but you might be able to do phone-to-office or phone-to-home where the office or home has a stable public IP and doesn't do source port randomization.
 
+##### Using a signaling server
+
+NAT-to-NAT connections from behind NATs with strict source-port randomization is possible, you just need a singaling server to tell each side the other's ip:port tuple.  Here are a few implementations that achieve this with WireGuard:
+
+- https://github.com/takutakahashi/wg-connect
+- https://git.zx2c4.com/wireguard-tools/tree/contrib/nat-hole-punching/
+
 ##### Dynamic IP addresses
 Many users report having to restart WireGuard whenever a dynamic IP changes, as it only resolves hostnames on startup. To force WireGuard to re-resolve dynamic DNS `Endpoint` hostnames more often, you may want to use a `PostUp` hook to restart WireGuard every few minutes or hours.
 
