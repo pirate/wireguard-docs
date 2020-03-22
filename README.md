@@ -1196,6 +1196,7 @@ Setups can get somewhat complex and are highly dependent on what you're trying t
 - https://github.com/WireGuard/wireguard-go
 - https://www.veeam.com/blog/veeam-pn-v2-wireguard.html
 - https://github.com/wg-dashboard/wg-dashboard
+- https://wirt.network
 
 ### Docker
 
