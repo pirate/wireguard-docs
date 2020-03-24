@@ -372,6 +372,11 @@ You can also read in keys from a file or via command if you don't want to hardco
 ...
 PostUp = wg set %i private-key /etc/wireguard/wg0.key <(cat /some/path/%i/privkey)
 ```
+
+Technically, multiple servers can share the same private key as long as clients arent connected to two servers with the same key simulatenously.
+An example of a scenario where this is a reasonable setup is if you're using round-robin DNS to load-balance connections between two servers that are pretending to be a single server.
+Most of the time however, every peer should have its own pubic/private keypair so that peers can't read eachothers traffic and can be individually revoked.
+
 ---
 
 ## Usage
