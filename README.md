@@ -1083,6 +1083,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://github.com/StreisandEffect/streisand
  - https://www.veeam.com/blog/veeam-pn-v2-wireguard.html
  - https://github.com/wg-dashboard/wg-dashboard
+ - https://www.wireguardconfig.com
 
 
 ### Config Shortcuts
