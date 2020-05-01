@@ -365,6 +365,7 @@ Some services that help with key distribution and deployment:
 - https://github.com/StreisandEffect/streisand
 - https://github.com/its0x08/wg-install
 - https://github.com/brittson/wireguard_config_maker
+- https://www.wireguardconfig.com
 
 You can also read in keys from a file or via command if you don't want to hardcode them in `wg0.conf`, this makes managing keys via 3rd party service much easier:
 
@@ -1083,6 +1084,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://github.com/StreisandEffect/streisand
  - https://www.veeam.com/blog/veeam-pn-v2-wireguard.html
  - https://github.com/wg-dashboard/wg-dashboard
+ - https://www.wireguardconfig.com
 
 
 ### Config Shortcuts
