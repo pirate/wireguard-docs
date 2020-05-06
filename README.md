@@ -231,9 +231,9 @@ A group of IPs separate from the public internet, e.g. 192.0.2.1-255 or 192.168.
 
 A way of defining a subnet and its size with a "mask", a smaller mask = more  address bits usable by the subnet & more IPs in the range. Most common ones:
   + `192.0.2.1/32` (a single IP address, `192.0.2.1`) netmask = `255.255.255.255`
-  + `192.0.2.1/24` (255 IPs from `192.0.2.1`-`255`) netmask = ` 255.255.255.0`
-  + `192.0.2.1/16` (65,536 IPs from `192.0.2.0` - `192.0.255.255`) netmask = `255.255.0.0`
-  + `192.0.2.1/8` (16,777,216 IPs from `192.0.2.0` - `192.255.255.255`) netmask = `255.0.0.0`
+  + `192.0.2.1/24` (255 IPs from `192.0.2.0`-`192.0.2.255`) netmask = ` 255.255.255.0`
+  + `192.0.2.1/16` (65,536 IPs from `192.0.0.0` - `192.0.255.255`) netmask = `255.255.0.0`
+  + `192.0.2.1/8` (16,777,216 IPs from `192.0.0.0` - `192.255.255.255`) netmask = `255.0.0.0`
   + `0.0.0.1/0` (4,294,967,296 IPs from `0.0.0.0` - `255.255.255.255`) netmask = `0.0.0.0`
   + IPv6 CIDR notation is also supported e.g. `2001:DB8::/64`
  
