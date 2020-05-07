@@ -1127,6 +1127,82 @@ WireGuard can be run in Docker with varying degrees of ease. In the simplest cas
 
 Setups can get somewhat complex and are highly dependent on what you're trying to achieve. You can have WireGuard itself run in a container and expose a network interface to the host, or you can have WireGuard running on the host exposing an interface to specific containers.
 
+See below for an example of a Docker container `vpn_test` routing all its traffic through a WireGuard relay server.
+
+#### Example Relay Server Setup
+
+```yaml
+version: '3'
+
+services:
+  wireguard:
+    image: linuxserver/wireguard
+    ports:
+      - 51820:51820/udp
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    volumes:
+      - /lib/modules:/lib/modules
+      - ./wg0.conf:/config/wg0.conf:ro
+```
+**`wg0.conf`:**
+```ini
+[Interface]
+# Name = relay1.wg.example.com
+Address = 192.0.2.1/24
+ListenPort = 51820
+PrivateKey = oJpRt2Oq27vIB5/UVb7BRqCwad2YMReQgH5tlxz8YmI=
+DNS = 1.1.1.1,8.8.8.8
+PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0  -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+[Peer]
+# Name = peer1.wg.example.com
+PublicKey = I+hXRAJOG/UE2IQvIHsou2zTgkUyPve2pzvHTnd/2Gg=
+AllowedIPs = 192.0.2.2/32
+```
+
+#### Example Client Container Setup
+
+In this example *all* the traffic from inside the `speedtest` container will go through the wireguard VPN.
+To only route some traffic, replace `0.0.0.0/0` in `wg0.conf` below with the subnet ranges you want to route via the VPN.
+
+**`docker-compose.yml`:**
+```yaml
+version: '3'
+
+services:
+  wireguard:
+    image: linuxserver/wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    volumes:
+      - /lib/modules:/lib/modules
+      - ./wg0.conf:/config/wg0.conf:ro
+    
+  vpn_test:
+    image: curlimages/curl
+    entrypoint: curl -s http://whatismyip.akamai.com/
+    network_mode: 'service:wireguard'
+```
+**`wg0.conf`:**
+```ini
+[Interface]
+# Name = peer1.wg.example.com
+Address = 192.0.2.2/32
+PrivateKey = YCW76edD4W7nZrPbWZxPZhcs32CsBLIi1sEhsV/sgk8=
+DNS = 1.1.1.1,8.8.8.8
+
+[Peer]
+# Name = relay1.wg.example.com
+Endpoint = relay1.wg.example.com:51820
+PublicKey = zJNKewtL3gcHdG62V3GaBkErFtapJWsAx+2um0c0B1s=
+AllowedIPs = 192.0.2.1/24,0.0.0.0/0
+PersistentKeepalive = 21
+```
+
 **Further Reading**
 
 - https://www.wireguard.com/#ready-for-containers
