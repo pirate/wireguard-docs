@@ -1003,6 +1003,7 @@ NAT-to-NAT connections are often more unstable and have other limitations, which
  - https://stackoverflow.com/questions/11819349/udp-hole-punching-not-possible-with-mobile-provider
  - https://github.com/WireGuard/WireGuard/tree/master/contrib/examples/nat-hole-punching
  - https://staaldraad.github.io/2017/04/17/nat-to-nat-with-wireguard/
+ - https://golb.hplar.ch/2019/01/expose-server-vpn.html
 
 **Example**
 
@@ -1085,6 +1086,9 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://www.veeam.com/blog/veeam-pn-v2-wireguard.html
  - https://github.com/wg-dashboard/wg-dashboard
  - https://www.wireguardconfig.com
+ - https://github.com/complexorganizations/wireguard-manager
+ - https://github.com/influxdata/wirey
+ - https://github.com/apognu/wgctl
 
 
 ### Config Shortcuts
@@ -1203,15 +1207,7 @@ AllowedIPs = 192.0.2.1/24,0.0.0.0/0
 PersistentKeepalive = 21
 ```
 
-**Further Reading**
-
-- https://www.wireguard.com/#ready-for-containers
-- https://medium.com/@mdp/securing-docker-with-wireguard-82ad45004f4d
-- https://blog.jessfraz.com/post/installing-and-using-wireguard/
-- https://github.com/cmulk/wireguard-docker
-- https://github.com/activeeos/wireguard-docker
-- https://github.com/ironhalik/docker-wireguard
-- https://nbsoftsolutions.com/blog/routing-select-docker-containers-through-wireguard-vpn
+For more details see the Further Reading: Docker section below.
 
 ---
 
@@ -1250,6 +1246,11 @@ PersistentKeepalive = 21
 - https://wiki.dd-wrt.com/wiki/index.php/The_Easiest_Tunnel_Ever
 - https://www.reddit.com/r/pihole/comments/bnihyz/guide_how_to_install_wireguard_on_a_raspberry_pi/
 - https://jwillmer.de/blog/tutorial/wireguard-proxy-configuration
+- https://www.maths.tcd.ie/~fionn/misc/wireguard.php
+- https://www.linode.com/docs/networking/vpn/set-up-wireguard-vpn-on-debian/
+- https://golb.hplar.ch/2019/01/expose-server-vpn.html
+- https://medium.com/@jmarhee/configuring-and-managing-routes-between-multiple-networks-with-wireguard-61ad995c887c
+- https://stanislas.blog/2019/01/how-to-setup-vpn-server-wireguard-nat-ipv6/
 
 ### Papers, Articles, and Talks
 
@@ -1281,20 +1282,33 @@ PersistentKeepalive = 21
 - https://www.veeam.com/blog/veeam-pn-v2-wireguard.html
 - https://github.com/wg-dashboard/wg-dashboard
 - https://wirt.network
+- https://www.wireguardconfig.com
 - https://github.com/angristan/wireguard-install
+- https://github.com/complexorganizations/wireguard-manager
+- https://github.com/influxdata/wirey
+- https://github.com/apognu/wgctl
+- https://github.com/tailscale/tailscale
 
 ### Docker
 
-- https://www.wireguard.com/#ready-for-containers
-- https://medium.com/@mdp/securing-docker-with-wireguard-82ad45004f4d
+
 - https://blog.jessfraz.com/post/installing-and-using-wireguard/
-- https://nbsoftsolutions.com/blog/leaning-on-algo-to-route-docker-traffic-through-wireguard
-- https://github.com/cmulk/wireguard-docker
+- https://codeopolis.com/posts/installing-wireguard-in-docker/
+- http://tiven.wang/articles/wireguard-setup-server-in-docker/
 - https://github.com/activeeos/wireguard-docker
+- https://github.com/cmulk/wireguard-docker
 - https://github.com/ironhalik/docker-wireguard
+- https://github.com/linuxserver/docker-wireguard
+- https://github.com/squat/kilo
+- https://github.com/gravitational/wormhole
+- https://medium.com/@mdp/securing-docker-with-wireguard-82ad45004f4d
+- https://nbsoftsolutions.com/blog/leaning-on-algo-to-route-docker-traffic-through-wireguard
 - https://nbsoftsolutions.com/blog/routing-select-docker-containers-through-wireguard-vpn
 - https://www.net.in.tum.de/fileadmin/bibtex/publications/theses/2018-pudelko-vpn-performance.pdf
-
+- https://www.wireguard.com/#ready-for-containers
+- https://discuss.linuxcontainers.org/t/solved-wireguard-in-macvlan-container-on-ubuntu-18-04/4445
+- https://www.reddit.com/r/WireGuard/comments/gdhcej/trouble_tunneling_docker_containers_through_a/
+- https://forums.unraid.net/topic/91367-partially-working-wireguard-docker/
 
 ### Other
 
@@ -1310,6 +1324,7 @@ PersistentKeepalive = 21
 - https://www.wireguard.com/performance/
 - https://blogs.gnome.org/thaller/2019/03/15/wireguard-in-networkmanager/
 - https://github.com/max-moser/network-manager-wireguard
+- https://blog.linuxserver.io/2019/11/24/connect-an-ubuntu-client-to-opnsense-wireguard-tunnel-with-a-gui-toggle-in-gnome/
 
 
 ### Discussions
@@ -1321,8 +1336,10 @@ PersistentKeepalive = 21
 - https://www.reddit.com/r/VPN/comments/au4owb/how_secure_is_wireguard_vpn_protocol/
 - https://www.reddit.com/r/WireGuard/comments/ap33df/wireguard_what_is_so_special_about_it_and_why/
 - https://www.reddit.com/r/VPN/comments/9hgs2x/what_is_the_difference_between_wireguard_openvpn/
+- https://www.reddit.com/r/WireGuard/comments/d3thxp/port_forwarding_on_the_router_with_wireguard_is/
 - https://www.reddit.com/r/privacytoolsIO/comments/8l0vxt/what_do_you_think_guys_of_wireguard/
 - https://community.ui.com/questions/Edgerouter-with-remote-Wireguard-access-issue/03e4f2e2-3871-437f-8632-3c5c7fb1c7a4
+- https://discuss.linuxcontainers.org/t/solved-wireguard-in-macvlan-container-on-ubuntu-18-04/4445
 - https://news.ycombinator.com/item?id=20036194
 - https://news.ycombinator.com/item?id=17659983
 - https://news.ycombinator.com/item?id=17846387
