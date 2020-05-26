@@ -1089,6 +1089,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://github.com/complexorganizations/wireguard-manager
  - https://github.com/influxdata/wirey
  - https://github.com/apognu/wgctl
+ - https://github.com/naggie/dsnet/
 
 
 ### Config Shortcuts
