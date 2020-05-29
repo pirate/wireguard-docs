@@ -1309,6 +1309,7 @@ For more details see the Further Reading: Docker section below.
 - https://discuss.linuxcontainers.org/t/solved-wireguard-in-macvlan-container-on-ubuntu-18-04/4445
 - https://www.reddit.com/r/WireGuard/comments/gdhcej/trouble_tunneling_docker_containers_through_a/
 - https://forums.unraid.net/topic/91367-partially-working-wireguard-docker/
+- https://saasbootstrap.com/how-to-setup-a-vpn-with-wireguard-that-only-routes-traffic-from-a-specific-docker-container-or-specific-ip/
 
 ### Other
 
