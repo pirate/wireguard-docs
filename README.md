@@ -1265,7 +1265,7 @@ For more details see the Further Reading: Docker section below.
 
 ### Related Projects
 
-- https://github.com/complexorganizations/wireguard-install
+- https://github.com/complexorganizations/wireguard-manager
 - https://github.com/subspacecloud/subspace
 - https://github.com/trailofbits/algo
 - https://github.com/StreisandEffect/streisand
