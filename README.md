@@ -186,6 +186,7 @@ But you can write your own solutions for these problems using WireGuard under th
  - [Algo](https://github.com/trailofbits/algo) WireGuard setup tool
  - [Striesand](https://github.com/StreisandEffect/streisand) Multi-protocol setup tool
  - [IKEv2-setup](https://github.com/jawj/IKEv2-setup) IKEv2 server setup script
+ - [WireGuard-Manager](https://github.com/complexorganizations/wireguard-manager) WireGuard setup tool, all in one
 
 ---
 
