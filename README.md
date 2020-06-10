@@ -1074,6 +1074,7 @@ All of the userspace implementations are slower than the native C version that r
 
 These are some GUI and CLI tools that wrap WireGuard to assist with config, deployment, key management, and connection.
 
+ - https://github.com/vx3r/wg-gen-web
  - https://github.com/subspacecloud/subspace
  - https://github.com/corrad1nho/qomui
  - https://github.com/max-moser/network-manager-wireguard
