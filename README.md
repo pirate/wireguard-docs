@@ -1074,6 +1074,7 @@ All of the userspace implementations are slower than the native C version that r
 
 These are some GUI and CLI tools that wrap WireGuard to assist with config, deployment, key management, and connection.
 
+ - https://github.com/seashell/drago
  - https://github.com/vx3r/wg-gen-web
  - https://github.com/subspacecloud/subspace
  - https://github.com/corrad1nho/qomui
@@ -1286,6 +1287,7 @@ For more details see the Further Reading: Docker section below.
 - https://www.veeam.com/blog/veeam-pn-v2-wireguard.html
 - https://github.com/wg-dashboard/wg-dashboard
 - https://wirt.network
+- https://github.com/seashell/drago
 - https://www.wireguardconfig.com
 - https://github.com/angristan/wireguard-install
 - https://github.com/complexorganizations/wireguard-manager
