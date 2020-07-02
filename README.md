@@ -158,7 +158,7 @@ Whether living behind the Great Wall of China or just trying to form a network b
 - handle automatically distributing & revoking keys through a central authority
 - allow sending raw layer-2 ethernet frames (it's at the IP layer)
 
-But you can write your own solutions for these problems using WireGuard under the hood (like [AltheaNet](https://althea.net/)).
+But you can write your own solutions for these problems using WireGuard under the hood (like [Tailscale](https://github.com/tailscale/tailscale) or [AltheaNet](https://althea.net/)).
 
 ## List of Other VPN Solutions
 
@@ -1094,6 +1094,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://github.com/apognu/wgctl
  - https://github.com/naggie/dsnet
  - https://github.com/perara/wg-manager
+ - https://github.com/pivpn/pivpn
 
 
 ### Config Shortcuts
@@ -1294,6 +1295,7 @@ For more details see the Further Reading: Docker section below.
 - https://github.com/influxdata/wirey
 - https://github.com/apognu/wgctl
 - https://github.com/tailscale/tailscale
+- https://github.com/pivpn/pivpn
 
 ### Docker
 
