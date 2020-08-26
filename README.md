@@ -996,6 +996,7 @@ Both of these are slower than the native C version that runs in kernel land, but
 
 These are some GUI and CLI tools that wrap WireGuard to assist with config, deployment, key management, and connection.
 
+ - https://github.com/BrunIF/wg-ccg
  - https://github.com/subspacecloud/subspace
  - https://github.com/corrad1nho/qomui
  - https://github.com/max-moser/network-manager-wireguard
