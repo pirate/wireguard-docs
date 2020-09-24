@@ -1079,6 +1079,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://github.com/subspacecloud/subspace
  - https://github.com/corrad1nho/qomui
  - https://github.com/max-moser/network-manager-wireguard
+ - https://github.com/psyhomb/wireguard-tools
  - https://github.com/its0x08/wg-install
  - https://github.com/sowbug/mkwgconf
  - https://github.com/brittson/wireguard_config_maker
