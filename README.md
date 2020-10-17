@@ -517,6 +517,23 @@ ip route show table local
 ip route get 192.0.2.3
 ```
 
+#### Logs
+
+To enable additional logging run:
+```modprobe wireguard
+echo module wireguard +p > /sys/kernel/debug/dynamic_debug/control
+```
+
+To follow logs:
+```dmesg -wH
+```
+
+Systems with modern kernel and Safe Boot might require disabling Secure Boot DKMS Signature Verification to allow access to kernel logs.
+```mokutil --disable-verification
+reboot
+```
+
+
 ### Testing
 
 #### Ping Speed
