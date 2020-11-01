@@ -603,10 +603,10 @@ Config files can opt to use the limited set of `wg` config options, or the more 
 ¶ <a href="#PostDown">`PostDown = /bin/example arg1 arg2 %i`</a>  
 
 
-¶ <a href="#Peer-">`[Peer]`</a>  
-¶ <a href="#-Name1">`# Name = node2-node.example.tld`</a>  
+¶ <a href="#Peer">`[Peer]`</a>  
+¶ <a href="#-Name-1">`# Name = node2-node.example.tld`</a>  
 ¶ <a href="#AllowedIPs">`AllowedIPs = 192.0.2.1/24`</a>  
-¶ <a href="#ListenPort">`Endpoint = node1.example.tld:51820`</a>  
+¶ <a href="#Endpoint">`Endpoint = node1.example.tld:51820`</a>  
 ¶ <a href="#PublicKey">`PublicKey = remotePublicKeyAbcAbcAbc=`</a>  
 ¶ <a href="#PersistentKeepalive">`PersistentKeepalive = 25`</a>  
 
