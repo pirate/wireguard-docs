@@ -984,6 +984,7 @@ NAT-to-NAT connections from behind NATs with strict source-port randomization is
 
 - https://github.com/takutakahashi/wg-connect
 - https://git.zx2c4.com/wireguard-tools/tree/contrib/nat-hole-punching/
+- https://github.com/jwhited/wgsd
 
 ##### Dynamic IP addresses
 Many users report having to restart WireGuard whenever a dynamic IP changes, as it only resolves hostnames on startup. To force WireGuard to re-resolve dynamic DNS `Endpoint` hostnames more often, you may want to use a `PostUp` hook to restart WireGuard every few minutes or hours.
@@ -1005,6 +1006,7 @@ NAT-to-NAT connections are often more unstable and have other limitations, which
  - https://github.com/WireGuard/WireGuard/tree/master/contrib/examples/nat-hole-punching
  - https://staaldraad.github.io/2017/04/17/nat-to-nat-with-wireguard/
  - https://golb.hplar.ch/2019/01/expose-server-vpn.html
+ - https://www.jordanwhited.com/posts/wireguard-endpoint-discovery-nat-traversal/
 
 **Example**
 
@@ -1297,6 +1299,7 @@ For more details see the Further Reading: Docker section below.
 - https://github.com/apognu/wgctl
 - https://github.com/tailscale/tailscale
 - https://github.com/pivpn/pivpn
+- https://github.com/jwhited/wgsd
 
 ### Docker
 
