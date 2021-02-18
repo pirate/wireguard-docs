@@ -224,6 +224,8 @@ A host that connects to the VPN and registers a VPN subnet address such as `192.
 
 A publicly reachable peer/node that serves as a fallback to relay traffic for other VPN peers behind NATs.  A bounce server is not a special type of server, it's a normal peer just like all the others, the only difference is that it has a public IP and has kernel-level IP forwarding turned on which allows it to bounce traffic back down the VPN to other clients.
 
+See more: https://tailscale.com/blog/how-nat-traversal-works/ (Tailscale uses Wireguard under the hood)
+
 ### Subnet
 
 A group of IPs separate from the public internet, e.g. 192.0.2.1-255 or 192.168.1.1/24. Generally behind a NAT provided by a router, e.g. in office internet LAN or a home Wi-Fi network.
@@ -951,6 +953,8 @@ AllowedIPs = 0.0.0.0/0, ::/0
 WireGuard can sometimes natively make connections between two clients behind NATs without the need for a public relay server, but in most cases this is not possible. NAT-to-NAT connections are only possible if at least one host has a stable, publicly-accessible IP address:port pair that can be hardcoded ahead of time, whether that's using a FQDN updated with Dynamic DNS, or a static public IP with a non-randomized NAT port opened by outgoing packets, anything works as long as all peers can communicate it beforehand and it doesn't change once the connection is initiated.
 
 A known port and address need to be configured ahead of time because WireGuard doesn't have a signalling layer or public STUN servers that can be used to search for other hosts dynamically.  WebRTC is an example of a protocol that can dynamically configure a connection between two NATs, but it does this by using an out-of-band signaling server to detect the IP:port combo of each host. WireGuard doesn't have this, so it only works with a hardcoded `Endpoint` + `ListenPort` (and `PersistentKeepalive` so it doesn't drop after inactivity).
+
+Learn more from Tailscale's bible of NAT traversal: https://tailscale.com/blog/how-nat-traversal-works/
 
 #### Requirements for NAT-to-NAT setups
 
