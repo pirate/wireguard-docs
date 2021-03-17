@@ -1316,7 +1316,7 @@ For more details see the Further Reading: Docker section below.
 - https://github.com/WireGuard/wireguard-go
 - https://www.veeam.com/blog/veeam-pn-v2-wireguard.html
 - https://github.com/wg-dashboard/wg-dashboard
-- https://wirt.network
+- https://wirtbot.com
 - https://github.com/seashell/drago
 - https://www.wireguardconfig.com
 - https://github.com/angristan/wireguard-install
