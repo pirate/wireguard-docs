@@ -1101,6 +1101,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://github.com/naggie/dsnet
  - https://github.com/perara/wg-manager
  - https://github.com/pivpn/pivpn
+ - https://github.com/BrunIF/wg-ccg
 
 
 ### Config Shortcuts
