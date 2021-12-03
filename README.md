@@ -1253,7 +1253,7 @@ For more details see the Further Reading: Docker section below.
 - https://www.wireguard.com/install/#installation
 - https://git.zx2c4.com/WireGuard/about/src/tools/man/wg.8
 - https://git.zx2c4.com/WireGuard/about/src/tools/man/wg-quick.8
-- https://wiki.archlinux.org/index.php/WireGuard
+- https://wiki.archlinux.org/index.php/WireGuard / https://wiki.archlinux.org/title/WireGuard
 - https://wiki.debian.org/Wireguard#Configuration
 
 ### Tutorials
