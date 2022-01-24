@@ -1124,6 +1124,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://github.com/perara/wg-manager
  - https://github.com/pivpn/pivpn
  - https://github.com/BrunIF/wg-ccg
+ - https://github.com/freifunkMUC/wg-access-server
 
 
 ### Config Shortcuts
@@ -1327,6 +1328,7 @@ For more details see the Further Reading: Docker section below.
 - https://github.com/tailscale/tailscale
 - https://github.com/pivpn/pivpn
 - https://github.com/jwhited/wgsd
+- https://github.com/freifunkMUC/wg-access-server
 
 ### Docker
 
