@@ -1101,6 +1101,7 @@ All of the userspace implementations are slower than the native C version that r
 
 These are some GUI and CLI tools that wrap WireGuard to assist with config, deployment, key management, and connection.
 
+ - https://github.com/weejewel/wg-easy
  - https://github.com/seashell/drago
  - https://github.com/vx3r/wg-gen-web
  - https://github.com/subspacecloud/subspace
@@ -1300,6 +1301,7 @@ For more details see the Further Reading: Docker section below.
 
 ### Related Projects
 
+- https://github.com/weejewel/wg-easy
 - https://github.com/complexorganizations/wireguard-manager
 - https://github.com/subspacecloud/subspace
 - https://github.com/trailofbits/algo
