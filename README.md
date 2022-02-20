@@ -177,7 +177,7 @@ But you can write your own solutions for these problems using WireGuard under th
  - [TINC](https://www.tinc-vpn.org/): haven't tried it yet, but it doesn't work on iOS, worst case scenario I could live
  - [VPNCloud](https://github.com/dswd/vpncloud): similar properties to WireGuard, with more auto-mesh features
  - [cjdns](https://github.com/cjdelisle/cjdns): haven't tried it yet, should I?
- - [ZeroTier](https://www.zerotier.com): haven't tried it yet, should I
+ - [ZeroTier](https://www.zerotier.com): haven't tried it yet, should I?
  - [MeshBird](https://github.com/meshbird/meshbird): "Cloud native" VPN/networking layer
  - [Yggdrasil Network](https://yggdrasil-network.github.io/): Yggdrasil is a self-arranging IPv4/IPv6 mesh VPN (haven't tried it yet)
 
