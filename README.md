@@ -1371,6 +1371,7 @@ For more details see the Further Reading: Docker section below.
 - https://blogs.gnome.org/thaller/2019/03/15/wireguard-in-networkmanager/
 - https://github.com/max-moser/network-manager-wireguard
 - https://blog.linuxserver.io/2019/11/24/connect-an-ubuntu-client-to-opnsense-wireguard-tunnel-with-a-gui-toggle-in-gnome/
+- https://im.salty.fish/index.php/archives/linux-networking-shallow-dive.html
 
 
 ### Discussions
