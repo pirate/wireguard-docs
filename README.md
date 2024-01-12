@@ -1103,6 +1103,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
 
  - https://github.com/weejewel/wg-easy
  - https://github.com/seashell/drago
+ - https://github.com/gravitl/netmaker
  - https://github.com/vx3r/wg-gen-web
  - https://github.com/subspacecloud/subspace
  - https://github.com/corrad1nho/qomui
@@ -1303,6 +1304,7 @@ For more details see the Further Reading: Docker section below.
 ### Related Projects
 
 - https://github.com/weejewel/wg-easy
+- https://github.com/gravitl/netmaker
 - https://github.com/complexorganizations/wireguard-manager
 - https://github.com/subspacecloud/subspace
 - https://github.com/trailofbits/algo
