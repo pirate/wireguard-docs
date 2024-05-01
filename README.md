@@ -381,7 +381,7 @@ PostUp = wg set %i private-key /etc/wireguard/wg0.key <(cat /some/path/%i/privke
 
 Technically, multiple servers can share the same private key as long as clients arent connected to two servers with the same key simulatenously.
 An example of a scenario where this is a reasonable setup is if you're using round-robin DNS to load-balance connections between two servers that are pretending to be a single server.
-Most of the time however, every peer should have its own pubic/private keypair so that peers can't read eachothers traffic and can be individually revoked.
+Most of the time however, every peer should have its own public/private keypair so that peers can't read eachothers traffic and can be individually revoked.
 
 ---
 
@@ -421,16 +421,16 @@ pkg install wireguard
 ```
 
 ```bash
-# to enable kernel relaying/forwarding ability on bounce servers
-echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
-echo "net.ipv4.conf.all.proxy_arp = 1" >> /etc/sysctl.conf
+# to enable the kernel relaying/forwarding ability on bounce servers
+echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv4.conf.all.proxy_arp = 1" | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p /etc/sysctl.conf
 
 # to add iptables forwarding rules on bounce servers
-iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i wg0 -o wg0 -m conntrack --ctstate NEW -j ACCEPT
-iptables -t nat -A POSTROUTING -s 192.0.2.0/24 -o eth0 -j MASQUERADE
+sudo iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i wg0 -o wg0 -m conntrack --ctstate NEW -j ACCEPT
+sudo iptables -t nat -A POSTROUTING -s 192.0.2.0/24 -o eth0 -j MASQUERADE
 ```
 
 ### Config Creation
@@ -454,6 +454,8 @@ wg pubkey < example.key > example.key.pub
 wg-quick up /full/path/to/wg0.conf
 wg-quick down /full/path/to/wg0.conf
 # Note: you must specify the absolute path to wg0.conf, relative paths won't work
+# If wg0.conf is in /etc/wireguard you can use the simpler:
+wg-quick up wg0
 ```
 
 ```bash
@@ -481,12 +483,14 @@ ip route delete 192.0.2.3/32 dev wg0
 
 ```bash
 # show system LAN and WAN network interfaces
-ifconfig
 ip address show
+# or if ip is not available:
+ifconfig
 
 # show system VPN network interfaces
-ifconfig wg0
 ip link show wg0
+# or
+ifconfig wg0
 
 # show WireGuard VPN interfaces
 wg show all
@@ -497,8 +501,10 @@ wg show wg0
 
 ```bash
 # show public IP address
-ifconfig eth0
 ip address show eth0
+# or
+ifconfig eth0
+# or
 dig -4 +short myip.opendns.com @resolver1.opendns.com
 
 # show VPN IP address
@@ -544,7 +550,7 @@ reboot
 
 #### Ping Speed
 ```bash
-# check that main relay server is accessible directly via public internet
+# check that the main relay server is accessible directly via public internet
 ping public-server1.example-vpn.dev
 
 # check that the main relay server is available via VPN
@@ -565,7 +571,7 @@ ping 192.0.2.4
 
 ```bash
 # install iperf using your preferred package manager
-apt/brew/pkg install iperf
+apt/brew/pkg/opkg install iperf
 
 # check bandwidth over public internet to relay server
 iperf -s # on public relay server
@@ -660,6 +666,14 @@ DNS = 1.1.1.1
 
 This is just a standard comment in INI syntax used to help keep track of which config section belongs to which node, it's completely ignored by WireGuard and has no effect on VPN behavior.
 
+NOTE: All comments, including `# Name`, are removed from the .conf files by certain operations and applications. 
+If you need to identify peers, consider using a wireguard vanity key generator, such as 
+[wireguard-vanity-keygen](https://github.com/axllent/wireguard-vanity-keygen) or 
+[wireguard-vanity-address](https://github.com/warner/wireguard-vanity-address),
+which will allow you to include the host name in the public key of the host.
+The key generation can take minutes (4 characters), hours (5 characters) or longer,
+so consider using an abbreviation for hosts with longer names.
+
 #### `Address`
 
 Defines what address range the local node should route traffic for. Depending on whether the node is a simple client joining the VPN subnet, or a bounce server that's relaying traffic between multiple clients, this can be set to a single IP of the node itself (specified with CIDR notation), e.g. 192.0.2.3/32), or a range of IPv4/IPv6 subnets that the node can route traffic for.
@@ -705,7 +719,7 @@ The DNS server(s) to announce to VPN clients via DHCP, most clients will use thi
 
 **Examples**
 
-* The value can be left unconfigured to use system default DNS servers
+* The value can be left unconfigured to use the system's default DNS servers
 * A single DNS server can be provided  
 `DNS = 1.1.1.1`
 * or multiple DNS servers can be provided  
