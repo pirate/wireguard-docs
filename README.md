@@ -623,7 +623,7 @@ Config files can opt to use the limited set of `wg` config options, or the more 
 ¶ <a href="#Address">`Address = 192.0.2.3/32`</a>  
 ¶ <a href="#ListenPort">`ListenPort = 51820`</a>  
 ¶ <a href="#PrivateKey">`PrivateKey = localPrivateKeyAbcAbcAbc=`</a>  
-¶ <a href="#DNS">`DNS = 1.1.1.1,8.8.8.8`</a>  
+¶ <a href="#DNS-2">`DNS = 1.1.1.1,8.8.8.8`</a>  
 ¶ <a href="#Table">`Table = 12345`</a>  
 ¶ <a href="#MTU">`MTU = 1500`</a>  
 ¶ <a href="#PreUp">`PreUp = /bin/example arg1 arg2 %i`</a>  
