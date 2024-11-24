@@ -1274,6 +1274,7 @@ For more details see the Further Reading: Docker section below.
 - https://wiki.archlinux.org/index.php/WireGuard / https://wiki.archlinux.org/title/WireGuard
 - https://wiki.debian.org/Wireguard#Configuration
 - https://docs.netgate.com/pfsense/en/latest/vpn/wireguard/index.html
+- https://www.procustodibus.com/blog/2020/10/wireguard-topologies/
 
 ### Tutorials
 
