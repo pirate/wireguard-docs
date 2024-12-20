@@ -954,7 +954,7 @@ The examples in these docs primarily use IPv4, but WireGuard natively supports I
 
 ```ini
 [Interface]
-AllowedIps = 192.0.2.3/24, 2001:DB8::/64
+Address = 192.0.2.3/24, 2001:DB8::/64
 
 [Peer]
 ...
