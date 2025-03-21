@@ -625,7 +625,7 @@ Config files can opt to use the limited set of `wg` config options, or the more 
 ¶ <a href="#PrivateKey">`PrivateKey = localPrivateKeyAbcAbcAbc=`</a>  
 ¶ <a href="#DNS-2">`DNS = 1.1.1.1,8.8.8.8`</a>  
 ¶ <a href="#Table">`Table = 12345`</a>  
-¶ <a href="#MTU">`MTU = 1500`</a>  
+¶ <a href="#MTU">`MTU = 1420`</a>  
 ¶ <a href="#PreUp">`PreUp = /bin/example arg1 arg2 %i`</a>  
 ¶ <a href="#PostUp">`PostUp = /bin/example arg1 arg2 %i`</a>  
 ¶ <a href="#PreDown">`PreDown = /bin/example arg1 arg2 %i`</a>  
@@ -743,14 +743,17 @@ Table = 1234
 
 Optionally defines the maximum transmission unit (MTU, aka packet/frame size) to use when connecting to the peer, not necessary to configure for most setups.
 
-The MTU is automatically determined from the endpoint addresses or the system default route, which is usually a sane choice.
+The MTU is automatically determined from the endpoint addresses or the system default route, which is usually a sane choice. 
+
+You should avoid setting this if at all possible. You almost certainly do not want 1500 here due to the encapsulation overhead.
 
 https://git.zx2c4.com/WireGuard/about/src/tools/man/wg-quick.8
+https://www.dropvps.com/blog/mtu-setting-wireguard/
 
 **Examples**
 
 ```ini
-MTU = 1500
+MTU = 1420
 ```
 
 
