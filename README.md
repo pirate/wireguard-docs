@@ -1145,6 +1145,7 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://github.com/BrunIF/wg-ccg
  - https://github.com/freifunkMUC/wg-access-server
  - https://github.com/firezone/firezone
+ - https://gitlab.com/BoostCookie/wgsetup
 
 
 ### Config Shortcuts
