@@ -33,9 +33,30 @@ Whenever possible, nodes should connect directly to each other, depending on whe
 
 `public-server1` acts as an intermediate relay server between any VPN clients behind NATs, it will forward any 192.0.2.1/24 traffic it receives to the correct peer at the system level (WireGuard doesn't care how this happens, it's handled by the kernel `net.ipv4.ip_forward = 1` and the iptables routing rules).
 
-Each client only needs to define the publicly accessible servers/peers in its config, any traffic bound to other peers behind NATs will go to the catchall `192.0.2.1/24` for the server and will be forwarded accordingly once it hits the main server.
+**Important Note on Peer Configuration:**
 
-In summary: only direct connections between clients should be configured, any connections that need to be bounced should not be defined as peers, as they should head to the bounce server first and be routed from there back down the vpn to the correct client.
+This example demonstrates a **simple relay-only setup** where NAT-ed clients can reach the public servers but NOT each other. In this configuration:
+- NAT-ed clients (home-server, laptop, phone) only define the public relay server as a peer
+- They can communicate with public-server1 and public-server2, but not with each other
+- Traffic between NAT-ed clients is not possible because they don't have each other's public keys
+
+**For NAT-to-NAT Communication:**
+
+If you need NAT-ed clients to communicate with each other (e.g., laptop → phone), you must:
+1. Add peer definitions on each NAT-ed client for every other NAT-ed peer they need to reach
+2. Include the `PublicKey` and `AllowedIPs` for each peer (but omit `Endpoint` for NAT-ed peers)
+3. Keep the relay server's `AllowedIPs = 192.0.2.1/24` to enable packet forwarding
+
+Example: If `laptop` needs to reach `phone`, add this to `laptop`'s config:
+```ini
+[Peer]
+# Name = phone.example-vpn.dev
+PublicKey = <public key for phone.example-vpn.dev>
+AllowedIPs = 192.0.2.5/32
+# No Endpoint - traffic will be relayed through public-server1
+```
+
+This is necessary because WireGuard requires peer public keys for end-to-end encryption—the relay server only forwards encrypted packets and cannot encrypt/decrypt on behalf of the clients.
 
 ## Full Example Code
 
