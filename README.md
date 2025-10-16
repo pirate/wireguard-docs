@@ -276,9 +276,22 @@ Public relays are just normal VPN peers that are able to act as an intermediate 
 
 If all peers are publicly accessible, you don't have to worry about special treatment to make one of them a relay server, it's only needed if you have any peers connecting from behind a NAT.
 
-Each client only needs to define the publicly accessible servers/peers in its config, any traffic bound to other peers behind NATs will go to the catchall VPN subnet (e.g. `192.0.2.1/24`) in the public relays `AllowedIPs` route and will be forwarded accordingly once it hits the relay server.
+#### Important: Peer Definitions for Relayed Traffic
 
-In summary: only direct connections between clients should be configured, any connections that need to be bounced should not be defined as peers, as they should head to the bounce server first and be routed from there back down the vpn to the correct client.
+**For NAT-ed peers to communicate with each other through a relay**, they must define each other as peers in their local configs (including `PublicKey` and `AllowedIPs`), even though they don't specify an `Endpoint`. This is required because:
+
+1. **WireGuard uses end-to-end encryption**: Each peer must have the public key of every peer it communicates with to perform cryptographic operations (handshakes, encryption, authentication)
+2. **The relay server only forwards packets**: It does NOT decrypt and re-encrypt traffic on behalf of clients—it simply routes encrypted packets at the network layer
+3. **Without peer definitions**: If node A doesn't have node B in its peer list, WireGuard cannot encrypt packets destined for node B, and no traffic will flow
+
+The relay server's `AllowedIPs = 192.0.2.1/24` catchall route tells WireGuard to accept packets for the entire subnet at the routing level. However, for actual communication, each client must:
+- Define the relay server as a peer (for routing)
+- Define any other peer it needs to communicate with (for encryption/authentication)
+
+**Configuration approach:**
+- Each client defines the publicly accessible relay servers with hardcoded `Endpoint` addresses
+- Each client also defines other peers it needs to communicate with (including NAT-ed peers), but without `Endpoint` addresses
+- Traffic to other NAT-ed peers will be routed through the relay's catchall, but the encryption is still end-to-end between the actual source and destination peers
 
 ### How WireGuard Routes Packets
 
@@ -398,7 +411,8 @@ Overview of the general process:
     - `[Peer]` Create a peer section for every client joining the VPN, using their corresponding remote public keys
 4. Create a `wg0.conf` on each client node
    - `[Interface]` Make sure to specify only a single IP for client peers that don't relay traffic `Address = 192.0.2.3/32`.
-   - `[Peer]` Create a peer section for each public peer not behind a NAT, make sure to specify a CIDR range for the entire VPN subnet when defining the remote peer acting as the bounce server `AllowedIPs = 192.0.2.1/24`. Make sure to specify individual IPs for remote peers that don't relay traffic and only act as simple clients `AllowedIPs = 192.0.2.3/32`.
+   - `[Peer]` Create a peer section for the public relay server with its `Endpoint` and a catchall `AllowedIPs = 192.0.2.1/24`
+   - `[Peer]` Create additional peer sections for any other peers you need to communicate with (including other NAT-ed nodes), specifying their `PublicKey` and individual `AllowedIPs` addresses. For other NAT-ed peers, omit the `Endpoint` (traffic will route through the relay). This is required for WireGuard's end-to-end encryption, even when traffic is relayed.
 5. Start WireGuard on the main relay server with `wg-quick up /full/path/to/wg0.conf`
 6. Start WireGuard on all the client peers with `wg-quick up /full/path/to/wg0.conf`
 7. Traffic is routed from peer to peer using most specific route first over the WireGuard interface, e.g. `ping 192.0.2.3` checks for a direct route to a peer with `AllowedIPs = 192.0.2.3/32` first, then falls back to a relay server that's accepting IPs in the whole subnet
@@ -827,26 +841,64 @@ This option can appear multiple times, as with <a href="#PreUp">PreUp</a>
 
 Defines the VPN settings for a remote peer capable of routing traffic for one or more addresses (itself and/or other peers). Peers can be either a public bounce server that relays traffic to other peers, or a directly accessible client via LAN/internet that is not behind a NAT and only routes traffic for itself.
 
-All clients must be defined as peers on the public bounce server. Simple clients that only route traffic for themselves, only need to define peers for the public relay, and any other nodes directly accessible.  Nodes that are behind separate NATs should _not_ be defined as peers outside of the public server config, as no direct route is available between separate NATs. Instead, nodes behind NATs should only define the public relay servers and other public clients as their peers, and should specify `AllowedIPs = 192.0.2.1/24` on the public server that accept routes and bounce traffic for the VPN subnet to the remote NAT-ed peers.
+All clients must be defined as peers on the public bounce server. 
 
-In summary, all nodes must be defined on the main bounce server.  On client servers, only peers that are directly accessible from a node should be defined as peers of that node, any peers that must be relayed by a bounce server should be left out and will be handled by the relay server's catchall route.
+**For NAT-to-NAT communication:** Nodes behind separate NATs have two configuration options depending on whether they need to communicate with each other:
 
-In the configuration outlined in the docs below, a single server `public-server1` acts as the relay bounce server for a mix of publicly accessible and NAT-ed clients, and peers are configured on each node accordingly:
+1. **Simple relay-only setup** (suitable when NAT-ed nodes only need to reach the relay server itself, not other NAT-ed peers):
+   - NAT-ed clients only define the public relay server as a peer
+   - Traffic to other NAT-ed nodes is not possible in this configuration
+   
+2. **Full mesh through relay** (required when NAT-ed nodes need to communicate with each other):
+   - NAT-ed clients must define ALL peers they need to communicate with, including other NAT-ed nodes
+   - Each peer definition must include the remote peer's `PublicKey` and `AllowedIPs`
+   - Endpoint is typically not specified for other NAT-ed peers (traffic will be relayed through the bounce server)
+   - The relay server must have `AllowedIPs = 192.0.2.1/24` to accept and forward traffic for the entire subnet
+   - This is necessary because WireGuard requires peer public keys for end-to-end encryption and authentication—the relay server only forwards encrypted packets and cannot encrypt/decrypt on behalf of endpoints
+
+**Important:** If node A needs to send traffic to node B (both behind NATs), node A must have node B's public key in its config, even though the traffic will be routed through the relay server. Without the peer definition, WireGuard cannot perform the cryptographic handshake or encrypt packets for the destination.
+
+In summary, all nodes must be defined on the main bounce server. On client nodes, you must define every peer you intend to communicate with, including other NAT-ed peers, to enable WireGuard's end-to-end encryption. The relay server's catchall route enables packet forwarding at the network layer, but does not replace the need for cryptographic peer definitions.
+
+**Configuration examples for different scenarios:**
+
+#### Scenario 1: Simple relay-only (NAT-ed nodes only communicate with relay server)
+In this setup, NAT-ed clients can only reach the relay server and any public peers, but cannot communicate with other NAT-ed clients:
 
 - **in `public-server1` `wg0.conf` (bounce server)**  
   `[peer]` list: `public-server2`, `home-server`, `laptop`, `phone`
 
-- **in `public-server2` `wg0.conf` (simple public client)**  
+- **in `public-server2` `wg0.conf` (public client)**  
   `[peer]` list: `public-server1`
 
-- **in `home-server` `wg0.conf` (simple client behind NAT)**  
+- **in `home-server` `wg0.conf` (NAT-ed client, no peer-to-peer)**  
   `[peer]` list: `public-server1`, `public-server2`
 
-- **in `laptop` `wg0.conf` (simple client behind NAT)**  
+- **in `laptop` `wg0.conf` (NAT-ed client, no peer-to-peer)**  
   `[peer]` list: `public-server1`, `public-server2`
 
-- **in `phone` `wg0.conf` (simple client behind NAT)**  
+- **in `phone` `wg0.conf` (NAT-ed client, no peer-to-peer)**  
   `[peer]` list: `public-server1`, `public-server2`
+
+#### Scenario 2: Full mesh through relay (NAT-ed nodes can communicate with each other)
+In this setup, NAT-ed clients can communicate with ALL other peers (including other NAT-ed clients) through the relay server:
+
+- **in `public-server1` `wg0.conf` (bounce server)**  
+  `[peer]` list: `public-server2`, `home-server`, `laptop`, `phone`
+
+- **in `public-server2` `wg0.conf` (public client)**  
+  `[peer]` list: `public-server1`, `home-server`, `laptop`, `phone`
+
+- **in `home-server` `wg0.conf` (NAT-ed client with full mesh)**  
+  `[peer]` list: `public-server1`, `public-server2`, `laptop`, `phone`
+
+- **in `laptop` `wg0.conf` (NAT-ed client with full mesh)**  
+  `[peer]` list: `public-server1`, `public-server2`, `home-server`, `phone`
+
+- **in `phone` `wg0.conf` (NAT-ed client with full mesh)**  
+  `[peer]` list: `public-server1`, `public-server2`, `home-server`, `laptop`
+
+Note: In Scenario 2, NAT-ed peers define each other without `Endpoint` addresses (since they're not directly reachable). The relay server's `AllowedIPs = 192.0.2.1/24` enables packet forwarding, but the peer definitions with public keys are required for WireGuard's cryptographic operations.
 
 **Examples**
 
@@ -859,13 +911,22 @@ PublicKey = <public key for public-server2.example-vpn.dev>
 AllowedIPs = 192.0.2.2/32
 ```
 
- - Peer is a simple client behind a NAT that only routes traffic for itself  
+ - Peer is a simple client behind a NAT that only routes traffic for itself (configured on relay server)  
 ```ini
 [Peer]
 # Name = home-server.example-vpn.dev
-Endpoint = home-server.example-vpn.dev:51820
+# No Endpoint specified as peer is behind NAT
 PublicKey = <public key for home-server.example-vpn.dev>
 AllowedIPs = 192.0.2.3/32
+```
+
+ - Peer is another NAT-ed client (configured on a NAT-ed peer for peer-to-peer communication through relay)  
+```ini
+[Peer]
+# Name = laptop.example-vpn.dev
+# No Endpoint specified - traffic will be relayed through bounce server
+PublicKey = <public key for laptop.example-vpn.dev>
+AllowedIPs = 192.0.2.4/32
 ```
 
  - Peer is a public bounce server that can relay traffic to other peers  
