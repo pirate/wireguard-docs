@@ -1172,12 +1172,13 @@ These are some GUI and CLI tools that wrap WireGuard to assist with config, depl
  - https://github.com/firezone/firezone
  - https://gitlab.com/BoostCookie/wgsetup
  - https://github.com/ygguser/Simple-WG-Config-Generator
+ - https://nocthost.com/tools/wireguard-config-generator
 
 
 ### Config Shortcuts
 
 Credit for these shortcuts goes to: 
-[New Things I Didn't Know About Wireguard](https://www.ericlight.com/new-things-i-didnt-know-about-wireguard.html)
+[New Things I Didn't Know About Wireguard](https://web.archive.org/web/20240118223645/https://www.ericlight.com/new-things-i-didnt-know-about-wireguard.html)
 
 #### Sharing a single peers.conf file
 
@@ -1374,9 +1375,9 @@ That keeps WireGuard termination and peer authentication on the host while forwa
 - https://try.popho.be/wg.html
 - https://docs.artemix.org/sysadmin/wireguard-management/
 - https://github.com/adrianmihalko/raspberrypiwireguard
-- https://www.ericlight.com/wireguard-part-one-installation.html
-- https://www.ericlight.com/wireguard-part-two-vpn-routing.html
-- https://www.ericlight.com/wireguard-part-three-troubleshooting.html
+- https://web.archive.org/web/20240419142851/https://www.ericlight.com/wireguard-part-one-installation.html
+- https://web.archive.org/web/20241120142331/https://www.ericlight.com/wireguard-part-two-vpn-routing.html
+- https://web.archive.org/web/20241120142331/https://www.ericlight.com/wireguard-part-three-troubleshooting.html
 - https://wiki.dd-wrt.com/wiki/index.php/The_Easiest_Tunnel_Ever
 - https://www.reddit.com/r/pihole/comments/bnihyz/guide_how_to_install_wireguard_on_a_raspberry_pi/
 - https://jwillmer.de/blog/tutorial/wireguard-proxy-configuration
@@ -1458,8 +1459,8 @@ That keeps WireGuard termination and peer authentication on the host while forwa
 - https://jrs-s.net/category/open-source/wireguard/
 - https://restoreprivacy.com/openvpn-ipsec-wireguard-l2tp-ikev2-protocols/
 - https://restoreprivacy.com/wireguard/
-- https://www.ericlight.com/new-things-i-didnt-know-about-wireguard.html
-- https://www.ericlight.com/tag/wireguard.html
+- https://web.archive.org/web/20240118223645/https://www.ericlight.com/new-things-i-didnt-know-about-wireguard.html
+- https://web.archive.org/web/20250209114339/https://www.ericlight.com/tag/wireguard.html
 - https://www.linode.com/docs/networking/vpn/set-up-wireguard-vpn-on-ubuntu/
 - https://www.reddit.com/r/linux/comments/9bnowo/wireguard_benchmark_between_two_servers_with_10/
 - https://www.wireguard.com/netns/
